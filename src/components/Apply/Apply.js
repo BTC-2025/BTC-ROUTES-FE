@@ -41,7 +41,7 @@ const Apply = () => {
         data.append(key, value);
       });
 
-      const response = await fetch("https://testing12-3ebu.onrender.com/api/apply", {
+      const response = await fetch("https://testing12-3ebu.onrender.com/api/application/apply", {
         method: "POST",
         body: data,
       });
