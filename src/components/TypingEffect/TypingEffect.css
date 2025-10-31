@@ -1,0 +1,14 @@
+.typing-effect {
+  display: inline-block;
+}
+
+.typing-effect-cursor {
+  animation: typing-effect-blink 1s infinite;
+  color: #4CC9F0;
+  font-weight: 300;
+}
+
+@keyframes typing-effect-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}

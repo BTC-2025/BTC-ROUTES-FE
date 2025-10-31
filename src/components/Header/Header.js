@@ -1,0 +1,70 @@
+import React, { useState, useEffect } from 'react';
+import logo from '../../assests/logo2.png';
+import './Header.css';
+
+const Header = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Detect scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <nav className={`header-nav ${scrolled ? 'header-nav--scrolled' : ''}`}>
+      <div className="header-container">
+        {/* Brand */}
+        <div className="header-brand">
+          <div className="header-logo">
+            <div className="header-logo-dot header-logo-dot--1"></div>
+            <div className="header-logo-dot header-logo-dot--2"></div>
+            <div className="header-logo-dot header-logo-dot--3"></div>
+          </div>
+          <span className="header-brand-text">
+            <img src={logo} alt="Logo" width={120} />
+          </span>
+        </div>
+
+        {/* Toggler (only for small screens) */}
+        <button
+          className={`header-toggler ${isOpen ? 'active' : ''}`}
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className="header-toggler-icon"></span>
+        </button>
+
+        {/* Navigation Links */}
+        <div className={`header-collapse ${isOpen ? 'show' : ''}`} id="headerNav">
+          <ul className="header-nav-list">
+            {['home', 'about', 'internship', 'projects', 'benefits', 'apply', 'contact'].map((item) => (
+              <li key={item} className="header-nav-item">
+                <button
+                  className="header-nav-link"
+                  onClick={() => {
+                    scrollToSection(item);
+                    setIsOpen(false);
+                  }}
+                >
+                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Header;
