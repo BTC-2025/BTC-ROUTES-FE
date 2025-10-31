@@ -396,11 +396,11 @@ const Apply = () => {
                 <div className="contact-details">
                   <div className="contact-item">
                     <span className="contact-label">Email:</span>
-                    <span className="contact-value">admissions@techinnovate.com</span>
+                    <span className="contact-value">info.btcroutes@gmail.com</span>
                   </div>
                   <div className="contact-item">
                     <span className="contact-label">Phone:</span>
-                    <span className="contact-value">+91 9876543210</span>
+                    <span className="contact-value">+91 9962454596</span>
                   </div>
                 </div>
               </div>

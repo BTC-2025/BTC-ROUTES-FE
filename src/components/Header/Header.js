@@ -1,23 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../../assests/logo2.png';
 import './Header.css';
+import { useNavigate } from 'react-router-dom'; // ✅ import for navigation
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate(); // ✅ initialize navigation
 
   // Detect scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleNavClick = (item) => {
+    if (item === 'home') {
+      navigate('/'); // ✅ redirect to /
+    } else {
+      scrollToSection(item);
+    }
+    setIsOpen(false);
   };
 
   return (
@@ -51,10 +61,7 @@ const Header = () => {
               <li key={item} className="header-nav-item">
                 <button
                   className="header-nav-link"
-                  onClick={() => {
-                    scrollToSection(item);
-                    setIsOpen(false);
-                  }}
+                  onClick={() => handleNavClick(item)} // ✅ unified click handler
                 >
                   {item.charAt(0).toUpperCase() + item.slice(1)}
                 </button>

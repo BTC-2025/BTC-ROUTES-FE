@@ -2,7 +2,7 @@ import React from 'react';
 import './Footer.css';
 import logo from '../../assests/logo2.png'
 import { Link } from 'react-router-dom';
-import { FaLinkedin,FaInstagramSquare } from "react-icons/fa";
+import { FaLinkedin,FaInstagramSquare,FaWhatsappSquare } from "react-icons/fa";
 import { FaSquareXTwitter,FaSquareYoutube } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 
@@ -19,6 +19,14 @@ const Footer = () => {
     { name: "Apply", navi: "/application" },
     { name: "Contact", navi: "/contact" }
   ];
+
+  const social = [
+    {name:"LinkedIn", icon:<FaLinkedin /> , link:"https://www.linkedin.com/company/btc-routes/?viewAsMember=true"},
+    {name:"Whatsapp", icon:<FaWhatsappSquare />, link:"https://wa.me/919962454596"},
+    {name:"Twitter", icon:<FaSquareXTwitter />, link:"#"},
+    {name:"Instagram", icon:<FaInstagramSquare />, link:"#"},
+    {name:"YouTube", icon:<FaSquareYoutube />, link:"#" }
+  ]
  
   const navigate = useNavigate()
 
@@ -124,7 +132,7 @@ const Footer = () => {
               <div className="footer-link-group">
                 <h4 className="footer-link-title">Connect With Us</h4>
                 <div className="footer-social">
-                  {['LinkedIn', 'Twitter', 'Instagram', 'YouTube'].map((social, index) => (
+                  {/* {['LinkedIn', 'Twitter', 'Instagram', 'YouTube'].map((social, index) => (
                     <a
                       key={index}
                       href="#"
@@ -135,6 +143,16 @@ const Footer = () => {
                         social === 'Instagram' ? <FaInstagramSquare /> : <FaSquareYoutube /> }</span>
                       <span className="footer-social-name">{social}</span>
                     </a>
+                  ))} */}
+                  {social.map((item, index) => (
+                    <Link
+                      key={index}
+                      to={item.link}
+                      className='footer-social-link'
+                    >
+                      <span className="footer-social-icon">{item.icon}</span>
+                      <span className="footer-social-name">{item.name}</span>
+                    </Link>
                   ))}
                 </div>
               </div>
