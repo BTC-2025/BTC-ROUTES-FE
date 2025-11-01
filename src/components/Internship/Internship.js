@@ -5,14 +5,14 @@ import {Link} from 'react-router-dom'
 const Internship = () => {
   const domains = [
     {
-      title: "Full-Stack Development",
+      title: "Web Development",
       duration: "1 & 3 Months",
       mode: "Online/Offline",
       description: "Learn modern web technologies including React, Node.js, and full-stack development with real projects.",
       icon: "🌐",
       technologies: ["React", "Node.js", "MongoDB", "Express"],
       color: "internship-card--web",
-      link:"/internship/full-stack-development"
+      link:"/internship/web-development"
     },
     {
       title: "Mobile App Development",

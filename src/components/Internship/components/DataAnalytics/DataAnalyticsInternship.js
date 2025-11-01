@@ -9,6 +9,7 @@ import { GiArtificialIntelligence } from "react-icons/gi"
 import logo from '../../../../assests/logo2.png'
 import { BiAnalyse } from "react-icons/bi"; 
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import {Link} from 'react-router-dom'
 import styled, { keyframes, createGlobalStyle } from 'styled-components';
 import { 
@@ -1286,6 +1287,70 @@ const DataAnalyticsInternship = () => {
 
   return (
     <PageContainer>
+      <Helmet>
+        <title>Data Analytics Internship | BTC Routes</title>
+        <meta
+          name="description"
+          content="Join BTC Routes’ Data Analytics Internship to master Excel, SQL, Power BI, and data visualization. Analyze real datasets and gain practical business insights."
+        />
+        <meta
+          name="keywords"
+          content="BTC Routes, Data Analytics internship, Excel, SQL, Power BI, Tableau, data visualization, business intelligence, analytics projects"
+        />
+        <meta name="author" content="BTC Routes" />
+        <link rel="canonical" href="https://www.btcroutes.com/internship/data-analytics" />
+
+        {/* ✅ Open Graph Meta Tags */}
+        <meta property="og:title" content="Data Analytics Internship | BTC Routes" />
+        <meta
+          property="og:description"
+          content="Learn data analytics with BTC Routes’ internship program. Work on real-world datasets using Excel, SQL, and Power BI to gain valuable insights."
+        />
+        <meta property="og:image" content="%PUBLIC_URL%/logo2.png" />
+        <meta property="og:url" content="https://www.btcroutes.com/internship/data-analytics" />
+        <meta property="og:type" content="website" />
+
+        {/* ✅ Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="BTC Routes | Data Analytics Internship" />
+        <meta
+          name="twitter:description"
+          content="Master Data Analytics through BTC Routes’ internship. Learn Excel, SQL, and Power BI with live business-oriented projects."
+        />
+        <meta name="twitter:image" content="%PUBLIC_URL%/logo2.png" />
+
+        {/* ✅ Structured Data (JSON-LD) */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Course",
+              "name": "Data Analytics Internship",
+              "description": "Join BTC Routes’ Data Analytics Internship to master Excel, SQL, Power BI, and data visualization. Analyze real datasets and gain practical business insights.",
+              "provider": {
+                "@type": "Organization",
+                "name": "BTC Routes",
+                "url": "https://www.btcroutes.com",
+                "logo": "https://www.btcroutes.com/logo2.png"
+              },
+              "courseMode": "Online",
+              "educationalCredentialAwarded": "Internship Certificate",
+              "teaches": [
+                "Data Analytics",
+                "Excel",
+                "SQL",
+                "Power BI",
+                "Tableau",
+                "Business Intelligence",
+                "Data Visualization"
+              ],
+              "url": "https://www.btcroutes.com/internship/data-analytics"
+            }
+          `}
+        </script>
+      </Helmet>
+
+
       <GlobalStyle />
       
       {/* Navigation */}

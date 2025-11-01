@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styled, { keyframes } from 'styled-components';
+import { Helmet } from 'react-helmet';
 import { 
   AiOutlineInfoCircle, 
   AiOutlineEye, 
@@ -613,148 +614,105 @@ const PrivacyPolicy = () => {
   const quickAccessItems = sections.slice(0, 6);
 
   return (
-    <Container>
-      {/* Navigation */}
-      {/* <Navbar>
-        <NavContainer>
-          <Logo href="/">
-            <LogoIcon>
-              <AiOutlineHome />
-            </LogoIcon>
-            BTC Routes
-          </Logo>
 
-          <NavLinks isOpen={isMenuOpen}>
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/programs">Programs</NavLink>
-            <NavLink href="/internships">Internships</NavLink>
-            <NavLink href="/about">About Us</NavLink>
-            <NavLink href="/contact">Contact</NavLink>
-          </NavLinks>
+    <>
+      <Helmet>
+        <title>Privacy Policy | BTC Routes</title>
+        <meta name="description" content="BTC Routes Privacy Policy – Learn how we collect, use, and protect your personal data during your learning and internship journey." />
+        <meta name="keywords" content="BTC Routes, Privacy Policy, Data Protection, Internship, Courses, Student Data Security" />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="BTC Routes" />
+        <meta property="og:title" content="BTC Routes Privacy Policy" />
+        <meta property="og:description" content="Understand how BTC Routes ensures your data security and privacy for internships, courses, and projects." />
+        <meta property="og:image" content="https://btcroutes.com/logo.png" />
+        <meta property="og:url" content="https://btcroutes.com/privacy-policy" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
 
-          <MobileMenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
-          </MobileMenuButton>
-        </NavContainer>
-      </Navbar> */}
 
-      {/* Hero Section */}
-      <HeroSection data-aos="fade-up">
-        <div className="container">
-          <div className="row justify-content-center text-center">
-            <div className="col-lg-10">
-              <HeroTitle>Privacy Policy</HeroTitle>
-              <HeroSubtitle>
-                Your data, your trust — Comprehensive guidelines on how we protect and handle your personal information
-              </HeroSubtitle>
-              <EffectiveDate>
-                Effective from November 2025 — BTC Routes (BURJ Tech Consultancy Pvt. Ltd.)
-              </EffectiveDate>
-            </div>
-          </div>
-        </div>
-      </HeroSection>
+      <Container>
 
-      {/* Quick Access Section */}
-      {/* <QuickAccessSection>
-        <QuickAccessContent>
-          <SearchContainer data-aos="fade-up">
-            <SearchIcon>
-              <AiOutlineSearch />
-            </SearchIcon>
-            <SearchInput
-              type="text"
-              placeholder="Search privacy policy..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </SearchContainer>
-
-          <QuickNavGrid data-aos="fade-up" data-aos-delay="200">
-            {quickAccessItems.map((item, index) => (
-              <QuickNavCard 
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
-              >
-                <QuickNavIcon>
-                  {item.icon}
-                </QuickNavIcon>
-                <QuickNavTitle>
-                  {item.title}
-                </QuickNavTitle>
-                <QuickNavDescription>
-                  {item.content.substring(0, 100)}...
-                </QuickNavDescription>
-              </QuickNavCard>
-            ))}
-          </QuickNavGrid>
-        </QuickAccessContent>
-      </QuickAccessSection> */}
-
-      {/* Main Content */}
-      <ContentSection>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-10">
-              {filteredSections.map((section, index) => (
-                <SectionCard 
-                  key={section.id}
-                  id={section.id}
-                  delay={`${index * 100}ms`}
-                  data-aos="fade-up"
-                >
-                  <CardHeader>
-                    <SectionIcon>{section.icon}</SectionIcon>
-                    <SectionTitle>{section.title}</SectionTitle>
-                  </CardHeader>
-                  <SectionContent>{section.content}</SectionContent>
-                </SectionCard>
-              ))}
-            </div>
-          </div>
-        </div>
-      </ContentSection>
-
-      {/* Footer Section */}
-      <FooterSection data-aos="fade-up">
-        <FooterContent>
+        {/* Hero Section */}
+        <HeroSection data-aos="fade-up">
           <div className="container">
             <div className="row justify-content-center text-center">
-              <div className="col-lg-8">
-                <FooterText>
-                  We respect your privacy and are committed to protecting your personal data
-                </FooterText>
-                <FooterLinks>
-                  <FooterLink href="/">Home</FooterLink>
-                  <FooterLink href="">Programs</FooterLink>
-                  <FooterLink href="/terms-and-condition">Terms & Conditions</FooterLink>
-                  <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
-                  <FooterLink href="/contact">Contact Us</FooterLink>
-                </FooterLinks>
-                <FooterText>
-                  📧 info.btcroutes@gmail.com | 🌐 www.btcroutes.in
-                </FooterText>
-                <Copyright>
-                  © 2025 BTC Routes — A division of BURJ Tech Consultancy (OPC) Pvt. Ltd.
-                  <br />
-                  All rights reserved.
-                </Copyright>
+              <div className="col-lg-10">
+                <HeroTitle>Privacy Policy</HeroTitle>
+                <HeroSubtitle>
+                  Your data, your trust — Comprehensive guidelines on how we protect and handle your personal information
+                </HeroSubtitle>
+                <EffectiveDate>
+                  Effective from November 2025 — BTC Routes (BURJ Tech Consultancy Pvt. Ltd.)
+                </EffectiveDate>
               </div>
             </div>
           </div>
-        </FooterContent>
-      </FooterSection>
+        </HeroSection>
 
-      {/* Scroll to Top Button */}
-      <ScrollToTop 
-        visible={showScrollTop} 
-        onClick={scrollToTop}
-      >
-        <AiOutlineArrowUp />
-      </ScrollToTop>
-    </Container>
+
+        {/* Main Content */}
+        <ContentSection>
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-lg-10">
+                {filteredSections.map((section, index) => (
+                  <SectionCard 
+                    key={section.id}
+                    id={section.id}
+                    delay={`${index * 100}ms`}
+                    data-aos="fade-up"
+                  >
+                    <CardHeader>
+                      <SectionIcon>{section.icon}</SectionIcon>
+                      <SectionTitle>{section.title}</SectionTitle>
+                    </CardHeader>
+                    <SectionContent>{section.content}</SectionContent>
+                  </SectionCard>
+                ))}
+              </div>
+            </div>
+          </div>
+        </ContentSection>
+
+        {/* Footer Section */}
+        <FooterSection data-aos="fade-up">
+          <FooterContent>
+            <div className="container">
+              <div className="row justify-content-center text-center">
+                <div className="col-lg-8">
+                  <FooterText>
+                    We respect your privacy and are committed to protecting your personal data
+                  </FooterText>
+                  <FooterLinks>
+                    <FooterLink href="/">Home</FooterLink>
+                    <FooterLink href="">Programs</FooterLink>
+                    <FooterLink href="/terms-and-condition">Terms & Conditions</FooterLink>
+                    <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
+                    <FooterLink href="/contact">Contact Us</FooterLink>
+                  </FooterLinks>
+                  <FooterText>
+                    📧 info.btcroutes@gmail.com | 🌐 www.btcroutes.in
+                  </FooterText>
+                  <Copyright>
+                    © 2025 BTC Routes — A division of BURJ Tech Consultancy (OPC) Pvt. Ltd.
+                    <br />
+                    All rights reserved.
+                  </Copyright>
+                </div>
+              </div>
+            </div>
+          </FooterContent>
+        </FooterSection>
+
+        {/* Scroll to Top Button */}
+        <ScrollToTop 
+          visible={showScrollTop} 
+          onClick={scrollToTop}
+        >
+          <AiOutlineArrowUp />
+        </ScrollToTop>
+      </Container>
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import { RiBook2Line } from "react-icons/ri";
 import logo from '../../../../assests/logo2.png'
 import { SiKeras } from "react-icons/si";
 import {Link} from 'react-router-dom'
+import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes, createGlobalStyle } from 'styled-components';
 import { 
@@ -1270,6 +1271,74 @@ const AiMlInternship = () => {
 
   return (
     <PageContainer>
+
+      <Helmet>
+        <title>AI & ML Development Internship | BTC Routes</title>
+        <meta
+          name="description"
+          content="Join BTC Routes' AI & ML Internship and gain real-world experience in Artificial Intelligence and Machine Learning using Python, TensorFlow, and data-driven projects."
+        />
+        <meta
+          name="keywords"
+          content="BTC Routes, AI internship, ML internship, Artificial Intelligence, Machine Learning, Python, TensorFlow, data science, neural networks, BTC projects"
+        />
+        <meta name="author" content="BTC Routes" />
+        <link
+          rel="canonical"
+          href="https://www.btcroutes.com/internship/aiml-development"
+        />
+
+        {/* ✅ Open Graph Meta Tags */}
+        <meta property="og:title" content="AI & ML Development Internship | BTC Routes" />
+        <meta
+          property="og:description"
+          content="Master Artificial Intelligence and Machine Learning with BTC Routes. Work on live AI/ML projects and gain hands-on training in Python, TensorFlow, and data modeling."
+        />
+        <meta property="og:image" content="%PUBLIC_URL%/logo2.png" />
+        <meta property="og:url" content="https://www.btcroutes.com/internship/aiml-development" />
+        <meta property="og:type" content="website" />
+
+        {/* ✅ Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="BTC Routes | AI & ML Development Internship" />
+        <meta
+          name="twitter:description"
+          content="Learn AI and ML through BTC Routes’ internship. Build real-world machine learning and deep learning projects using Python and TensorFlow."
+        />
+        <meta name="twitter:image" content="%PUBLIC_URL%/logo2.png" />
+
+        {/* ✅ Structured Data (JSON-LD for Google Rich Results) */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Course",
+              "name": "AI & ML Development Internship",
+              "description": "Join BTC Routes' AI & ML Internship and gain real-world experience in Artificial Intelligence and Machine Learning using Python, TensorFlow, and data-driven projects.",
+              "provider": {
+                "@type": "Organization",
+                "name": "BTC Routes",
+                "url": "https://www.btcroutes.com",
+                "logo": "https://www.btcroutes.com/logo2.png"
+              },
+              "courseMode": "Online",
+              "educationalCredentialAwarded": "Internship Certificate",
+              "teaches": [
+                "Artificial Intelligence",
+                "Machine Learning",
+                "Deep Learning",
+                "Python Programming",
+                "TensorFlow",
+                "Data Modeling"
+              ],
+              "url": "https://www.btcroutes.com/internship/aiml-development"
+            }
+          `}
+        </script>
+      </Helmet>
+
+
+
       <GlobalStyle />
       
       {/* Navigation */}

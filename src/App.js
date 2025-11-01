@@ -4,17 +4,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-import Header from './components/Header/Header';
-import Hero from './components/Hero/Hero';
-import About from './components/About/About';
-import Internship from './components/Internship/Internship';
-import Projects from './components/Projects/Projects';
-import Benefits from './components/Benefits/Benefits';
-import Apply from './components/Apply/Apply';
-// import Batches from './components/Batches/Batches';
-import Contact from './components/Contact/Contact';
-import Footer from './components/Footer/Footer';
-import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ScrollTop from './ScrollTop';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -28,6 +17,7 @@ import TermsAndConditions from './components/termsandpolicy/TermsAndConditions';
 import PrivacyPolicy from './components/termsandpolicy/PrivacyPolicy';
 import Application from './components/Application/Application';
 import Contacts from './components/contactseparate/contacts';
+import Home from './components/Home/Home';
 
 function App() {
   useEffect(() => {
@@ -46,24 +36,10 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={
-              <>
-                <Header />
-                <Hero />
-                <About />
-                <Internship />
-                <Projects />
-                <Benefits />
-                <Apply />
-                {/* <Batches /> */}
-                <Contact />
-                <Footer />
-                <ScrollToTop />
-              </>
-            }
+            element={ <Home />}
           />
           {/* ✅ Corrected route syntax */}
-          <Route path="/internship/full-stack-development" element={<WebDevelopment />} />
+          <Route path="/internship/web-development" element={<WebDevelopment />} />
           <Route path='/internship/app-development' element={<AppDevelopment />} />
           <Route path='/internship/aiml-development' element={<AiMlInternship />} />
           <Route path='/internship/data-science' element={<DataScienceInternship />} />
@@ -72,6 +48,7 @@ function App() {
           <Route path='/privacy-policy' element={<PrivacyPolicy />} />
           <Route path="/application" element={<Application />} />
           <Route path="/contact" element={<Contacts /> } />
+          {/* <Route path='/home' element={<Home />} /> */}
         </Routes>
       </Router>
     </div>

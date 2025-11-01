@@ -3,6 +3,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styled, { keyframes } from 'styled-components';
 import { TbCertificate } from "react-icons/tb";
+import { Helmet } from "react-helmet";
 import { 
   AiOutlineGlobal, 
   AiOutlineUser, 
@@ -512,123 +513,100 @@ const TermsAndConditions = () => {
   };
 
   return (
-    <Container>
-      {/* Navigation */}
-      {/* <Navbar>
-        <NavContainer>
-          <Logo href="/">
-            <LogoIcon>
-              <AiOutlineHome />
-            </LogoIcon>
-            BTC Routes
-          </Logo>
+    <>
+      <Helmet>
+        <title>Terms & Conditions | BTC Routes</title>
+        <meta
+          name="description"
+          content="Read BTC Routes Terms & Conditions to understand our policies regarding training, projects, internships, certification, and intellectual property."
+        />
+        <meta name="keywords" content="BTC Routes, Terms and Conditions, Internship Policy, Certification, AI, ML, Web Development, Data Science" />
+        <meta name="author" content="BTC Routes" />
+        <meta property="og:title" content="BTC Routes | Terms & Conditions" />
+        <meta property="og:description" content="Comprehensive guidelines governing your relationship with BTC Routes and participation in our programs." />
+        <meta property="og:image" content="https://www.btcroutes.in/logo.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.btcroutes.in/terms" />
+        <link rel="canonical" href="https://www.btcroutes.in/terms" />
+      </Helmet>
 
-          <NavLinks isOpen={isMenuOpen}>
-            <NavLink href="/" className="active">Home</NavLink>
-            <NavLink href="/programs">Programs</NavLink>
-            <NavLink href="/internships">Internships</NavLink>
-            <NavLink href="/about">About Us</NavLink>
-            <NavLink href="/contact">Contact</NavLink>
-          </NavLinks>
+      <Container>
 
-          <MobileMenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
-          </MobileMenuButton>
-        </NavContainer>
-      </Navbar> */}
 
-      {/* Hero Section */}
-      <HeroSection data-aos="fade-up">
-        <div className="container">
-          <div className="row justify-content-center text-center">
-            <div className="col-lg-10">
-              <HeroTitle>Terms & Conditions</HeroTitle>
-              <HeroSubtitle>
-                Comprehensive guidelines governing your relationship with BTC Routes and participation in our programs
-              </HeroSubtitle>
-              <EffectiveDate>
-                Effective from November 2025 — BTC Routes (BURJ Tech Consultancy Pvt. Ltd.)
-              </EffectiveDate>
-            </div>
-          </div>
-        </div>
-      </HeroSection>
-
-      {/* Main Content */}
-      <ContentSection>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-10">
-              {/* Quick Navigation */}
-              {/* <QuickNav data-aos="fade-up">
-                <QuickNavTitle>Quick Navigation</QuickNavTitle>
-                <QuickNavGrid>
-                  {sections.map((section, index) => (
-                    <QuickNavItem 
-                      key={section.id}
-                      href={`#${section.id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection(section.id);
-                      }}
-                    >
-                      {section.icon}
-                      {section.title}
-                    </QuickNavItem>
-                  ))}
-                </QuickNavGrid>
-              </QuickNav> */}
-
-              {/* Terms Sections */}
-              {sections.map((section, index) => (
-                <SectionCard 
-                  key={section.id}
-                  id={section.id}
-                  delay={`${index * 100}ms`}
-                  data-aos="fade-up"
-                >
-                  <CardHeader>
-                    <SectionIcon>{section.icon}</SectionIcon>
-                    <SectionTitle>{section.title}</SectionTitle>
-                  </CardHeader>
-                  <SectionContent>{section.content}</SectionContent>
-                </SectionCard>
-              ))}
-            </div>
-          </div>
-        </div>
-      </ContentSection>
-
-      {/* Footer Section */}
-      <FooterSection data-aos="fade-up">
-        <FooterContent>
+        {/* Hero Section */}
+        <HeroSection data-aos="fade-up">
           <div className="container">
             <div className="row justify-content-center text-center">
-              <div className="col-lg-8">
-                <FooterText>
-                  Empowering the next generation of tech professionals
-                </FooterText>
-                <FooterLinks>
-                  <FooterLink href="/">Home</FooterLink>
-                  <FooterLink href="">Programs</FooterLink>
-                  <FooterLink href="/terms-and-condition">Terms & Conditions</FooterLink>
-                  <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
-                  <FooterLink href="/contact">Contact Us</FooterLink>
-                </FooterLinks>
-                <FooterText>
-                  📧 info.btcroutes@gmail.com | 🌐 www.btcroutes.in
-                </FooterText>
-                <Copyright>
-                  © 2025 BTC Routes — A division of BURJ Tech Consultancy (OPC) Pvt. Ltd.
-                  <br />
-                  All rights reserved.
-                </Copyright>
+              <div className="col-lg-10">
+                <HeroTitle>Terms & Conditions</HeroTitle>
+                <HeroSubtitle>
+                  Comprehensive guidelines governing your relationship with BTC Routes and participation in our programs
+                </HeroSubtitle>
+                <EffectiveDate>
+                  Effective from November 2025 — BTC Routes (BURJ Tech Consultancy Pvt. Ltd.)
+                </EffectiveDate>
               </div>
             </div>
           </div>
-        </FooterContent>
-      </FooterSection>
-    </Container>
+        </HeroSection>
+
+        {/* Main Content */}
+        <ContentSection>
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-lg-10">
+
+                {/* Terms Sections */}
+                {sections.map((section, index) => (
+                  <SectionCard 
+                    key={section.id}
+                    id={section.id}
+                    delay={`${index * 100}ms`}
+                    data-aos="fade-up"
+                  >
+                    <CardHeader>
+                      <SectionIcon>{section.icon}</SectionIcon>
+                      <SectionTitle>{section.title}</SectionTitle>
+                    </CardHeader>
+                    <SectionContent>{section.content}</SectionContent>
+                  </SectionCard>
+                ))}
+              </div>
+            </div>
+          </div>
+        </ContentSection>
+
+        {/* Footer Section */}
+        <FooterSection data-aos="fade-up">
+          <FooterContent>
+            <div className="container">
+              <div className="row justify-content-center text-center">
+                <div className="col-lg-8">
+                  <FooterText>
+                    Empowering the next generation of tech professionals
+                  </FooterText>
+                  <FooterLinks>
+                    <FooterLink href="/">Home</FooterLink>
+                    <FooterLink href="">Programs</FooterLink>
+                    <FooterLink href="/terms-and-condition">Terms & Conditions</FooterLink>
+                    <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
+                    <FooterLink href="/contact">Contact Us</FooterLink>
+                  </FooterLinks>
+                  <FooterText>
+                    📧 info.btcroutes@gmail.com | 🌐 www.btcroutes.in
+                  </FooterText>
+                  <Copyright>
+                    © 2025 BTC Routes — A division of BURJ Tech Consultancy (OPC) Pvt. Ltd.
+                    <br />
+                    All rights reserved.
+                  </Copyright>
+                </div>
+              </div>
+            </div>
+          </FooterContent>
+        </FooterSection>
+      </Container>
+    </>
   );
 };
 

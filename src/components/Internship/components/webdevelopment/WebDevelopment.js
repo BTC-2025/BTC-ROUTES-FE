@@ -7,6 +7,7 @@ import Typed from 'typed.js';
 import { BiLogoVisualStudio } from "react-icons/bi";
 import {Link, useNavigate} from 'react-router-dom'
 import { Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import styled, { keyframes, createGlobalStyle } from 'styled-components';
 import { 
   FaCode,
@@ -1319,6 +1320,90 @@ const WebDevelopmentInternship = () => {
 
   return (
     <PageContainer>
+
+      <Helmet>
+        <title>Web Development Internship | BTC Routes</title>
+        <meta
+          name="description"
+          content="Join BTC Routes' Web Development Internship and learn to build modern, responsive websites using HTML, CSS, JavaScript, and React. Get hands-on project experience with real-world applications."
+        />
+        <meta
+          name="keywords"
+          content="web development internship, BTC Routes web development, HTML CSS JavaScript training, React internship, frontend development, website projects, MERN stack internship"
+        />
+        <meta name="author" content="BTC Routes" />
+        <link
+          rel="canonical"
+          href="https://www.btcroutes.com/internship/web-development"
+        />
+
+        {/* ✅ Open Graph Meta Tags (for social sharing) */}
+        <meta
+          property="og:title"
+          content="Web Development Internship | BTC Routes"
+        />
+        <meta
+          property="og:description"
+          content="Master modern web development with BTC Routes. Learn React, JavaScript, and full-stack web technologies through live projects."
+        />
+        <meta property="og:image" content="%PUBLIC_URL%/logo2.png" />
+        <meta
+          property="og:url"
+          content="https://www.btcroutes.com/internship/web-development"
+        />
+        <meta property="og:type" content="website" />
+
+        {/* ✅ Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="BTC Routes | Web Development Internship"
+        />
+        <meta
+          name="twitter:description"
+          content="Build a strong web development foundation with BTC Routes’ live internship program using React, Node.js, and MongoDB."
+        />
+        <meta name="twitter:image" content="%PUBLIC_URL%/logo2.png" />
+
+        {/* ✅ Structured Data (JSON-LD for SEO Rich Snippets) */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "EducationalOccupationalProgram",
+              "name": "Full-Stack Web Development Internship",
+              "description": "Join BTC Routes' Web Development Internship to learn modern web technologies such as React, Node.js, and MongoDB through live hands-on projects.",
+              "provider": {
+                "@type": "Organization",
+                "name": "BTC Routes",
+                "url": "https://www.btcroutes.com",
+                "logo": "https://www.btcroutes.com/logo2.png"
+              },
+              "educationalCredentialAwarded": "Certificate of Completion",
+              "occupationalCategory": "Web Developer",
+              "programPrerequisites": {
+                "@type": "EducationalOccupationalCredential",
+                "credentialCategory": "Bachelor's degree or pursuing"
+              },
+              "timeToComplete": "P1M",
+              "hasCourse": [
+                {
+                  "@type": "Course",
+                  "name": "Frontend Development with React",
+                  "description": "Learn HTML, CSS, JavaScript, and React to build responsive user interfaces."
+                },
+                {
+                  "@type": "Course",
+                  "name": "Backend Development with Node.js and MongoDB",
+                  "description": "Understand server-side logic, RESTful APIs, and database integration using the MERN stack."
+                }
+              ],
+              "url": "https://www.btcroutes.com/internship/web-development"
+            }
+          `}
+        </script>
+      </Helmet>
+
       <GlobalStyle />
       
       {/* Navigation */}
@@ -1330,7 +1415,7 @@ const WebDevelopmentInternship = () => {
           <div className="row align-items-center">
             <div className="col-lg-8" data-aos="fade-up">
               <HeroTitle>
-                Full-Stack Development <br />Internship
+                Web Development <br />Internship
                 {/* <img src={logo} alt='web development' width={120} /> */}
               </HeroTitle>
               <HeroSubtitle>

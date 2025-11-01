@@ -7,6 +7,7 @@ import logo from '../../../../assests/logo2.png'
 import styled, { keyframes, createGlobalStyle } from 'styled-components';
 import { MdShowChart } from "react-icons/md";
 import {Link} from 'react-router-dom'
+import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import { BiBarChartAlt2 } from "react-icons/bi";   
 import { TbChartHistogram } from "react-icons/tb"; 
@@ -1271,6 +1272,69 @@ const DataScienceInternship = () => {
 
   return (
     <PageContainer>
+
+      <Helmet>
+        <title>Data Science Internship | BTC Routes</title>
+        <meta
+          name="description"
+          content="Gain hands-on experience with BTC Routes’ Data Science Internship. Learn Python, Pandas, NumPy, Machine Learning, and data visualization through real-world projects."
+        />
+        <meta
+          name="keywords"
+          content="BTC Routes, Data Science internship, Python, Pandas, NumPy, Machine Learning, data visualization, data analysis, BTC projects"
+        />
+        <meta name="author" content="BTC Routes" />
+        <link rel="canonical" href="https://www.btcroutes.com/internship/data-science" />
+
+        {/* ✅ Open Graph Meta Tags */}
+        <meta property="og:title" content="Data Science Internship | BTC Routes" />
+        <meta
+          property="og:description"
+          content="Join BTC Routes’ Data Science Internship to master Python, data analysis, and machine learning. Work on live projects and build your career in data science."
+        />
+        <meta property="og:image" content="%PUBLIC_URL%/logo2.png" />
+        <meta property="og:url" content="https://www.btcroutes.com/internship/data-science" />
+        <meta property="og:type" content="website" />
+
+        {/* ✅ Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="BTC Routes | Data Science Internship" />
+        <meta
+          name="twitter:description"
+          content="Master data science with BTC Routes through hands-on projects. Learn Python, ML, and data visualization for your professional growth."
+        />
+        <meta name="twitter:image" content="%PUBLIC_URL%/logo2.png" />
+
+        {/* ✅ Structured Data (JSON-LD) */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Course",
+              "name": "Data Science Internship",
+              "description": "Gain hands-on experience with BTC Routes’ Data Science Internship. Learn Python, Pandas, NumPy, Machine Learning, and data visualization through real-world projects.",
+              "provider": {
+                "@type": "Organization",
+                "name": "BTC Routes",
+                "url": "https://www.btcroutes.com",
+                "logo": "https://www.btcroutes.com/logo2.png"
+              },
+              "courseMode": "Online",
+              "educationalCredentialAwarded": "Internship Certificate",
+              "teaches": [
+                "Python",
+                "Pandas",
+                "NumPy",
+                "Data Analysis",
+                "Machine Learning",
+                "Data Visualization"
+              ],
+              "url": "https://www.btcroutes.com/internship/data-science"
+            }
+          `}
+        </script>
+      </Helmet>
+
       <GlobalStyle />
       
       {/* Navigation */}

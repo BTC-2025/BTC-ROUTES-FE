@@ -6,6 +6,7 @@ import Typed  from 'typed.js';
 import logo from '../../../../assests/logo2.png'
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import styled, { keyframes, createGlobalStyle } from 'styled-components';
 import { 
   FaAndroid,
@@ -1265,6 +1266,67 @@ const AppDevelopment = () => {
 
   return (
     <PageContainer>
+
+
+      <Helmet>
+        <title>App Development Internship | BTC Routes</title>
+        <meta
+          name="description"
+          content="Join BTC Routes' App Development Internship and learn to build Android and iOS apps using React Native and Flutter with real-world projects and expert guidance."
+        />
+        <meta
+          name="keywords"
+          content="BTC Routes, app development internship, mobile app internship, React Native, Flutter, Android development, iOS development, mobile app training"
+        />
+        <meta name="author" content="BTC Routes" />
+        <link
+          rel="canonical"
+          href="https://www.btcroutes.com/internship/app-development"
+        />
+
+        {/* ✅ Open Graph Meta Tags */}
+        <meta property="og:title" content="App Development Internship | BTC Routes" />
+        <meta
+          property="og:description"
+          content="Master React Native and Flutter in BTC Routes' App Development Internship. Build professional Android and iOS apps through hands-on projects."
+        />
+        <meta property="og:image" content="%PUBLIC_URL%/logo2.png" />
+        <meta property="og:url" content="https://www.btcroutes.com/internship/app-development" />
+        <meta property="og:type" content="website" />
+
+        {/* ✅ Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="BTC Routes | App Development Internship" />
+        <meta
+          name="twitter:description"
+          content="Learn mobile app development with BTC Routes. Create Android and iOS apps using React Native and Flutter with expert mentors."
+        />
+        <meta name="twitter:image" content="%PUBLIC_URL%/logo2.png" />
+
+        {/* ✅ Structured Data (JSON-LD for Google Rich Results) */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Course",
+              "name": "App Development Internship",
+              "description": "Join BTC Routes' App Development Internship and learn to build Android and iOS apps using React Native and Flutter with real-world projects and expert guidance.",
+              "provider": {
+                "@type": "Organization",
+                "name": "BTC Routes",
+                "url": "https://www.btcroutes.com",
+                "logo": "https://www.btcroutes.com/logo2.png"
+              },
+              "courseMode": "Online",
+              "educationalCredentialAwarded": "Internship Certificate",
+              "teaches": ["React Native", "Flutter", "Android App Development", "iOS App Development"],
+              "url": "https://www.btcroutes.com/internship/app-development"
+            }
+          `}
+        </script>
+      </Helmet>
+
+
       <GlobalStyle />
       
       {/* Navigation */}
