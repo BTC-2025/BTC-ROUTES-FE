@@ -91,7 +91,8 @@
 }
 
 .projects-quote {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  /* background: linear-gradient(135deg, #667eea, #764ba2); */
+  background: linear-gradient(135deg, #6EA8FE 0%, #0B47B0 50%, #011096 100%);
   padding: 2rem;
   border-radius: 15px;
   color: white;

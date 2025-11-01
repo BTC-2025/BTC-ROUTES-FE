@@ -189,12 +189,27 @@ const Apply = () => {
                       onChange={handleChange}
                     >
                       <option value="">Choose a domain</option>
-                      <option value="Web Development">Web Development</option>
-                      <option value="App Development">App Development</option>
-                      <option value="AI/ML Development">AI & ML</option>
-                      <option value="Data Science">Data Science</option>
-                      <option value="Data Analytics">Data Analytics</option>
-                      <option value="cloud">Cloud Computing</option>
+
+                      <optgroup label="Web Development">
+                        <option value="Frontend Development">Frontend Development</option>
+                        <option value="Backend Development">Backend Development</option>
+                        <option value="Full Stack Development">Full Stack Development</option>
+                      </optgroup>
+
+
+                      <optgroup label="App Development">
+                        <option value="Flutter Development">Flutter Development</option>
+                        <option value="Kotlin Development">Kotlin Development</option>
+                      </optgroup>
+
+
+                      <optgroup label="Other Domains">
+                        <option value="AI/ML Development">AI & ML</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Data Analytics">Data Analytics</option>
+                        <option value="Cloud Computing">Cloud Computing</option>
+                      </optgroup>
+
                     </select>
                   </div>
 

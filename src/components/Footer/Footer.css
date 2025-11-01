@@ -16,7 +16,8 @@
 }
 
 .footer-quote {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  /* background: linear-gradient(135deg, #667eea, #764ba2); */
+  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #60A5FA 100%);
   padding: 3rem 0;
   position: relative;
   overflow: hidden;
