@@ -493,7 +493,7 @@ const TermsAndConditions = () => {
       id: 'contact',
       icon: <AiOutlineContacts />,
       title: "Contact Information",
-      content: "For questions, concerns, or clarifications: 📧 Email: info.btcroutes@gmail.com 🌐 Website: www.btcroutes.in 🏢 Registered Office: BURJ Tech Consultancy (OPC) Pvt. Ltd., India"
+      content: "For questions, concerns, or clarifications: 📧 Email: info.btcroutes@gmail.com 🌐 Website: www.btcroutes.com 🏢 Registered Office: BURJ Tech Consultancy (OPC) Pvt. Ltd., India"
     }
   ];
 
@@ -524,10 +524,10 @@ const TermsAndConditions = () => {
         <meta name="author" content="BTC Routes" />
         <meta property="og:title" content="BTC Routes | Terms & Conditions" />
         <meta property="og:description" content="Comprehensive guidelines governing your relationship with BTC Routes and participation in our programs." />
-        <meta property="og:image" content="https://www.btcroutes.in/logo.png" />
+        <meta property="og:image" content="https://www.btcroutes.com/logo.png" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.btcroutes.in/terms" />
-        <link rel="canonical" href="https://www.btcroutes.in/terms" />
+        <meta property="og:url" content="https://www.btcroutes.com/terms-and-condition" />
+        <link rel="canonical" href="https://www.btcroutes.com/terms-and-condition" />
       </Helmet>
 
       <Container>
@@ -593,7 +593,7 @@ const TermsAndConditions = () => {
                     <FooterLink href="/contact">Contact Us</FooterLink>
                   </FooterLinks>
                   <FooterText>
-                    📧 info.btcroutes@gmail.com | 🌐 www.btcroutes.in
+                    📧 info.btcroutes@gmail.com | 🌐 www.btcroutes.com
                   </FooterText>
                   <Copyright>
                     © 2025 BTC Routes — A division of BURJ Tech Consultancy (OPC) Pvt. Ltd.

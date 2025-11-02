@@ -3,19 +3,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Typed from 'typed.js';
-import logo from '../../../../assests/logo2.png'
-import styled, { keyframes, createGlobalStyle } from 'styled-components';
-import { MdShowChart } from "react-icons/md";
+import { RiBook2Line } from "react-icons/ri";
+import { SiKeras } from "react-icons/si";
 import {Link} from 'react-router-dom'
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
-import { BiBarChartAlt2 } from "react-icons/bi";   
-import { TbChartHistogram } from "react-icons/tb"; 
+import styled, { keyframes, createGlobalStyle } from 'styled-components';
 import { 
-  FaChartLine,
-  FaDatabase,
+  FaBrain,
   FaPython,
+  FaRobot,
+  FaChartLine,
   FaCode,
+  FaDatabase,
   FaUserTie,
   FaCertificate,
   FaGraduationCap,
@@ -24,20 +24,18 @@ import {
   FaLaptopCode,
   FaQuoteLeft,
   FaRocket,
-  FaChartBar,
-  FaChartPie,
-  FaSearch,
-  FaLightbulb
+  FaNetworkWired,
+  FaMicrochip
 } from 'react-icons/fa';
 import { 
+  SiTensorflow,
+  SiPytorch,
+  SiPycharm,
   SiPandas,
   SiNumpy,
-  SiScikitlearn,
-  SiPycharm,
-  SiTableau,
-  SiPowerbi,
-  SiMatplotlib,
-  SiSeaborn
+  ScikitLearn,
+  SiStreamlit,
+  SiFlask
 } from 'react-icons/si';
 import NavbarComponent from '../Navbarcomponent';
 
@@ -52,9 +50,9 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
-    color: #E8F1FF;
+    color: #EAEAFB;
     overflow-x: hidden;
-    background: #0A1A2F;
+    background: #0B0B1E;
   }
 
   html {
@@ -69,28 +67,28 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-track {
-    background: #122C4A;
+    background: #141432;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(#00B8A9, #1E90FF);
+    background: linear-gradient(#6A00FF, #00E5FF);
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(#1E90FF, #00B8A9);
+    background: linear-gradient(#00E5FF, #6A00FF);
   }
 `;
 
 // Animations
 const float = keyframes`
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(5deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
 `;
 
-const dataPulse = keyframes`
+const neuralPulse = keyframes`
   0%, 100% { 
-    opacity: 0.6;
+    opacity: 0.3;
     transform: scale(1);
   }
   50% { 
@@ -113,19 +111,19 @@ const backgroundShimmer = keyframes`
 
 const glowPulse = keyframes`
   0%, 100% { 
-    box-shadow: 0 0 20px #00B8A9, 0 0 40px rgba(0, 184, 169, 0.3);
+    box-shadow: 0 0 20px #6A00FF, 0 0 40px rgba(106, 0, 255, 0.3);
   }
   50% { 
-    box-shadow: 0 0 30px #1E90FF, 0 0 60px rgba(30, 144, 255, 0.4);
+    box-shadow: 0 0 30px #00E5FF, 0 0 60px rgba(0, 229, 255, 0.4);
   }
 `;
 
-const chartGlow = keyframes`
+const neuralGlow = keyframes`
   0%, 100% { 
-    text-shadow: 0 0 10px #00B8A9, 0 0 20px #00B8A9;
+    text-shadow: 0 0 10px #6A00FF, 0 0 20px #6A00FF;
   }
   50% { 
-    text-shadow: 0 0 15px #1E90FF, 0 0 30px #1E90FF;
+    text-shadow: 0 0 15px #00E5FF, 0 0 30px #00E5FF;
   }
 `;
 
@@ -134,7 +132,7 @@ const quoteRotate = keyframes`
   30%, 100% { opacity: 0; transform: translateY(-20px); }
 `;
 
-const chartLine = keyframes`
+const neuralConnection = keyframes`
   0% { stroke-dashoffset: 1000; }
   100% { stroke-dashoffset: 0; }
 `;
@@ -143,6 +141,7 @@ const chartLine = keyframes`
 const PageContainer = styled.div`
   position: relative;
 `;
+
 
 // Section Base Styles
 const Section = styled.section`
@@ -157,41 +156,40 @@ const SectionHeader = styled.div`
   h2 {
     font-size: 3rem;
     font-weight: 800;
-    // background: linear-gradient(90deg, #1E90FF, #FFD460);
-    background:white;
+    background: linear-gradient(90deg, #FF00C8, #6A00FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 1rem;
-    text-shadow: 0 0 30px rgba(30, 144, 255, 0.3);
+    text-shadow: 0 0 30px rgba(106, 0, 255, 0.3);
   }
 `;
 
 const SectionDivider = styled.div`
   width: 100px;
   height: 4px;
-  background: linear-gradient(90deg, #1E90FF, #FFD460);
+  background: linear-gradient(90deg, #FF00C8, #6A00FF);
   border-radius: 2px;
   margin: ${props => props.center ? '0 auto' : '0'};
-  box-shadow: 0 0 15px rgba(255, 212, 96, 0.3);
+  box-shadow: 0 0 15px rgba(255, 0, 200, 0.3);
 `;
 
 const SectionSubtitle = styled.p`
   font-size: 1.2rem;
-  color: #E8F1FF;
+  color: #EAEAFB;
   margin-top: 1.5rem;
   opacity: 0.9;
 `;
 
 // Hero Section
 const HeroSection = styled(Section)`
-  background: linear-gradient(135deg, #00B8A9, #1E90FF);
+  background: linear-gradient(135deg, #6A00FF, #00E5FF, #FF00C8);
   min-height: 100vh;
   display: flex;
   align-items: center;
   position: relative;
   overflow: hidden;
-  color: #E8F1FF;
+  color: #EAEAFB;
   margin: 0;
   padding-top: 80px;
 
@@ -210,8 +208,8 @@ const HeroTitle = styled.h1`
   font-weight: 900;
   margin-bottom: 1.5rem;
   line-height: 1.1;
-  text-shadow: 0 0 30px rgba(30, 144, 255, 0.5);
-  background: linear-gradient(135deg, #E8F1FF, #FFD460);
+  text-shadow: 0 0 30px rgba(0, 229, 255, 0.5);
+  background: linear-gradient(135deg, #EAEAFB, #00E5FF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -233,9 +231,9 @@ const HeroSubtitle = styled.div`
 `;
 
 const TypedText = styled.span`
-  color: #FFD460;
+  color: #FF00C8;
   font-weight: 800;
-  text-shadow: 0 0 20px rgba(255, 212, 96, 0.5);
+  text-shadow: 0 0 20px rgba(255, 0, 200, 0.5);
 `;
 
 const HeroTagline = styled.p`
@@ -248,7 +246,7 @@ const HeroTagline = styled.p`
 
 // Buttons
 const PrimaryButton = styled.button`
-  background: linear-gradient(90deg, #00B8A9, #1E90FF);
+  background: linear-gradient(90deg, #6A00FF, #00E5FF);
   border: none;
   padding: ${props => props.large ? '18px 50px' : '15px 40px'};
   border-radius: 50px;
@@ -257,25 +255,25 @@ const PrimaryButton = styled.button`
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 0 25px rgba(0, 184, 169, 0.4);
+  box-shadow: 0 0 25px rgba(106, 0, 255, 0.4);
   color: white;
   animation: ${glowPulse} 2s ease-in-out infinite;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 0 35px rgba(30, 144, 255, 0.6);
-    background: linear-gradient(90deg, #1E90FF, #00B8A9);
+    box-shadow: 0 0 35px rgba(0, 229, 255, 0.6);
+    background: linear-gradient(90deg, #00E5FF, #6A00FF);
   }
 `;
 
-const GoldButton = styled(PrimaryButton)`
-  background: linear-gradient(90deg, #FFD460, #FFE082);
+const MagentaButton = styled(PrimaryButton)`
+  background: linear-gradient(90deg, #FF00C8, #FF4DD8);
   animation: none;
-  box-shadow: 0 0 25px rgba(255, 212, 96, 0.4);
+  box-shadow: 0 0 25px rgba(255, 0, 200, 0.4);
 
   &:hover {
-    background: linear-gradient(90deg, #00B8A9, #1E90FF);
-    box-shadow: 0 0 35px rgba(0, 184, 169, 0.6);
+    background: linear-gradient(90deg, #00E5FF, #6A00FF);
+    box-shadow: 0 0 35px rgba(0, 229, 255, 0.6);
   }
 `;
 
@@ -288,15 +286,15 @@ const Ripple = styled.span`
   pointer-events: none;
 `;
 
-// Data Visualization Elements
-const DataNode = styled.div`
+// Neural Network Animation
+const NeuralNode = styled.div`
   position: absolute;
-  width: ${props => props.size || '12px'};
-  height: ${props => props.size || '12px'};
-  background: ${props => props.color || '#00B8A9'};
+  width: 12px;
+  height: 12px;
+  background: #00E5FF;
   border-radius: 50%;
-  animation: ${dataPulse} 3s ease-in-out infinite;
-  box-shadow: 0 0 20px ${props => props.color || '#00B8A9'};
+  animation: ${neuralPulse} 2s ease-in-out infinite;
+  box-shadow: 0 0 20px #00E5FF;
   z-index: 1;
 
   top: ${props => props.top || 'auto'};
@@ -306,7 +304,7 @@ const DataNode = styled.div`
   animation-delay: ${props => props.delay || '0s'};
 `;
 
-const ChartLine = styled.svg`
+const NeuralConnection = styled.svg`
   position: absolute;
   top: 0;
   left: 0;
@@ -315,12 +313,12 @@ const ChartLine = styled.svg`
   z-index: 0;
 
   path {
-    stroke: url(#chartGradient);
-    stroke-width: 3;
+    stroke: url(#neuralGradient);
+    stroke-width: 2;
     fill: none;
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
-    animation: ${chartLine} 8s ease-in-out infinite;
+    animation: ${neuralConnection} 10s ease-in-out infinite;
     animation-delay: ${props => props.delay || '0s'};
   }
 `;
@@ -333,16 +331,16 @@ const HeroBackgroundAnimation = styled.div`
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(0, 184, 169, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(30, 144, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(255, 212, 96, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 20% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0, 229, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 0, 200, 0.1) 0%, transparent 50%);
   animation: ${backgroundShimmer} 8s ease-in-out infinite;
   z-index: 1;
 `;
 
 // About Section
 const AboutSection = styled(Section)`
-  background: #122C4A;
+  background: #141432;
   position: relative;
   overflow: hidden;
 `;
@@ -350,7 +348,7 @@ const AboutSection = styled(Section)`
 const AboutText = styled.p`
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
-  color: #E8F1FF;
+  color: #EAEAFB;
   opacity: 0.9;
   line-height: 1.8;
 `;
@@ -365,10 +363,10 @@ const AboutFeatures = styled.ul`
     padding-left: 2rem;
     position: relative;
     font-size: 1.1rem;
-    color: #E8F1FF;
+    color: #EAEAFB;
 
     &::before {
-      content: '📊';
+      content: '🧠';
       position: absolute;
       left: 0;
       font-size: 1.2rem;
@@ -376,7 +374,7 @@ const AboutFeatures = styled.ul`
   }
 `;
 
-const DataVisual = styled.div`
+const AIVisual = styled.div`
   position: relative;
   height: 400px;
   display: flex;
@@ -384,16 +382,16 @@ const DataVisual = styled.div`
   justify-content: center;
 `;
 
-const ChartIcon = styled.div`
+const BrainIcon = styled.div`
   font-size: 8rem;
-  color: #00B8A9;
+  color: #6A00FF;
   animation: ${float} 6s ease-in-out infinite;
-  text-shadow: 0 0 50px rgba(0, 184, 169, 0.5);
+  text-shadow: 0 0 50px rgba(106, 0, 255, 0.5);
   position: relative;
   z-index: 2;
 `;
 
-const DataGrid = styled.div`
+const NeuralGrid = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -409,8 +407,8 @@ const DataGrid = styled.div`
     width: 100%;
     height: 100%;
     background: 
-      linear-gradient(90deg, transparent 49%, #00B8A9 50%, transparent 51%),
-      linear-gradient(transparent 49%, #00B8A9 50%, transparent 51%);
+      linear-gradient(90deg, transparent 49%, #6A00FF 50%, transparent 51%),
+      linear-gradient(transparent 49%, #6A00FF 50%, transparent 51%);
     background-size: 50px 50px;
   }
 `;
@@ -418,12 +416,12 @@ const DataGrid = styled.div`
 // Skills Section
 const SkillsSection = styled(Section)`
   position: relative;
-  background: linear-gradient(135deg, rgba(0, 184, 169, 0.05), rgba(30, 144, 255, 0.05));
+  background: linear-gradient(135deg, rgba(106, 0, 255, 0.05), rgba(0, 229, 255, 0.05));
   overflow: hidden;
 `;
 
 const SkillCard = styled.div`
-  background: rgba(18, 44, 74, 0.8);
+  background: rgba(20, 20, 50, 0.8);
   backdrop-filter: blur(10px);
   padding: 2.5rem 1.5rem;
   border-radius: 20px;
@@ -440,14 +438,14 @@ const SkillCard = styled.div`
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 184, 169, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(106, 0, 255, 0.1), transparent);
     transition: left 0.5s ease;
   }
 
   &:hover {
     transform: translateY(-10px);
-    border-color: #FFD460;
-    box-shadow: 0 0 30px rgba(255, 212, 96, 0.3);
+    border-color: #00E5FF;
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
 
     &::before {
       left: 100%;
@@ -458,19 +456,19 @@ const SkillCard = styled.div`
 const SkillIcon = styled.div`
   font-size: 3.5rem;
   margin-bottom: 1.5rem;
-  color: ${props => props.color || '#FFD460'};
-  text-shadow: 0 0 20px ${props => props.color || '#FFD460'};
+  color: ${props => props.color || '#00E5FF'};
+  text-shadow: 0 0 20px ${props => props.color || '#00E5FF'};
 `;
 
 const SkillName = styled.h5`
   font-weight: 700;
-  color: #E8F1FF;
+  color: #EAEAFB;
   margin-bottom: 1rem;
   font-size: 1.3rem;
 `;
 
 const SkillDescription = styled.p`
-  color: #E8F1FF;
+  color: #EAEAFB;
   opacity: 0.8;
   font-size: 0.95rem;
 `;
@@ -482,15 +480,15 @@ const SkillsBackground = styled.div`
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 10% 20%, rgba(0, 184, 169, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, rgba(30, 144, 255, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 10% 20%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 50%);
   z-index: -1;
 `;
 
 // Curriculum Section
 const CurriculumSection = styled(Section)`
-  background: linear-gradient(135deg, #00B8A9, #1E90FF);
-  color: #E8F1FF;
+  background: linear-gradient(135deg, #6A00FF, #00E5FF);
+  color: #EAEAFB;
   position: relative;
 `;
 
@@ -536,8 +534,8 @@ const TimelinePhase = styled.div`
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #FFD460;
-  text-shadow: 0 0 10px rgba(255, 212, 96, 0.5);
+  color: #FF00C8;
+  text-shadow: 0 0 10px rgba(255, 0, 200, 0.5);
 `;
 
 const TimelineDesc = styled.div`
@@ -550,9 +548,9 @@ const TimelineConnector = styled.div`
   top: 10px;
   width: 20px;
   height: 20px;
-  background: #FFD460;
+  background: #FF00C8;
   border-radius: 50%;
-  box-shadow: 0 0 20px #FFD460;
+  box-shadow: 0 0 20px #FF00C8;
   right: ${props => props.even ? 'auto' : '-10px'};
   left: ${props => props.even ? '-10px' : 'auto'};
 
@@ -564,8 +562,8 @@ const TimelineConnector = styled.div`
 
 // Tools Section
 const ToolsSection = styled(Section)`
-  background: #0A1A2F;
-  color: #E8F1FF;
+  background: #0B0B1E;
+  color: #EAEAFB;
 `;
 
 const ToolCard = styled.div`
@@ -573,7 +571,7 @@ const ToolCard = styled.div`
   padding: 2.5rem 1rem;
   transition: all 0.3s ease;
   border-radius: 50%;
-  background: rgba(18, 44, 74, 0.6);
+  background: rgba(20, 20, 50, 0.6);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   width: 150px;
   height: 150px;
@@ -585,56 +583,56 @@ const ToolCard = styled.div`
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 30px #00B8A9;
+    box-shadow: 0 0 30px #00E5FF;
   }
 `;
 
 const ToolIcon = styled.div`
   font-size: 3rem;
-  color: #1E90FF;
+  color: #6A00FF;
   margin-bottom: 1rem;
   transition: all 0.3s ease;
 
   ${ToolCard}:hover & {
-    color: #00B8A9;
-    filter: drop-shadow(0 0 10px #00B8A9);
+    color: #00E5FF;
+    filter: drop-shadow(0 0 10px #00E5FF);
   }
 `;
 
 const ToolName = styled.span`
   font-weight: 600;
-  color: #E8F1FF;
+  color: #EAEAFB;
   font-size: 0.9rem;
 `;
 
 // Mentorship Section
 const MentorshipSection = styled(Section)`
-  background: linear-gradient(135deg, #122C4A, #0A1A2F);
+  background: linear-gradient(135deg, #141432, #0B0B1E);
   position: relative;
 `;
 
 const MentorshipContent = styled.div`
-  background: rgba(18, 44, 74, 0.6);
+  background: rgba(20, 20, 50, 0.6);
   backdrop-filter: blur(10px);
   padding: 4rem 3rem;
   border-radius: 25px;
-  border: 1px solid rgba(0, 184, 169, 0.3);
+  border: 1px solid rgba(106, 0, 255, 0.3);
   position: relative;
-  box-shadow: 0 0 50px rgba(0, 184, 169, 0.2);
+  box-shadow: 0 0 50px rgba(106, 0, 255, 0.2);
 `;
 
 const QuoteIcon = styled.div`
   font-size: 2.5rem;
-  color: #1E90FF;
+  color: #00E5FF;
   margin-bottom: 2rem;
-  text-shadow: 0 0 20px #1E90FF;
+  text-shadow: 0 0 20px #00E5FF;
 `;
 
 const MentorshipText = styled.p`
   font-size: 1.3rem;
   font-style: italic;
   margin-bottom: 3rem;
-  color: #E8F1FF;
+  color: #EAEAFB;
   line-height: 1.8;
   text-align: center;
 `;
@@ -656,9 +654,9 @@ const Stat = styled.div`
 
 const StatNumber = styled.h4`
   font-size: 2.5rem;
-  color: #FFD460;
+  color: #FF00C8;
   margin-bottom: 0.5rem;
-  text-shadow: 0 0 20px #FFD460;
+  text-shadow: 0 0 20px #FF00C8;
 `;
 
 const MentorshipBackground = styled.div`
@@ -667,51 +665,51 @@ const MentorshipBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="100" fill="%2300B8A9" fill-opacity="0.05"/><circle cx="800" cy="800" r="150" fill="%231E90FF" fill-opacity="0.05"/></svg>');
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="100" fill="%236A00FF" fill-opacity="0.05"/><circle cx="800" cy="800" r="150" fill="%2300E5FF" fill-opacity="0.05"/></svg>');
   z-index: -1;
 `;
 
 // Projects Section
 const ProjectsSection = styled(Section)`
-  background: #0A1A2F;
+  background: #0B0B1E;
   position: relative;
 `;
 
 const ProjectCard = styled.div`
-  background: rgba(18, 44, 74, 0.8);
+  background: rgba(20, 20, 50, 0.8);
   backdrop-filter: blur(10px);
   padding: 2.5rem;
   border-radius: 20px;
   text-align: center;
-  border: 2px solid #1E90FF;
+  border: 2px solid #6A00FF;
   transition: all 0.3s ease;
   height: 100%;
   animation: ${glowPulse} 4s ease-in-out infinite;
 
   &:hover {
     transform: translateY(-10px);
-    border-color: #FFD460;
-    box-shadow: 0 0 40px rgba(255, 212, 96, 0.4);
+    border-color: #00E5FF;
+    box-shadow: 0 0 40px rgba(0, 229, 255, 0.4);
     animation: none;
   }
 `;
 
 const ProjectIcon = styled.div`
   font-size: 3rem;
-  color: #FFD460;
+  color: #00E5FF;
   margin-bottom: 1.5rem;
-  text-shadow: 0 0 20px #FFD460;
+  text-shadow: 0 0 20px #00E5FF;
 `;
 
 const ProjectTitle = styled.h5`
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #E8F1FF;
+  color: #EAEAFB;
   font-size: 1.4rem;
 `;
 
 const ProjectDescription = styled.p`
-  color: #E8F1FF;
+  color: #EAEAFB;
   opacity: 0.9;
   margin-bottom: 1.5rem;
   line-height: 1.6;
@@ -719,63 +717,63 @@ const ProjectDescription = styled.p`
 
 const ProjectTech = styled.div`
   font-size: 0.9rem;
-  color: #00B8A9;
+  color: #FF00C8;
   font-weight: 600;
-  text-shadow: 0 0 10px #00B8A9;
+  text-shadow: 0 0 10px #FF00C8;
 `;
 
 // Eligibility Section
 const EligibilitySection = styled(Section)`
-  background: #122C4A;
+  background: #141432;
 `;
 
 const InfoCard = styled.div`
   text-align: center;
   padding: 2.5rem 1.5rem;
-  background: rgba(0, 184, 169, 0.1);
+  background: rgba(106, 0, 255, 0.1);
   border-radius: 20px;
   transition: all 0.3s ease;
-  border: 1px solid rgba(0, 184, 169, 0.3);
+  border: 1px solid rgba(106, 0, 255, 0.3);
 
   &:hover {
     transform: translateY(-5px);
-    background: rgba(0, 184, 169, 0.2);
-    box-shadow: 0 0 30px rgba(0, 184, 169, 0.3);
+    background: rgba(106, 0, 255, 0.2);
+    box-shadow: 0 0 30px rgba(106, 0, 255, 0.3);
   }
 `;
 
 const InfoIcon = styled.div`
   font-size: 2.5rem;
-  color: #1E90FF;
+  color: #00E5FF;
   margin-bottom: 1.5rem;
-  text-shadow: 0 0 20px #1E90FF;
+  text-shadow: 0 0 20px #00E5FF;
 `;
 
 const InfoTitle = styled.h5`
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #E8F1FF;
+  color: #EAEAFB;
   font-size: 1.3rem;
 `;
 
 const InfoValue = styled.p`
   font-size: 1.4rem;
   font-weight: 600;
-  color: #FFD460;
+  color: #FF00C8;
   margin-bottom: 0.5rem;
-  text-shadow: 0 0 10px #FFD460;
+  text-shadow: 0 0 10px #FF00C8;
 `;
 
 const InfoSubtext = styled.span`
-  color: #E8F1FF;
+  color: #EAEAFB;
   opacity: 0.8;
   font-size: 0.95rem;
 `;
 
 // Benefits Section
 const BenefitsSection = styled(Section)`
-  background: linear-gradient(135deg, #00B8A9, #1E90FF);
-  color: #E8F1FF;
+  background: linear-gradient(135deg, #6A00FF, #00E5FF);
+  color: #EAEAFB;
   position: relative;
 `;
 
@@ -805,8 +803,8 @@ const BenefitCard = styled.div`
 
   &:hover {
     transform: translateY(-10px);
-    border-color: #FFD460;
-    box-shadow: 0 0 40px rgba(255, 212, 96, 0.4);
+    border-color: #FF00C8;
+    box-shadow: 0 0 40px rgba(255, 0, 200, 0.4);
 
     &::before {
       transform: rotate(45deg) translate(50%, 50%);
@@ -816,11 +814,11 @@ const BenefitCard = styled.div`
 
 const BenefitIcon = styled.div`
   font-size: 3rem;
-  color: #FFD460;
+  color: #FF00C8;
   margin-bottom: 1.5rem;
   position: relative;
   z-index: 2;
-  text-shadow: 0 0 20px #FFD460;
+  text-shadow: 0 0 20px #FF00C8;
 `;
 
 const BenefitTitle = styled.h5`
@@ -840,7 +838,7 @@ const BenefitDescription = styled.p`
 
 // Quotes Section
 const QuotesSection = styled(Section)`
-  background: #0A1A2F;
+  background: #0B0B1E;
   position: relative;
   overflow: hidden;
 `;
@@ -857,8 +855,8 @@ const QuoteText = styled.h3`
   font-weight: 600;
   margin-bottom: 3rem;
   line-height: 1.4;
-  color: #E8F1FF;
-  text-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
+  color: #EAEAFB;
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
 
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -877,7 +875,7 @@ const RotatingQuote = styled.span`
   animation-delay: ${props => props.delay || '0s'};
 `;
 
-const DataParticles = styled.div`
+const NeuralWeb = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -893,8 +891,8 @@ const DataParticles = styled.div`
     width: 100%;
     height: 100%;
     background: 
-      radial-gradient(circle at center, #00B8A9 1px, transparent 1px),
-      radial-gradient(circle at center, #1E90FF 1px, transparent 1px);
+      radial-gradient(circle at center, #6A00FF 1px, transparent 1px),
+      radial-gradient(circle at center, #00E5FF 1px, transparent 1px);
     background-size: 50px 50px, 30px 30px;
     background-position: 0 0, 25px 25px;
   }
@@ -902,8 +900,8 @@ const DataParticles = styled.div`
 
 // Apply Section
 const ApplySection = styled(Section)`
-  background: linear-gradient(135deg, #00B8A9, #1E90FF);
-  color: #E8F1FF;
+  background: linear-gradient(135deg, #6A00FF, #00E5FF);
+  color: #EAEAFB;
   text-align: center;
   position: relative;
 `;
@@ -912,7 +910,7 @@ const ApplyTitle = styled.h2`
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 2rem;
-  text-shadow: 0 0 30px rgba(0, 184, 169, 0.5);
+  text-shadow: 0 0 30px rgba(0, 229, 255, 0.5);
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -949,8 +947,8 @@ const ApplyStatNumber = styled.h4`
   font-size: 3rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
-  color: #FFD460;
-  text-shadow: 0 0 20px #FFD460;
+  color: #FF00C8;
+  text-shadow: 0 0 20px #FF00C8;
 `;
 
 const ApplyBackgroundAnimation = styled.div`
@@ -966,11 +964,11 @@ const ApplyBackgroundAnimation = styled.div`
 
 // Footer
 const Footer = styled.footer`
-  background: #122C4A;
-  color: #E8F1FF;
+  background: #141432;
+  color: #EAEAFB;
   padding: 3rem 0;
   text-align: center;
-  border-top: 1px solid rgba(0, 184, 169, 0.3);
+  border-top: 1px solid rgba(106, 0, 255, 0.3);
 `;
 
 const FooterText = styled.p`
@@ -991,7 +989,7 @@ const FooterLinks = styled.div`
   }
 
   a {
-    color: #E8F1FF;
+    color: #EAEAFB;
     text-decoration: none;
     opacity: 0.8;
     transition: all 0.3s ease;
@@ -999,8 +997,8 @@ const FooterLinks = styled.div`
 
     &:hover {
       opacity: 1;
-      color: #1E90FF;
-      text-shadow: 0 0 10px #1E90FF;
+      color: #00E5FF;
+      text-shadow: 0 0 10px #00E5FF;
     }
 
     &::after {
@@ -1010,7 +1008,7 @@ const FooterLinks = styled.div`
       left: 0;
       width: 0;
       height: 2px;
-      background: linear-gradient(90deg, #00B8A9, #1E90FF);
+      background: linear-gradient(90deg, #6A00FF, #00E5FF);
       transition: width 0.3s ease;
     }
 
@@ -1027,14 +1025,14 @@ const ScrollToTop = styled.button`
   right: 30px;
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, #00B8A9, #1E90FF);
+  background: linear-gradient(135deg, #6A00FF, #00E5FF);
   border: none;
   border-radius: 50%;
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(0, 184, 169, 0.4);
+  box-shadow: 0 0 20px rgba(106, 0, 255, 0.4);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -1042,13 +1040,14 @@ const ScrollToTop = styled.button`
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 0 30px rgba(30, 144, 255, 0.6);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.6);
   }
 `;
 
-const DataScienceInternship = () => {
+const AiMlInternship = () => {
   const typedRef = useRef(null);
   const [showScrollTop, setShowScrollTop] = React.useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     // Initialize AOS
@@ -1060,7 +1059,7 @@ const DataScienceInternship = () => {
 
     // Initialize Typed.js
     const typed = new Typed(typedRef.current, {
-      strings: ['Data.', 'Analytics.', 'Insights.', 'Prediction.', 'Visualization.'],
+      strings: ['Neural Networks.', 'Deep Learning.', 'Data Science.', 'Innovation.', 'AI Models.'],
       typeSpeed: 50,
       backSpeed: 30,
       backDelay: 2000,
@@ -1080,6 +1079,8 @@ const DataScienceInternship = () => {
         });
       }
     };
+
+
 
     // Add smooth scroll to all anchor links
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
@@ -1136,92 +1137,91 @@ const DataScienceInternship = () => {
   const skills = [
     { 
       icon: <FaPython />, 
-      name: 'Python, NumPy, Pandas', 
-      desc: 'Data manipulation and analysis with Python',
+      name: 'Python for AI/ML', 
+      desc: 'Master Python programming for machine learning',
       color: '#3776AB'
     },
     { 
-      icon: <FaDatabase />, 
-      name: 'Data Cleaning & Wrangling', 
-      desc: 'Preprocess and clean datasets for analysis',
-      color: '#00B8A9'
+      icon: <SiTensorflow />, 
+      name: 'TensorFlow & PyTorch', 
+      desc: 'Deep learning frameworks and neural networks',
+      color: '#FF6F00'
     },
     { 
-      icon: <FaSearch />, 
-      name: 'Exploratory Data Analysis', 
-      desc: 'Discover patterns and insights in data',
-      color: '#1E90FF'
+      icon: <SiPandas />, 
+      name: 'Pandas, NumPy', 
+      desc: 'Data manipulation and numerical computing',
+      color: '#150458'
     },
     { 
-      icon: <FaChartBar />, 
+      icon: <FaBrain />, 
+      name: 'Neural Networks', 
+      desc: 'Deep learning and neural architecture',
+      color: '#00E5FF'
+    },
+    { 
+      icon: <FaChartLine />, 
       name: 'Data Visualization', 
-      desc: 'Create visualizations using PowerBI & SQL',
-      color: '#FFD460'
+      desc: 'Matplotlib, Seaborn for data insights',
+      color: '#FF00C8'
     },
     { 
-      icon: <FaLightbulb />, 
-      name: 'Predictive Analytics', 
-      desc: 'Build ML models for predictions and insights',
-      color: '#00B8A9'
-    },
-    { 
-      icon: <FaChartBar />, 
-      name: 'Probability & Statistics', 
-      desc: 'Data distribution, correlation, and inference analysis',
-      color: '#0EA5E9'
+      icon: <FaCode />, 
+      name: 'Model Deployment', 
+      desc: 'Flask/Streamlit for deploying ML models',
+      color: '#6A00FF'
     }
-
   ];
 
   // Tools data
   const tools = [
+    { icon: <SiTensorflow />, name: 'TensorFlow' },
+    { icon: <SiPytorch />, name: 'PyTorch' },
     { icon: <FaPython />, name: 'Python' },
-    { icon: <SiPandas />, name: 'Pandas' },
+    { icon: <SiKeras />, name: 'Neural Networks' },
     { icon: <SiNumpy />, name: 'NumPy' },
-    { icon: <SiScikitlearn />, name: 'Scikit-learn' },
-    { icon: <MdShowChart />, name: 'Matplotlib' },
-    { icon: <TbChartHistogram/>, name: 'Seaborn' },
-    { icon: <BiBarChartAlt2/>, name: 'Power BI' },
-    { icon: <SiPycharm />, name: 'Pycharm' }
+    { icon: <SiPandas />, name: 'Pandas' },
+    { icon: <RiBook2Line />, name: 'RAG' },
+    { icon: <SiFlask />, name: 'Flask' }
   ];
 
   // Projects data
   const projects = [
     { 
       icon: <FaChartLine />, 
-      name: 'Sales Forecasting', 
-      desc: 'Predict future sales using time series analysis',
-      tech: 'Python, ARIMA, Prophet'
+      name: 'Stock Price Prediction', 
+      desc: 'Predict stock trends using LSTM networks',
+      tech: 'TensorFlow, LSTM, Pandas'
     },
     { 
-      icon: <FaUserTie />, 
-      name: 'Customer Churn Prediction', 
-      desc: 'Identify customers likely to leave using ML',
-      tech: 'Scikit-learn, XGBoost, Pandas'
+      icon: <FaRobot />, 
+      name: 'AI Chatbot', 
+      desc: 'Intelligent chatbot using NLP techniques',
+      tech: 'NLTK, TensorFlow, Flask'
     },
     { 
-      icon: <FaChartBar />, 
-      name: 'COVID-19 Dashboard', 
-      desc: 'Interactive visualization of pandemic data',
-      tech: 'Plotly, Dash, Pandas'
+      icon: <FaMicrochip />, 
+      name: 'Image Classification', 
+      desc: 'CNN model for image recognition',
+      tech: 'PyTorch, CNN, OpenCV'
+    },
+    { 
+      icon: <FaNetworkWired />, 
+      name: 'Fake News Detection', 
+      desc: 'ML model to identify fake news articles',
+      tech: 'Scikit-learn, NLP, TF-IDF'
     },
     { 
       icon: <FaRocket />, 
-      name: 'Movie Recommendation', 
-      desc: 'Content-based filtering for movie suggestions',
-      tech: 'Cosine Similarity, Pandas'
+      name: 'Recommender System', 
+      desc: 'Collaborative filtering for recommendations',
+      tech: 'Surprise, Pandas, NumPy'
     },
     { 
-      icon: <FaChartPie />, 
-      name: 'Stock Market Analysis', 
-      desc: 'Technical analysis and trend prediction',
-      tech: 'yFinance, Matplotlib, NumPy'
-    },
-    { 
-      icon: <FaLightbulb />, 
-      name: 'Employee Performance', 
-      desc: 'Analyze and predict employee performance',
-      tech: 'Random Forest, Feature Engineering'
+      icon: <FaDatabase />, 
+      name: 'Handwriting Recognition', 
+      desc: 'Neural network for digit classification',
+      tech: 'TensorFlow, CNN, MNIST'
     }
   ];
 
@@ -1230,89 +1230,90 @@ const DataScienceInternship = () => {
     { 
       icon: <FaCertificate />, 
       name: 'Internship Certificate', 
-      desc: 'Industry-recognized data science certification'
+      desc: 'Industry-recognized AI/ML certification'
     },
     { 
       icon: <FaLaptopCode />, 
-      name: 'Real Data Projects', 
-      desc: 'Hands-on experience with real datasets'
+      name: 'Real ML Projects', 
+      desc: 'Hands-on experience with production models'
     },
     { 
       icon: <FaUserTie />, 
-      name: 'Portfolio Enhancement', 
-      desc: 'Build a strong data science portfolio'
+      name: 'Resume Enhancement', 
+      desc: 'Boost your professional AI portfolio'
     },
     { 
       icon: <FaGraduationCap />, 
       name: 'LOR', 
-      desc: 'Letter of Recommendation from data experts'
+      desc: 'Letter of Recommendation from AI experts'
     }
   ];
 
   // Quotes data
   const quotes = [
-    "Data is the new oil — and you're about to refine it.",
-    "The goal is to turn data into information, and information into insight.",
-    "Analyze. Predict. Decide. Lead.",
-    "In God we trust, all others must bring data.",
-    "Without data, you're just another person with an opinion."
+    "Machines learn from data, but innovators learn from challenges.",
+    "AI is not the future — it's today.",
+    "You don't just code models, you build intelligence.",
+    "Transform data into predictions, predictions into actions.",
+    "The neural network of today is the foundation of tomorrow."
   ];
 
   // Timeline data
   const timelineData = [
-    { phase: "Data Science & Tools Intro", desc: "Fundamentals of data science ecosystem" },
-    { phase: "Python for Analytics", desc: "Programming and data manipulation skills" },
-    { phase: "Data Cleaning & Preprocessing", desc: "Prepare datasets for analysis" },
-    { phase: "EDA & Visualization", desc: "Discover insights and create visual stories" },
-    { phase: "Machine Learning", desc: "Build predictive models and algorithms" },
-    { phase: "Capstone Data Project", desc: "End-to-end data science solution" }
+    { phase: "AI/ML & Data Science Intro", desc: "Fundamentals of artificial intelligence" },
+    { phase: "Python & Data Handling", desc: "Programming and data manipulation" },
+    { phase: "Supervised & Unsupervised Learning", desc: "Machine learning algorithms" },
+    { phase: "Deep Learning & Neural Networks", desc: "Advanced AI models and architectures" },
+    { phase: "Model Evaluation & Optimization", desc: "Performance tuning and validation" },
+    { phase: "Final Project & Presentation", desc: "End-to-end AI solution development" }
   ];
-
-  const navigate = useNavigate()
 
   return (
     <PageContainer>
 
       <Helmet>
-        <title>Data Science Internship | BTC Routes</title>
+        <title>AI & ML Development Internship | BTC Routes</title>
         <meta
           name="description"
-          content="Gain hands-on experience with BTC Routes’ Data Science Internship. Learn Python, Pandas, NumPy, Machine Learning, and data visualization through real-world projects."
+          content="Join BTC Routes' AI & ML Internship and gain real-world experience in Artificial Intelligence and Machine Learning using Python, TensorFlow, and data-driven projects."
         />
         <meta
           name="keywords"
-          content="BTC Routes, Data Science internship, Python, Pandas, NumPy, Machine Learning, data visualization, data analysis, BTC projects"
+          content="BTC Routes, AI internship, ML internship, Artificial Intelligence, Machine Learning, Python, TensorFlow, data science, neural networks, BTC projects"
         />
         <meta name="author" content="BTC Routes" />
-        <link rel="canonical" href="https://www.btcroutes.com/internship/data-science" />
+        <link
+          rel="canonical"
+          href="https://www.btcroutes.com/internship/aiml-development"
+        />
 
         {/* ✅ Open Graph Meta Tags */}
-        <meta property="og:title" content="Data Science Internship | BTC Routes" />
+        <meta property="og:title" content="AI & ML Development Internship | BTC Routes" />
         <meta
           property="og:description"
-          content="Join BTC Routes’ Data Science Internship to master Python, data analysis, and machine learning. Work on live projects and build your career in data science."
+          content="Master Artificial Intelligence and Machine Learning with BTC Routes. Work on live AI/ML projects and gain hands-on training in Python, TensorFlow, and data modeling."
         />
         <meta property="og:image" content="%PUBLIC_URL%/logo2.png" />
-        <meta property="og:url" content="https://www.btcroutes.com/internship/data-science" />
+        <meta property="og:url" content="https://www.btcroutes.com/internship/aiml-development" />
         <meta property="og:type" content="website" />
 
         {/* ✅ Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="BTC Routes | Data Science Internship" />
+        <meta name="twitter:title" content="BTC Routes | AI & ML Development Internship" />
         <meta
           name="twitter:description"
-          content="Master data science with BTC Routes through hands-on projects. Learn Python, ML, and data visualization for your professional growth."
+          content="Learn AI and ML through BTC Routes’ internship. Build real-world machine learning and deep learning projects using Python and TensorFlow."
         />
         <meta name="twitter:image" content="%PUBLIC_URL%/logo2.png" />
 
-        {/* ✅ Structured Data (JSON-LD) */}
+        {/* ✅ Structured Data (JSON-LD for Google Rich Results) */}
         <script type="application/ld+json">
           {`
             {
               "@context": "https://schema.org",
               "@type": "Course",
-              "name": "Data Science Internship",
-              "description": "Gain hands-on experience with BTC Routes’ Data Science Internship. Learn Python, Pandas, NumPy, Machine Learning, and data visualization through real-world projects.",
+              "name": "AI & ML Development Internship",
+              "description": "Join BTC Routes' AI & ML Internship and gain real-world experience in Artificial Intelligence and Machine Learning using Python, TensorFlow, and data-driven projects.",
               "provider": {
                 "@type": "Organization",
                 "name": "BTC Routes",
@@ -1322,23 +1323,24 @@ const DataScienceInternship = () => {
               "courseMode": "Online",
               "educationalCredentialAwarded": "Internship Certificate",
               "teaches": [
-                "Python",
-                "Pandas",
-                "NumPy",
-                "Data Analysis",
+                "Artificial Intelligence",
                 "Machine Learning",
-                "Data Visualization"
+                "Deep Learning",
+                "Python Programming",
+                "TensorFlow",
+                "Data Modeling"
               ],
-              "url": "https://www.btcroutes.com/internship/data-science"
+              "url": "https://www.btcroutes.com/internship/aiml-development"
             }
           `}
         </script>
       </Helmet>
 
+
+
       <GlobalStyle />
       
       {/* Navigation */}
-
       <NavbarComponent />
 
       {/* Hero Section */}
@@ -1347,48 +1349,48 @@ const DataScienceInternship = () => {
           <div className="row align-items-center">
             <div className="col-lg-8" data-aos="fade-up">
               <HeroTitle>
-                Data Science <br />Internship
+                AI & Machine Learning <br />Internship
               </HeroTitle>
               <HeroSubtitle>
                 Master <TypedText ref={typedRef}></TypedText>
               </HeroSubtitle>
               <HeroTagline>
-                Turn raw data into real-world decisions.
+                Transform data into intelligence. Code the future.
               </HeroTagline>
-              <GoldButton 
+              <MagentaButton 
                 onClick={(e) => {
                   createRipple(e);
-                  navigate("/application")
+                  navigate('/application')
                   // document.querySelector('#apply').scrollIntoView({ behavior: 'smooth' });
                 }}
               >
                 Apply Now
                 <Ripple />
-              </GoldButton>
+              </MagentaButton>
             </div>
           </div>
         </div>
 
-        {/* Chart Animation */}
-        <ChartLine delay="0s">
+        {/* Neural Network Animation */}
+        <NeuralConnection delay="0s">
           <defs>
-            <linearGradient id="chartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#00B8A9" />
-              <stop offset="50%" stopColor="#1E90FF" />
-              <stop offset="100%" stopColor="#FFD460" />
+            <linearGradient id="neuralGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#6A00FF" />
+              <stop offset="50%" stopColor="#00E5FF" />
+              <stop offset="100%" stopColor="#FF00C8" />
             </linearGradient>
           </defs>
-          <path d="M100,300 C200,200 300,400 400,300 C500,200 600,400 700,300" />
-          <path d="M150,350 C250,250 350,450 450,350 C550,250 650,450 750,350" />
-        </ChartLine>
+          <path d="M100,100 C200,50 300,150 400,100 C500,50 600,150 700,100" />
+          <path d="M150,200 C250,250 350,100 450,200 C550,250 650,100 750,200" />
+        </NeuralConnection>
 
-        {/* Data Nodes */}
-        <DataNode top="25%" left="15%" delay="0s" color="#00B8A9" />
-        <DataNode top="35%" right="20%" delay="0.5s" color="#1E90FF" />
-        <DataNode top="65%" left="25%" delay="1s" color="#FFD460" />
-        <DataNode bottom="30%" right="30%" delay="1.5s" color="#00B8A9" />
-        <DataNode top="50%" left="35%" delay="2s" color="#1E90FF" />
-        <DataNode bottom="40%" right="40%" delay="2.5s" color="#FFD460" />
+        {/* Neural Nodes */}
+        <NeuralNode top="20%" left="10%" delay="0s" />
+        <NeuralNode top="30%" right="15%" delay="0.5s" />
+        <NeuralNode top="70%" left="20%" delay="1s" />
+        <NeuralNode bottom="25%" right="25%" delay="1.5s" />
+        <NeuralNode top="45%" left="30%" delay="2s" />
+        <NeuralNode bottom="35%" right="35%" delay="2.5s" />
 
         <HeroBackgroundAnimation />
       </HeroSection>
@@ -1403,31 +1405,30 @@ const DataScienceInternship = () => {
                 <SectionDivider />
               </SectionHeader>
               <AboutText>
-                Understand data from collection to insight. Gain the ability to clean, 
-                analyze, visualize, and predict outcomes with confidence through our 
-                comprehensive Data Science Internship.
+                Explore how machines think, learn, and predict. Build intelligent systems 
+                with real-world impact through our comprehensive AI & Machine Learning Internship.
               </AboutText>
               <AboutText>
                 Designed for BE/B.Tech students in IT, CSE, AI, ML, and DS, this program 
-                takes you through the complete data science lifecycle using industry-standard 
-                tools and real-world datasets.
+                takes you from fundamental concepts to advanced AI model development using 
+                industry-standard tools and methodologies.
               </AboutText>
               <AboutFeatures>
-                <li>Python Programming for Data Science</li>
-                <li>Statistical Analysis & Hypothesis Testing</li>
-                <li>Data Visualization & Dashboard Reporting</li>
-                <li>Machine Learning Integration & Model Building</li>
-                <li>SQL Database Queries & Management</li>
-                <li>Business Intelligence & Insights Generation</li>
+                <li>Machine Learning Algorithms & Techniques</li>
+                <li>Deep Learning with TensorFlow & PyTorch</li>
+                <li>Data Science & Predictive Modeling</li>
+                <li>Neural Networks & Computer Vision</li>
+                <li>Natural Language Processing (NLP)</li>
+                <li>Model Deployment & Production</li>
               </AboutFeatures>
             </div>
             <div className="col-lg-6" data-aos="fade-left">
-              <DataVisual>
-                <ChartIcon>
-                  <FaChartLine />
-                </ChartIcon>
-                <DataGrid />
-              </DataVisual>
+              <AIVisual>
+                <BrainIcon>
+                  <FaBrain />
+                </BrainIcon>
+                <NeuralGrid />
+              </AIVisual>
             </div>
           </div>
         </div>
@@ -1440,7 +1441,7 @@ const DataScienceInternship = () => {
             <h2>Skills You'll Learn</h2>
             <SectionDivider center />
             <SectionSubtitle>
-              Master the essential technologies for modern data science
+              Master the essential technologies for AI and machine learning
             </SectionSubtitle>
           </SectionHeader>
           <div className="row g-4">
@@ -1464,7 +1465,7 @@ const DataScienceInternship = () => {
       <CurriculumSection id="curriculum">
         <div className="container">
           <SectionHeader center>
-            <h2>Learning Roadmap</h2>
+            <h2>Learning Path</h2>
             <SectionDivider center />
           </SectionHeader>
           <Timeline>
@@ -1514,22 +1515,22 @@ const DataScienceInternship = () => {
               <MentorshipContent>
                 <QuoteIcon><FaQuoteLeft /></QuoteIcon>
                 <MentorshipText>
-                  "Learn directly from experts who've built predictive models, visual dashboards, 
-                  and data-driven decision systems for real businesses. Get personalized guidance 
-                  from professionals who understand both the technical and business aspects of data science."
+                  "Learn under professionals who've trained models, analyzed massive datasets, 
+                  and deployed AI solutions across industries. Get personalized guidance from 
+                  experts who understand both the theory and practice of artificial intelligence."
                 </MentorshipText>
                 {/* <MentorStats>
                   <Stat>
-                    <StatNumber>8+</StatNumber>
+                    <StatNumber>10+</StatNumber>
                     <span>Years Experience</span>
                   </Stat>
                   <Stat>
-                    <StatNumber>100+</StatNumber>
-                    <span>Data Projects</span>
+                    <StatNumber>50+</StatNumber>
+                    <span>AI Projects</span>
                   </Stat>
                   <Stat>
-                    <StatNumber>500+</StatNumber>
-                    <span>Models Deployed</span>
+                    <StatNumber>1000+</StatNumber>
+                    <span>Models Trained</span>
                   </Stat>
                 </MentorStats> */}
               </MentorshipContent>
@@ -1546,7 +1547,7 @@ const DataScienceInternship = () => {
             <h2>Project Work</h2>
             <SectionDivider center />
             <SectionSubtitle>
-              Build real-world data applications that demonstrate your expertise
+              Build real-world AI applications that demonstrate your expertise
             </SectionSubtitle>
           </SectionHeader>
           <div className="row g-4">
@@ -1603,7 +1604,7 @@ const DataScienceInternship = () => {
                 <InfoIcon><FaPython /></InfoIcon>
                 <InfoTitle>Prerequisite</InfoTitle>
                 <InfoValue>Python Basics</InfoValue>
-                <InfoSubtext>Recommended</InfoSubtext>
+                <InfoSubtext>Preferred Knowledge</InfoSubtext>
               </InfoCard>
             </div>
           </div>
@@ -1653,7 +1654,7 @@ const DataScienceInternship = () => {
             </div>
           </div>
         </div>
-        <DataParticles />
+        <NeuralWeb />
       </QuotesSection>
 
       {/* Apply Section */}
@@ -1661,12 +1662,12 @@ const DataScienceInternship = () => {
         <div className="container">
           <div className="row justify-content-center text-center">
             <div className="col-lg-8" data-aos="zoom-in">
-              <ApplyTitle>Shape the Future with Data</ApplyTitle>
+              <ApplyTitle>Step Into AI Future</ApplyTitle>
               <ApplySubtitle>
-                Shape the future with data. Join our Data Science Internship and learn 
-                to uncover insights that power innovation and drive business decisions.
+                Step into the world of Artificial Intelligence. Join our AI & ML Internship 
+                and code the next generation of smart systems that learn, predict, and innovate.
               </ApplySubtitle>
-              <GoldButton 
+              <MagentaButton 
                 large
                 onClick={createRipple}
               >
@@ -1674,7 +1675,7 @@ const DataScienceInternship = () => {
                 Apply Now
               </Link>  
                 <Ripple />
-              </GoldButton>
+              </MagentaButton>
             </div>
           </div>
         </div>
@@ -1684,10 +1685,10 @@ const DataScienceInternship = () => {
       {/* Footer */}
       <Footer>
         <div className="container">
-          <div className="row align-items-center">
+          <div className="row d-flex align-items-center justify-content-center">
             <div className="col-md-6">
               <FooterText>
-                &copy; 2025 Data Science Internship. All rights reserved.
+                &copy; 2025 AI & Machine Learning Internship. All rights reserved.
               </FooterText>
             </div>
             <div className="col-md-6 text-md-end">
@@ -1711,4 +1712,4 @@ const DataScienceInternship = () => {
   );
 };
 
-export default DataScienceInternship;
+export default AiMlInternship;

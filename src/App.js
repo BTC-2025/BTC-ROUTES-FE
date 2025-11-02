@@ -8,16 +8,19 @@ import ScrollTop from './ScrollTop';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import WebDevelopment from './components/Internship/components/webdevelopment/WebDevelopment';
-import AppDevelopment from './components/Internship/components/AppDevelopment/AppDevelopment';
-import AiMlInternship from './components/Internship/components/AiMl/AiMlInternship';
-import DataScienceInternship from './components/Internship/components/DataScience/DataScienceInternship';
-import DataAnalyticsInternship from './components/Internship/components/DataAnalytics/DataAnalyticsInternship';
-import TermsAndConditions from './components/termsandpolicy/TermsAndConditions';
-import PrivacyPolicy from './components/termsandpolicy/PrivacyPolicy';
-import Application from './components/Application/Application';
-import Contacts from './components/contactseparate/contacts';
-import Home from './components/Home/Home';
+import WebDevelopment from './components/User/Internship/components/webdevelopment/WebDevelopment';
+import AppDevelopment from './components/User/Internship/components/AppDevelopment/AppDevelopment';
+import AiMlInternship from './components/User/Internship/components/AiMl/AiMlInternship';
+import DataScienceInternship from './components/User/Internship/components/DataScience/DataScienceInternship';
+import DataAnalyticsInternship from './components/User/Internship/components/DataAnalytics/DataAnalyticsInternship';
+import TermsAndConditions from './components/User/termsandpolicy/TermsAndConditions';
+import PrivacyPolicy from './components/User/termsandpolicy/PrivacyPolicy';
+import Application from './components/User/Application/Application';
+import Contacts from './components/User/contactseparate/contacts';
+import Home from './components/User/Home/Home';
+
+import BtcRoutesAdmin from './components/Admin/Dashboard/btcroutesadmin';
+
 
 function App() {
   useEffect(() => {
@@ -49,6 +52,7 @@ function App() {
           <Route path="/application" element={<Application />} />
           <Route path="/contact" element={<Contacts /> } />
           {/* <Route path='/home' element={<Home />} /> */}
+          <Route path='/btcroutesadmin' element={<BtcRoutesAdmin />} />
         </Routes>
       </Router>
     </div>

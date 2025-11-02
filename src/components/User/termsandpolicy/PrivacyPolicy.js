@@ -602,7 +602,7 @@ const PrivacyPolicy = () => {
       id: 'contact',
       icon: <AiOutlineContacts />,
       title: "Contact",
-      content: "For privacy concerns, please contact: 📧 info.btcroutes@gmail.com 🌐 www.btcroutes.in 🏢 BURJ Tech Consultancy (OPC) Pvt. Ltd., India"
+      content: "For privacy concerns, please contact: 📧 info.btcroutes@gmail.com 🌐 www.btcroutes.com 🏢 BURJ Tech Consultancy (OPC) Pvt. Ltd., India"
     }
   ];
 
@@ -691,7 +691,7 @@ const PrivacyPolicy = () => {
                     <FooterLink href="/contact">Contact Us</FooterLink>
                   </FooterLinks>
                   <FooterText>
-                    📧 info.btcroutes@gmail.com | 🌐 www.btcroutes.in
+                    📧 info.btcroutes@gmail.com | 🌐 www.btcroutes.com
                   </FooterText>
                   <Copyright>
                     © 2025 BTC Routes — A division of BURJ Tech Consultancy (OPC) Pvt. Ltd.

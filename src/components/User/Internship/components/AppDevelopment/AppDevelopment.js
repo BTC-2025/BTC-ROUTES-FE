@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Typed  from 'typed.js';
-import logo from '../../../../assests/logo2.png'
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';

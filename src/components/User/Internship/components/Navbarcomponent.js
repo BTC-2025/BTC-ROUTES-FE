@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
-import logo from '../../../assests/logo2.png'
+import logo from '../../../../assests/logo2.png'
 
 const terminalGlow = keyframes`
   0%, 100% { text-shadow: 0 0 10px #00FFC6; }

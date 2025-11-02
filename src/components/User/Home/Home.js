@@ -12,6 +12,7 @@ import Footer from '../Footer/Footer';
 import ScrollToTop from '../ScrollToTop/ScrollToTop';
 
 
+
 const Home = () => {
   return (
     <div>
