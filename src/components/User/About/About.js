@@ -30,9 +30,9 @@ const About = () => {
           <h2 className="about-title">About Us</h2>
           <p className="about-subtitle">
             We are a dynamic IT services company committed to nurturing the next generation of tech talent. 
-            Through our structured learning paths and hands-on training, we help students upgrade their skills, 
-            gain confidence, and advance toward successful tech careers. Our goal is to move learners from 
-            fundamentals to professional excellence.
+                Through our structured learning paths and industry-focused training, we empower students to grow 
+                from learners to professionals. We proudly support their career journey by offering placement 
+                opportunities both within our organization and in other reputed companies across the tech industry.
           </p>
         </div>
 
