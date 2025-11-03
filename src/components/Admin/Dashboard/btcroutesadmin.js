@@ -18,7 +18,8 @@ import {
   FiChevronRight,
   FiLoader,
   FiCheckCircle,
-  FiAlertCircle
+  FiAlertCircle,
+  FiCalendar
 } from 'react-icons/fi';
 import { 
   FaChalkboardTeacher,
@@ -53,6 +54,21 @@ const BtcRoutesAdmin = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({ show: false, message: '', type: '' });
+  const [selectedDate, setSelectedDate] = useState('');
+  const [filteredRecords, setFilteredRecords] = useState([]);
+
+  // const uniqueDates = [...new Set(attendanceList.map(r => r.date))];
+
+  // Attendance states
+  const [attendance, setAttendance] = useState({
+    date: new Date().toISOString().split('T')[0],
+    records: []
+  });
+  const [attendanceList, setAttendanceList] = useState([]);
+  const [selectedAttendance, setSelectedAttendance] = useState(null);
+  const [leaveReason, setLeaveReason] = useState('');
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const [selectedStudentForLeave, setSelectedStudentForLeave] = useState(null);
 
   // Check authentication on component mount
   useEffect(() => {
@@ -121,6 +137,183 @@ const BtcRoutesAdmin = () => {
     }
   };
 
+  // Attendance APIs
+  const markAttendance = async () => {
+    if (attendance.records.length === 0) {
+      showNotification('No attendance records to submit', 'error');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.post('http://localhost:3003/api/attendance/mark', attendance, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      showNotification('Attendance marked successfully!', 'success');
+      setAttendance({
+        date: new Date().toISOString().split('T')[0],
+        records: []
+      });
+      fetchAttendanceList();
+    } catch (error) {
+      console.error('Error marking attendance:', error);
+      showNotification('Failed to mark attendance', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // const fetchAttendanceList = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const token = localStorage.getItem('authToken');
+  //     const response = await axios.get('http://localhost:3003/api/attendance/all-attendance', {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     });
+  //     console.log(response.data)
+  //     setAttendanceList(response.data);
+  //   } catch (error) {
+  //     console.error('Error fetching attendance:', error);
+  //     showNotification('Failed to load attendance records', 'error');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+    const fetchAttendanceList = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.get('http://localhost:3003/api/attendance/all-attendance', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setAttendanceList(response.data);
+    } catch (error) {
+      console.error('Error fetching attendance:', error);
+      alert('Failed to load attendance records');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAttendanceList();
+  }, []);
+
+  // Extract unique dates
+  const uniqueDates = [...new Set(attendanceList.map(r => r.date))];
+
+  // Filter records by selected date
+  useEffect(() => {
+    if (selectedDate) {
+      const filtered = attendanceList.filter(record => record.date === selectedDate);
+      setFilteredRecords(filtered);
+    } else {
+      setFilteredRecords([]);
+    }
+  }, [selectedDate, attendanceList]);
+
+  const fetchAttendanceByDate = async (date) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.get(`http://localhost:3003/api/attendance/date/${date}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching attendance by date:', error);
+      return null;
+    }
+  };
+
+  // Attendance handlers
+  const handleAttendanceStatus = (studentId, status) => {
+    if (status === 'L') {
+      setSelectedStudentForLeave(studentId);
+      setShowLeaveModal(true);
+      return;
+    }
+
+    setAttendance(prev => {
+      const existingRecordIndex = prev.records.findIndex(record => record.studentId === studentId);
+      
+      if (existingRecordIndex >= 0) {
+        const updatedRecords = [...prev.records];
+        updatedRecords[existingRecordIndex] = { 
+          studentId, 
+          status
+        };
+        return { ...prev, records: updatedRecords };
+      } else {
+        return {
+          ...prev,
+          records: [
+            ...prev.records,
+            { 
+              studentId, 
+              status
+            }
+          ]
+        };
+      }
+    });
+  };
+
+  const handleLeaveSubmit = () => {
+    if (!leaveReason.trim()) {
+      showNotification('Please enter a reason for leave', 'error');
+      return;
+    }
+
+    setAttendance(prev => {
+      const existingRecordIndex = prev.records.findIndex(record => record.studentId === selectedStudentForLeave);
+      
+      if (existingRecordIndex >= 0) {
+        const updatedRecords = [...prev.records];
+        updatedRecords[existingRecordIndex] = { 
+          studentId: selectedStudentForLeave, 
+          status: 'L',
+          reason: leaveReason
+        };
+        return { ...prev, records: updatedRecords };
+      } else {
+        return {
+          ...prev,
+          records: [
+            ...prev.records,
+            { 
+              studentId: selectedStudentForLeave, 
+              status: 'L',
+              reason: leaveReason
+            }
+          ]
+        };
+      }
+    });
+
+    setShowLeaveModal(false);
+    setLeaveReason('');
+    setSelectedStudentForLeave(null);
+    showNotification('Leave marked successfully', 'success');
+  };
+
+  const handleViewAttendance = (attendanceRecord) => {
+    setSelectedAttendance(attendanceRecord);
+  };
+
+  const handleCloseAttendanceDetails = () => {
+    setSelectedAttendance(null);
+  };
+
   // Login handler
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -181,14 +374,12 @@ const BtcRoutesAdmin = () => {
         }
       });
 
-      const response = await axios.post('http://localhost:3003/api/student/add-student', formData, {
+      await axios.post('http://localhost:3003/api/student/add-student', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
         },
       });
-
-    //   setStudents(prev => [...prev, response.data]);
 
       await fetchStudents();
       resetStudentForm();
@@ -237,16 +428,13 @@ const BtcRoutesAdmin = () => {
         }
       });
 
-      const response = await axios.put(`http://localhost:3003/api/student/update/${editingId}`, formData, {
+      await axios.put(`http://localhost:3003/api/student/update/${editingId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
         },
       });
 
-      setStudents(prev => prev.map(student => 
-        student.id === editingId ? response.data : student
-      ));
       await fetchStudents();
       resetStudentForm();
       setIsEditing(false);
@@ -279,7 +467,6 @@ const BtcRoutesAdmin = () => {
         }
       });
       await fetchStudents();
-    //   setStudents(prev => prev.filter(student => student.id !== id));
       setSelectedStudent(null);
       showNotification('Student deleted successfully!', 'success');
     } catch (error) {
@@ -330,7 +517,6 @@ const BtcRoutesAdmin = () => {
       const studentData = await fetchStudent(student.id);
       setSelectedStudent(studentData);
     } catch (error) {
-      // If API fails, use local data
       setSelectedStudent(student);
     } finally {
       setLoading(false);
@@ -404,7 +590,6 @@ const BtcRoutesAdmin = () => {
           </Form>
         </LoginCard>
         
-        {/* Notification */}
         {notification.show && (
           <Notification type={notification.type}>
             {notification.type === 'success' ? <FiCheckCircle /> : <FiAlertCircle />}
@@ -417,7 +602,6 @@ const BtcRoutesAdmin = () => {
 
   return (
     <DashboardContainer>
-      {/* Sidebar */}
       <Sidebar collapsed={isSidebarCollapsed}>
         <SidebarHeader>
           {!isSidebarCollapsed && <FaChalkboardTeacher size={32} />}
@@ -464,6 +648,34 @@ const BtcRoutesAdmin = () => {
             </NavLink>
           </li>
           <li>
+            <NavLink 
+              active={activeSection === 'markAttendance'}
+              onClick={() => {
+                setActiveSection('markAttendance');
+                fetchStudents();
+              }}
+              collapsed={isSidebarCollapsed}
+              data-tooltip="Mark Attendance"
+            >
+              <FiCheckCircle size={20} />
+              {!isSidebarCollapsed && "Mark Attendance"}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink 
+              active={activeSection === 'viewAttendance'}
+              onClick={() => {
+                setActiveSection('viewAttendance');
+                fetchAttendanceList();
+              }}
+              collapsed={isSidebarCollapsed}
+              data-tooltip="View Attendance"
+            >
+              <FiCalendar size={20} />
+              {!isSidebarCollapsed && "View Attendance"}
+            </NavLink>
+          </li>
+          <li>
             <NavLink onClick={handleActivities} collapsed={isSidebarCollapsed} data-tooltip="Activities">
               <FiActivity size={20} />
               {!isSidebarCollapsed && "Activities"}
@@ -478,54 +690,30 @@ const BtcRoutesAdmin = () => {
         </SidebarNav>
       </Sidebar>
 
-      {/* Main Content */}
       <MainContent sidebarCollapsed={isSidebarCollapsed}>
-        {/* <ContentHeader>
+        <ContentHeader>
           <MobileHeader>
             <MobileMenuToggle onClick={toggleSidebar}>
               <FiMenu size={24} />
             </MobileMenuToggle>
-            <h4>
-              {activeSection === 'dashboard' && 'Dashboard'}
-              {activeSection === 'addStudent' && (isEditing ? 'Edit Student' : 'Add New Student')}
-              {activeSection === 'viewStudents' && `Student List (${filteredStudents.length})`}
-            </h4>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between',gap: '10px' }}>
+              <img
+                src={logo}
+                alt="Logo"
+                style={{ width: '100px', height: '40px', objectFit: 'contain' }}
+              />
+              <h4 style={{ margin: 0 }}>
+                {activeSection === 'dashboard' && 'Dashboard'}
+                {activeSection === 'addStudent' && (isEditing ? 'Edit Student' : 'Add New Student')}
+                {activeSection === 'markAttendance' && 'Mark Attendance'}
+                {activeSection === 'viewAttendance' && 'View Attendance Records'}
+                {activeSection === 'viewStudents' && `Student List (${filteredStudents.length})`}
+              </h4>
+            </div>
           </MobileHeader>
-        </ContentHeader> */}
-
-        <ContentHeader>
-  <MobileHeader>
-    <MobileMenuToggle onClick={toggleSidebar}>
-      <FiMenu size={24} />
-    </MobileMenuToggle>
-
-    {/* Header content with logo */}
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between',gap: '10px' }}>
-      {/* Logo */}
-      <img
-        src={logo} // ✅ adjust path as needed
-        alt="Logo"
-        style={{ width: '100px', height: '40px', objectFit: 'contain' }}
-      />
-
-      {/* Dynamic title */}
-      <h4 style={{ margin: 0 }}>
-        {activeSection === 'dashboard' && 'Dashboard'}
-        {activeSection === 'addStudent' && (isEditing ? 'Edit Student' : 'Add New Student')}
-        {activeSection === 'attendance' && 'Attendance'}
-        {activeSection === 'reports' && 'Reports'}
-        {activeSection === 'settings' && 'Settings'}
-
-        {/* Student List title moved last */}
-        {activeSection === 'viewStudents' && `Student List (${filteredStudents.length})`}
-      </h4>
-    </div>
-  </MobileHeader>
-</ContentHeader>
-
+        </ContentHeader>
 
         <ContentBody>
-          {/* Loading Spinner */}
           {loading && (
             <LoadingOverlay>
               <Spinner />
@@ -533,7 +721,6 @@ const BtcRoutesAdmin = () => {
             </LoadingOverlay>
           )}
 
-          {/* Dashboard Section */}
           {activeSection === 'dashboard' && (
             <DashboardSection>
               <StatsGrid>
@@ -574,40 +761,9 @@ const BtcRoutesAdmin = () => {
                   </StatInfo>
                 </StatCard>
               </StatsGrid>
-{/* 
-              <RecentActivity>
-                <Card>
-                  <CardHeader>
-                    <h5>Recent Activity</h5>
-                  </CardHeader>
-                  <CardBody>
-                    <ActivityList>
-                      <ActivityItem>
-                        <ActivityIcon>
-                          <FiUsers />
-                        </ActivityIcon>
-                        <ActivityContent>
-                          <p><strong>Total Students:</strong> {students.length} registered</p>
-                          <small>Last updated: {new Date().toLocaleDateString()}</small>
-                        </ActivityContent>
-                      </ActivityItem>
-                      <ActivityItem>
-                        <ActivityIcon>
-                          <FiUserPlus />
-                        </ActivityIcon>
-                        <ActivityContent>
-                          <p><strong>System Status:</strong> All services operational</p>
-                          <small>Monitoring active</small>
-                        </ActivityContent>
-                      </ActivityItem>
-                    </ActivityList>
-                  </CardBody>
-                </Card>
-              </RecentActivity> */}
             </DashboardSection>
           )}
 
-          {/* Add/Edit Student Section */}
           {activeSection === 'addStudent' && (
             <FormSection>
               <Card>
@@ -765,7 +921,6 @@ const BtcRoutesAdmin = () => {
             </FormSection>
           )}
 
-          {/* View Students Section */}
           {activeSection === 'viewStudents' && (
             <ListSection>
               <Card>
@@ -807,9 +962,6 @@ const BtcRoutesAdmin = () => {
                                 <img 
                                   src={`http://localhost:3003/uploads/${student.photo}`} 
                                   alt={student.name}
-                                //   onError={(e) => {
-                                //     e.target.src = 'https://via.placeholder.com/60x60/007bff/ffffff?text=U';
-                                //   }}
                                 />
                               ) : (
                                 <PhotoPlaceholder>
@@ -890,10 +1042,240 @@ const BtcRoutesAdmin = () => {
               </Card>
             </ListSection>
           )}
+
+          {activeSection === 'markAttendance' && (
+            <AttendanceSection>
+              <Card>
+                <CardHeader>
+                  <h5>
+                    <FiCheckCircle size={20} />
+                    Mark Attendance - {attendance.date}
+                  </h5>
+                  <DateSelector>
+                    <Label>Select Date:</Label>
+                    <Input
+                      type="date"
+                      value={attendance.date}
+                      onChange={(e) => setAttendance(prev => ({ ...prev, date: e.target.value }))}
+                    />
+                  </DateSelector>
+                </CardHeader>
+                <CardBody>
+                  <AttendanceTable>
+                    <thead>
+                      <tr>
+                        <th>Student Name</th>
+                        <th>Course</th>
+                        <th>Batch</th>
+                        <th>Mode</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {students.map(student => {
+                        const record = attendance.records.find(r => r.studentId === student.id);
+                        const status = record ? record.status : '';
+                        
+                        return (
+                          <tr key={student.id}>
+                            <td>
+                              <StudentInfoCompact>
+                                {student.photo ? (
+                                  <img 
+                                    src={`http://localhost:3003/uploads/${student.photo}`} 
+                                    alt={student.name}
+                                    style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px' }}
+                                  />
+                                ) : (
+                                  <PhotoPlaceholder small>
+                                    {student.name?.charAt(0)?.toUpperCase() || 'U'}
+                                  </PhotoPlaceholder>
+                                )}
+                                {student.name}
+                              </StudentInfoCompact>
+                            </td>
+                            <td>{student.course}</td>
+                            <td>{student.batch}</td>
+                            <td>{student.preferred_mode}</td>
+                            <td>
+                              <StatusBadge status={status}>
+                                {status === 'P' && 'Present'}
+                                {status === 'A' && 'Absent'}
+                                {status === 'L' && 'Leave'}
+                                {status === 'H' && 'Half Day'}
+                                {!status && 'Not Marked'}
+                              </StatusBadge>
+                            </td>
+                            <td>
+                              <AttendanceActions>
+                                <AttendanceButton 
+                                  active={status === 'P'}
+                                  onClick={() => handleAttendanceStatus(student.id, 'P')}
+                                >
+                                  P
+                                </AttendanceButton>
+                                <AttendanceButton 
+                                  active={status === 'A'}
+                                  onClick={() => handleAttendanceStatus(student.id, 'A')}
+                                >
+                                  A
+                                </AttendanceButton>
+                                <AttendanceButton 
+                                  active={status === 'L'}
+                                  onClick={() => handleAttendanceStatus(student.id, 'L')}
+                                >
+                                  L
+                                </AttendanceButton>
+                                <AttendanceButton 
+                                  active={status === 'H'}
+                                  onClick={() => handleAttendanceStatus(student.id, 'H')}
+                                >
+                                  H
+                                </AttendanceButton>
+                              </AttendanceActions>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </AttendanceTable>
+                  
+                  {students.length > 0 && (
+                    <AttendanceSubmit>
+                      <PrimaryButton onClick={markAttendance} disabled={loading || attendance.records.length === 0}>
+                        {loading ? <Spinner small /> : <FiCheckCircle size={18} />}
+                        {loading ? 'Submitting...' : `Mark Attendance for ${attendance.records.length} Students`}
+                      </PrimaryButton>
+                    </AttendanceSubmit>
+                  )}
+                </CardBody>
+              </Card>
+            </AttendanceSection>
+          )}
+
+          {activeSection === 'viewAttendance' && (
+            // <AttendanceListSection>
+            //   <Card>
+            //     <CardHeader>
+            //       <h5>
+            //         <FiCalendar size={20} />
+            //         Attendance Records
+            //       </h5>
+            //     </CardHeader>
+            //     <CardBody>
+            //       {attendanceList.length === 0 ? (
+            //         <EmptyState>
+            //           <FiCalendar size={48} color="#6c757d" />
+            //           <p>No attendance records found.</p>
+            //         </EmptyState>
+            //       ) : (
+            //         <AttendanceList>
+            //           {attendanceList.map(record => (
+            //             <AttendanceListItem key={record.id} onClick={() => handleViewAttendance(record)}>
+            //               <AttendanceDate>
+            //                 <strong>{new Date(record.date).toLocaleDateString()}</strong>
+            //               </AttendanceDate>
+            //               <AttendanceStats>
+            //                 <Stat>Total: {record.records?.length || 0}</Stat>
+            //                 <Stat>Present: {record.records?.filter(r => r.status === 'P').length || 0}</Stat>
+            //                 <Stat>Absent: {record.records?.filter(r => r.status === 'A').length || 0}</Stat>
+            //                 <Stat>Leave: {record.records?.filter(r => r.status === 'L').length || 0}</Stat>
+            //               </AttendanceStats>
+            //               <ViewButton>
+            //                 <FiEye size={16} />
+            //                 View Details
+            //               </ViewButton>
+            //             </AttendanceListItem>
+            //           ))}
+            //         </AttendanceList>
+            //       )}
+            //     </CardBody>
+            //   </Card>
+            // </AttendanceListSection>
+
+                <AttendanceListSection>
+      <Card>
+        <CardHeader>
+          <h5>
+            <FiCalendar size={20} /> Attendance Records
+          </h5>
+        </CardHeader>
+        <CardBody>
+          {/* Date selector */}
+          {attendanceList.length > 0 && (
+            <div style={{ marginBottom: '20px' }}>
+              <label htmlFor="dateSelect" style={{ marginRight: '10px', fontWeight: 'bold' }}>
+                Select Date:
+              </label>
+              <select
+                id="dateSelect"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                style={{
+                  padding: '8px',
+                  borderRadius: '8px',
+                  border: '1px solid #ccc',
+                  cursor: 'pointer'
+                }}
+              >
+                <option value="">-- Choose a Date --</option>
+                {uniqueDates.map(date => (
+                  <option key={date} value={date}>
+                    {new Date(date).toLocaleDateString()}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Attendance List */}
+          {loading ? (
+            <p>Loading attendance records...</p>
+          ) : selectedDate === '' ? (
+            <EmptyState>
+              <FiCalendar size={48} color="#6c757d" />
+              <p>Please select a date to view attendance.</p>
+            </EmptyState>
+          ) : filteredRecords.length === 0 ? (
+            <EmptyState>
+              <FiCalendar size={48} color="#6c757d" />
+              <p>No attendance found for this date.</p>
+            </EmptyState>
+          ) : (
+            <AttendanceList>
+              {filteredRecords.map(record => (
+                <AttendanceListItem key={record.id}>
+                  <AttendanceDate>
+                    <strong>{record.Student.name.toUpperCase()}</strong>
+                  </AttendanceDate>
+                  <AttendanceStats>
+                    <Stat>Course:<strong>{record.Student.course}</strong></Stat>
+                  </AttendanceStats>
+                  <AttendanceStats>
+                    <Stat>Batch:<strong>{record.Student.batch}</strong></Stat>
+                  </AttendanceStats>
+                  <AttendanceStats>
+                    <Stat>Mode: <strong>{record.Student.preferred_mode}</strong></Stat>
+                  </AttendanceStats>
+                  <AttendanceStats>
+                    <Stat>Status: {record.status}</Stat>
+                    {record.reason && <Stat>Reason: {record.reason}</Stat>}
+                  </AttendanceStats>
+                  {/* <ViewButton>
+                    <FiEye size={16} /> View Details
+                  </ViewButton> */}
+                </AttendanceListItem>
+              ))}
+            </AttendanceList>
+          )}
+        </CardBody>
+      </Card>
+    </AttendanceListSection>
+          )}
         </ContentBody>
       </MainContent>
 
-      {/* Student Details Modal */}
       {selectedStudent && (
         <ModalOverlay onClick={handleCloseStudentDetails}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
@@ -976,7 +1358,90 @@ const BtcRoutesAdmin = () => {
         </ModalOverlay>
       )}
 
-      {/* Notification */}
+      {showLeaveModal && (
+        <ModalOverlay onClick={() => setShowLeaveModal(false)}>
+          <ModalContent onClick={(e) => e.stopPropagation()} style={{ maxWidth: '500px' }}>
+            <ModalHeader>
+              <h3>Leave Reason</h3>
+              <CloseButton onClick={() => setShowLeaveModal(false)}>
+                <FiX size={24} />
+              </CloseButton>
+            </ModalHeader>
+            <ModalBody>
+              <FormGroup>
+                <Label>Enter reason for leave:</Label>
+                <TextArea
+                  value={leaveReason}
+                  onChange={(e) => setLeaveReason(e.target.value)}
+                  placeholder="Enter the reason for leave..."
+                  rows="4"
+                />
+              </FormGroup>
+              <ModalActions>
+                <PrimaryButton onClick={handleLeaveSubmit}>
+                  Submit
+                </PrimaryButton>
+                <SecondaryButton onClick={() => setShowLeaveModal(false)}>
+                  Cancel
+                </SecondaryButton>
+              </ModalActions>
+            </ModalBody>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+
+      {selectedAttendance && (
+        <ModalOverlay onClick={handleCloseAttendanceDetails}>
+          <ModalContent onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px' }}>
+            <ModalHeader>
+              <h3>Attendance Details - {new Date(selectedAttendance.date).toLocaleDateString()}</h3>
+              <CloseButton onClick={handleCloseAttendanceDetails}>
+                <FiX size={24} />
+              </CloseButton>
+            </ModalHeader>
+            <ModalBody>
+              <AttendanceDetailsTable>
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Course</th>
+                    <th>Batch</th>
+                    <th>Status</th>
+                    <th>Reason</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedAttendance.records?.map(record => {
+                    const student = students.find(s => s.id === record.studentId);
+                    return student ? (
+                      <tr key={record.studentId}>
+                        <td>{student.name}</td>
+                        <td>{student.course}</td>
+                        <td>{student.batch}</td>
+                        <td>
+                          <StatusBadge status={record.status}>
+                            {record.status === 'P' && 'Present'}
+                            {record.status === 'A' && 'Absent'}
+                            {record.status === 'L' && 'Leave'}
+                            {record.status === 'H' && 'Half Day'}
+                          </StatusBadge>
+                        </td>
+                        <td>{record.reason || '-'}</td>
+                      </tr>
+                    ) : null;
+                  })}
+                </tbody>
+              </AttendanceDetailsTable>
+              <ModalActions>
+                <SecondaryButton onClick={handleCloseAttendanceDetails}>
+                  Close
+                </SecondaryButton>
+              </ModalActions>
+            </ModalBody>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+
       {notification.show && (
         <Notification type={notification.type}>
           {notification.type === 'success' ? <FiCheckCircle /> : <FiAlertCircle />}
@@ -987,9 +1452,179 @@ const BtcRoutesAdmin = () => {
   );
 };
 
-// ... (Keep all the styled components exactly the same as in the previous response)
-// The styled components remain unchanged, only the API calls are updated
-// Styled Components
+// Add the new styled components for attendance
+const AttendanceSection = styled.div`
+  padding: 20px 0;
+`;
+
+const AttendanceListSection = styled.div`
+  padding: 20px 0;
+`;
+
+const AttendanceTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  tr:hover {
+    background-color: #f8f9fa;
+  }
+`;
+
+const AttendanceActions = styled.div`
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+`;
+
+const AttendanceButton = styled.button`
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background-color: ${props => props.active ? '#007bff' : 'white'};
+  color: ${props => props.active ? 'white' : '#495057'};
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: ${props => props.active ? '#0056b3' : '#f8f9fa'};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+const StatusBadge = styled.span`
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: ${props => {
+    switch (props.status) {
+      case 'P': return '#d4edda';
+      case 'A': return '#f8d7da';
+      case 'L': return '#fff3cd';
+      case 'H': return '#d1ecf1';
+      default: return '#e9ecef';
+    }
+  }};
+  color: ${props => {
+    switch (props.status) {
+      case 'P': return '#155724';
+      case 'A': return '#721c24';
+      case 'L': return '#856404';
+      case 'H': return '#0c5460';
+      default: return '#495057';
+    }
+  }};
+`;
+
+const AttendanceList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const AttendanceListItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  gap:10px; 
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #f8f9fa;
+    border-color: #007bff;
+  }
+`;
+
+const AttendanceDate = styled.div`
+  flex: 1;
+`;
+
+const AttendanceStats = styled.div`
+  display: flex;
+  gap: 15px;
+  flex: 2;
+`;
+
+const Stat = styled.span`
+  font-size: 14px;
+  color: #6c757d;
+`;
+
+const AttendanceDetailsTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+  }
+`;
+
+const StudentInfoCompact = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const DateSelector = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const AttendanceSubmit = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+`;
+
+const TextArea = styled.textarea`
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 100px;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+`;
+
+// ... (Keep all the existing styled components from your original code)
+// The rest of your styled components remain exactly the same...
+
 const spin = keyframes`
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -1063,8 +1698,7 @@ const Notification = styled.div`
 
 const LoginContainer = styled.div`
   min-height: 100vh;
-//   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
- background: linear-gradient(135deg, #011096 0%, #0B47B0 50%, #6EA8FE 100%);
+  background: linear-gradient(135deg, #011096 0%, #0B47B0 50%, #6EA8FE 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1375,53 +2009,6 @@ const StatInfo = styled.div`
     color: #7f8c8d;
     font-weight: 600;
     font-size: 1.1rem;
-  }
-`;
-
-const RecentActivity = styled.div`
-  max-width: 800px;
-`;
-
-const ActivityList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const ActivityItem = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 12px;
-  border-left: 4px solid #667eea;
-`;
-
-const ActivityIcon = styled.div`
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  flex-shrink: 0;
-`;
-
-const ActivityContent = styled.div`
-  flex: 1;
-  
-  p {
-    margin: 0 0 0.5rem 0;
-    color: #2c3e50;
-    font-size: 1rem;
-  }
-  
-  small {
-    color: #6c757d;
-    font-size: 0.875rem;
   }
 `;
 
@@ -1814,7 +2401,6 @@ const ViewButton = styled(ActionButtonBase)`
   }
 `;
 
-// Modal Styles
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;

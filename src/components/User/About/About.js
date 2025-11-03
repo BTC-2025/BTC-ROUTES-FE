@@ -17,7 +17,7 @@ const About = () => {
     },
     {
       title: "Our Goal",
-      description: "Transform 10,000 students into industry-ready professionals through hands-on training and project experience.",
+      description: "Transform students into industry-ready professionals through hands-on training and project experience.",
       icon: "⭐",
       color: "about-card--goal"
     }
@@ -30,7 +30,9 @@ const About = () => {
           <h2 className="about-title">About Us</h2>
           <p className="about-subtitle">
             We are a dynamic IT services company committed to nurturing the next generation of tech talent. 
-            Our internship programs are designed to provide students with practical experience and industry exposure.
+            Through our structured learning paths and hands-on training, we help students upgrade their skills, 
+            gain confidence, and advance toward successful tech careers. Our goal is to move learners from 
+            fundamentals to professional excellence.
           </p>
         </div>
 
