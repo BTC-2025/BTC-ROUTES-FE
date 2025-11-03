@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../../../assests/logo2.png';
 import './Header.css';
-import { useNavigate } from 'react-router-dom'; // ✅ import for navigation
+import { useNavigate,Link } from 'react-router-dom'; // ✅ import for navigation
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -41,7 +41,9 @@ const Header = () => {
             <div className="header-logo-dot header-logo-dot--3"></div>
           </div>
           <span className="header-brand-text">
-            <img src={logo} alt="Logo" width={120} />
+            <Link to="/" >
+              <img src={logo} alt="Logo" width={120} />
+            </Link>
           </span>
         </div>
 
