@@ -21,11 +21,11 @@ const Hero = () => {
       <div className="hero-container">
         <div className="hero-content">
           <div className="hero-badge">
-            🚀 Transforming Student Careers Since 2025
+            Transforming Student Careers Since 2025
           </div>
           
           <h1 className="hero-title">
-            <TypingEffect texts={["Empowering Students.", "Inspiring Innovation."]} />
+            <TypingEffect texts={["Software Training.", "Mentorship.","Project & Delivery.","IT Staffing."]} />
           </h1>
           
           <p className="hero-subtitle">
@@ -51,7 +51,6 @@ const Hero = () => {
         </div>
         
         <div className="hero-visual">
-          {/* Animated Tech Orb */}
           <div className="tech-orb">
             <div className="orb-core"></div>
             <div className="orb-ring orb-ring--1"></div>
@@ -62,7 +61,6 @@ const Hero = () => {
             <div className="orb-particle orb-particle--3"></div>
           </div>
 
-          {/* Floating Tech Elements */}
           <div className="floating-elements">
             <div className="tech-element tech-element--main">
               <div className="tech-element__glow"></div>
@@ -118,7 +116,6 @@ const Hero = () => {
           </div>
 
 
-          {/* CTA Panel */}
           <div className="cta-panel">
             <div className="cta-panel__content">
               <h3>Ready to Begin?</h3>

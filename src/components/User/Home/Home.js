@@ -10,6 +10,7 @@ import Apply from '../Apply/Apply';
 import Contact from '../Contact/Contact';
 import Footer from '../Footer/Footer';
 import ScrollToTop from '../ScrollToTop/ScrollToTop';
+import CoursesSection from '../Courses/CoursesSection';
 
 
 
@@ -18,9 +19,10 @@ const Home = () => {
     <div>
         <Header />
         <Hero />
-        <About />
+        <CoursesSection />
         <Internship />
         <Projects />
+        <About />
         <Benefits />
         <Apply />
         {/* <Batches /> */}

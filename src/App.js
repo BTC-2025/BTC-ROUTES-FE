@@ -20,6 +20,7 @@ import Contacts from './components/User/contactseparate/contacts';
 import Home from './components/User/Home/Home';
 
 import BtcRoutesAdmin from './components/Admin/Dashboard/btcroutesadmin';
+import FrontendCourse from './components/User/Courses/Components/FrontendCourse';
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
           <Route path="/application" element={<Application />} />
           <Route path="/contact" element={<Contacts /> } />
           {/* <Route path='/home' element={<Home />} /> */}
+          <Route path='/courses/frontend-development' element={<FrontendCourse />} />
           <Route path='/btcroutesadmin' element={<BtcRoutesAdmin />} />
         </Routes>
       </Router>

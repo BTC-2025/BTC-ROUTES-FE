@@ -1,95 +1,155 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import './Projects.css';
 
 const Projects = () => {
-  const projectFeatures = [
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 100
+    });
+  }, []);
+
+  const services = [
     {
-      title: "One-on-one mentorship",
-      description: "Personal guidance from industry experts",
-      icon: "👨‍💼"
+      icon: "🎯",
+      title: "Project Planning",
+      description: "Strategic project roadmap and requirement analysis"
     },
     {
-      title: "Real-world implementation",
-      description: "Work on actual industry problems",
-      icon: "🌍"
+      icon: "💻",
+      title: "Development",
+      description: "Hands-on coding with modern technologies and best practices"
     },
     {
-      title: "Documentation support",
-      description: "Complete project documentation help",
-      icon: "📄"
+      icon: "📊",
+      title: "Documentation",
+      description: "Professional reports, presentations, and documentation"
     },
     {
-      title: "Deployment guidance",
-      description: "Learn to deploy projects live",
-      icon: "🚀"
+      icon: "🚀",
+      title: "Deployment",
+      description: "Live deployment with proper hosting and domain setup"
     }
   ];
 
-  const projectDomains = [
-    "AI/ML Applications",
-    "Web Applications", 
-    "Mobile Apps",
-    "Data Analytics",
-    "Data Science",
+  const features = [
+    {
+      number: "200+",
+      title: "Projects Completed"
+    },
+    {
+      number: "50+",
+      title: "Colleges"
+    },
+    {
+      number: "4.9/5",
+      title: "Student Rating"
+    },
+    {
+      number: "100%",
+      title: "Satisfaction"
+    }
+  ];
+
+  const technologies = [
+    { name: "React", color: "#61DAFB" },
+    { name: "Node.js", color: "#339933" },
+    { name: "Python", color: "#3776AB" },
+    { name: "Flutter", color: "#02569B" },
+    { name: "MongoDB", color: "#47A248" },
+    { name: "AWS", color: "#FF9900" },
+    { name: "TensorFlow", color: "#FF6F00" },
+    { name: "Docker", color: "#2496ED" }
   ];
 
   return (
     <section id="projects" className="projects-section">
-      <div className="projects-container">
-        <div className="projects-content">
-          <div className="projects-text" data-aos="fade-right">
-            <h2 className="projects-title">Final Year Projects</h2>
-            <p className="projects-description">
-              Get expert guidance for your final year projects with industry-standard practices and technologies. 
-              Build something remarkable that stands out in your portfolio.
-            </p>
-            
-            <div className="projects-features">
-              {projectFeatures.map((feature, index) => (
-                <div key={index} className="projects-feature">
-                  <div className="projects-feature-icon">{feature.icon}</div>
-                  <div className="projects-feature-content">
-                    <h4 className="projects-feature-title">{feature.title}</h4>
-                    <p className="projects-feature-description">{feature.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="projects-quote">
-              <div className="projects-quote-icon">💡</div>
-              <blockquote className="projects-quote-text">
-                "Your final-year project is the first chapter of your tech career."
-              </blockquote>
-            </div>
+      <div className="container">
+        {/* Header */}
+        <div className="header">
+          <div className="tag" data-aos="fade-up">
+            Projects
           </div>
+          <h1 data-aos="fade-up" data-aos-delay="100">
+            Professional Project 
+            <span className="accent"> Development</span>
+          </h1>
+          <p data-aos="fade-up" data-aos-delay="200">
+            We specialize in guiding students through their final year projects with 
+            industry expertise, modern technologies, and comprehensive support.
+          </p>
+        </div>
 
-          <div className="projects-visual" data-aos="fade-left">
-            <div className="projects-card">
-              <h3 className="projects-card-title">Project Domains Available</h3>
-              <div className="projects-domains">
-                {projectDomains.map((domain, index) => (
-                  <div key={index} className="projects-domain">
-                    <span className="projects-domain-icon">▶</span>
-                    <span className="projects-domain-text">{domain}</span>
-                  </div>
-                ))}
+        {/* Features */}
+        {/* <div className="features-grid">
+          {features.map((feature, index) => (
+            <div 
+              key={index}
+              className="feature-card"
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+            >
+              <div className="feature-number">{feature.number}</div>
+              <div className="feature-title">{feature.title}</div>
+            </div>
+          ))}
+        </div> */}
+
+        {/* Services */}
+        <div className="services-section">
+          <h2 data-aos="fade-up">Our Services</h2>
+          <div className="services-grid">
+            {services.map((service, index) => (
+              <div 
+                key={index}
+                className="service-card"
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+              >
+                <div className="service-icon">{service.icon}</div>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
               </div>
-              
-              {/* <div className="projects-stats">
-                <div className="projects-stat">
-                  <div className="projects-stat-number">200+</div>
-                  <div className="projects-stat-label">Projects Completed</div>
-                </div>
-                <div className="projects-stat">
-                  <div className="projects-stat-number">50+</div>
-                  <div className="projects-stat-label">Colleges</div>
-                </div>
-                <div className="projects-stat">
-                  <div className="projects-stat-number">4.8/5</div>
-                  <div className="projects-stat-label">Student Rating</div>
-                </div>
-              </div> */}
+            ))}
+          </div>
+        </div>
+
+        {/* Technologies */}
+        <div className="tech-section">
+          <h2 data-aos="fade-up">Technologies</h2>
+          <div className="tech-grid">
+            {technologies.map((tech, index) => (
+              <div 
+                key={index}
+                className="tech-card"
+                data-aos="fade-up"
+                data-aos-delay={index * 50}
+              >
+                <div 
+                  className="tech-dot" 
+                  style={{ backgroundColor: tech.color }}
+                ></div>
+                <span>{tech.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="cta-section" data-aos="fade-up">
+          <div className="cta-content">
+            <h2>Start Your Project Today</h2>
+            <p>Get expert guidance and build an impressive final year project</p>
+            <div className="cta-buttons">
+              <button className="cta-btn primary">
+                Get Started
+              </button>
+              {/* <button className="cta-btn secondary">
+                View Projects
+              </button> */}
             </div>
           </div>
         </div>

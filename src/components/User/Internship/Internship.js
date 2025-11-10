@@ -1,120 +1,226 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './Internship.css';
-import {Link} from 'react-router-dom'
 
 const Internship = () => {
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [showAllCards, setShowAllCards] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
   const domains = [
     {
       title: "Web Development",
-      duration: "1 & 3 Months",
+      duration: "1-3 Months",
       mode: "Online/Offline",
-      description: "Learn modern web technologies including React, Node.js, and full-stack development with real projects.",
+      description: "Master modern web technologies including React, Node.js, and full-stack development with hands-on projects and real-world applications.",
       icon: "🌐",
-      technologies: ["React", "Node.js", "MongoDB", "Express"],
+      technologies: ["React", "Node.js", "MongoDB"],
+      category: "development",
       color: "internship-card--web",
-      link:"/internship/web-development"
+      link: "/internship/web-development",
     },
     {
-      title: "Mobile App Development",
-      duration: "1 & 3 Months",
+      title: "Mobile Development",
+      duration: "1-3 Months",
       mode: "Online/Offline",
-      description: "Build cross-platform mobile applications using React Native and Flutter with native features.",
+      description: "Build cross-platform mobile applications using React Native and Flutter with comprehensive app deployment guidance.",
       icon: "📱",
-      technologies: ["React Native", "Flutter", "Firebase", "REST APIs"],
+      technologies: ["React Native", "Flutter", "Firebase"],
+      category: "development",
       color: "internship-card--app",
-      link:'/internship/app-development'
+      link: '/internship/app-development',
     },
     {
-      title: "AI & ML",
-      duration: "1 & 3 Months",
+      title: "AI & Machine Learning",
+      duration: "1-3 Months",
       mode: "Online/Offline",
-      description: "Explore machine learning algorithms, neural networks, and AI applications with Python.",
+      description: "Explore machine learning algorithms and AI applications with Python, TensorFlow, and real-world AI projects.",
       icon: "🤖",
-      technologies: ["Python", "TensorFlow", "PyTorch", "OpenCV"],
+      technologies: ["Python", "TensorFlow", "PyTorch"],
+      category: "ai-ml",
       color: "internship-card--ai",
-      link:'/internship/aiml-development'
+      link: '/internship/aiml-development',
     },
     {
       title: "Data Science",
-      duration: "1 & 3 Months",
+      duration: "1-3 Months",
       mode: "Online/Offline",
-      description: "Master data analysis, visualization, and predictive modeling techniques with real datasets.",
+      description: "Master data analysis, visualization, and predictive modeling techniques with industry-standard tools and methodologies.",
       icon: "📊",
-      technologies: ["Python", "Pandas", "SQL", "Tableau"],
+      technologies: ["Python", "Pandas", "SQL"],
+      category: "data",
       color: "internship-card--data",
-      link:'/internship/data-science'
+      link: '/internship/data-science',
     },
     {
       title: "Data Analytics",
-      duration: "1 & 3 Months",
+      duration: "1-3 Months",
       mode: "Online/Offline",
-      description: "Learn data processing, business intelligence, and analytics tools for data-driven decisions.",
+      description: "Learn data processing, visualization tools, and business intelligence techniques for data-driven decision making.",
       icon: "🔍",
-      technologies: ["Excel", "Power BI", "SQL", "Statistics"],
-      color: "internship-card--analytics",
-      link:'/internship/data-analytics'
+      technologies: ["Excel", "Power BI", "Tableau"],
+      category: "data",
+      color: "internship-card--cloud",
+      link: '/internship/data-analytics',
     },
-    // {
-    //   title: "Cloud Computing",
-    //   duration: "8 Weeks",
-    //   mode: "Online",
-    //   description: "Get hands-on with AWS, Azure, and cloud infrastructure management with real scenarios.",
-    //   icon: "☁️",
-    //   technologies: ["AWS", "Azure", "Docker", "Kubernetes"],
-    //   color: "internship-card--cloud"
-    // }
   ];
+
+  const categories = [
+    { id: 'all', label: 'All Programs', count: domains.length },
+    { id: 'development', label: 'Development', count: domains.filter(d => d.category === 'development').length },
+    { id: 'ai-ml', label: 'AI & ML', count: domains.filter(d => d.category === 'ai-ml').length },
+    { id: 'data', label: 'Data Science', count: domains.filter(d => d.category === 'data').length }
+  ];
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const filteredDomains = activeCategory === 'all' 
+    ? domains 
+    : domains.filter(domain => domain.category === activeCategory);
+
+  const displayedDomains = showAllCards ? filteredDomains : filteredDomains.slice(0, 3);
+
+  const toggleShowAllCards = () => {
+    setShowAllCards(!showAllCards);
+  };
+
+  // Mobile-specific card render
+  const renderMobileCard = (domain, index) => (
+    <Link to={domain.link} style={{textDecoration:"none"}} key={index}>
+      <div className={`mobile-internship-card ${domain.color}`}>
+        {/* Card Header with Icon and Title */}
+        <div className="mobile-card-header">
+          <div className="mobile-card-icon">{domain.icon}</div>
+          <div className="mobile-card-title-section">
+            <h3 className="mobile-card-title">{domain.title}</h3>
+            <div className="mobile-card-meta">
+              <span className="mobile-duration">{domain.duration}</span>
+              <span className="mobile-mode">
+                <span className="mobile-mode-dot"></span>
+                {domain.mode}
+              </span>
+            </div>
+          </div>
+          <div className="mobile-arrow">→</div>
+        </div>
+
+        {/* Description */}
+        <p className="mobile-card-description">{domain.description}</p>
+
+        {/* Technologies */}
+        <div className="mobile-tech-tags">
+          {domain.technologies.map((tech, idx) => (
+            <span key={idx} className="mobile-tech-tag">{tech}</span>
+          ))}
+        </div>
+      </div>
+    </Link>
+  );
+
+  // Desktop card render
+  const renderDesktopCard = (domain, index) => (
+    <Link to={domain.link} style={{textDecoration:"none"}} key={index}>
+      <div className={`internship-card ${domain.color}`}>
+        <div className="card-header">
+          <div className="card-icon-wrapper">
+            <span className="card-icon">{domain.icon}</span>
+          </div>
+          <div className="card-title-section">
+            <h3 className="card-title">{domain.title}</h3>
+            <div className="card-meta">
+              <span className="duration-badge">{domain.duration}</span>
+              <span className="mode-indicator">
+                <span className="mode-dot"></span>
+                {domain.mode}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <p className="card-description">{domain.description}</p>
+
+        <div className="technologies-section">
+          <div className="tech-tags">
+            {domain.technologies.map((tech, idx) => (
+              <span key={idx} className="tech-tag">{tech}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="card-footer">
+          <button className="enroll-button">
+            Explore Program
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3.333 8h9.334M8 3.333L12.667 8 8 12.667" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </Link>
+  );
 
   return (
     <section id="internship" className="internship-section">
       <div className="internship-container">
+        {/* Header Section */}
         <div className="internship-header">
-          <h2 className="internship-title">Internship Programs</h2>
+          <div className="header-badge">Internship Programs</div>
+          <h2 className="internship-title">Launch Your Tech Career</h2>
           <p className="internship-subtitle">
-            Choose from our comprehensive internship domains designed for modern tech careers. 
-            Gain hands-on experience with industry-relevant technologies.
+            Hands-on internship programs with real-world projects and industry mentorship to accelerate your career growth
           </p>
         </div>
 
-        <div className="internship-grid">
-          {domains.map((domain, index) => (
-            <Link to={domain.link} style={{textDecoration:"none"}} key={index}>
-              <div 
-                key={index} 
-                className={`internship-card ${domain.color}`}
-                data-aos="flip-left"
-                data-aos-delay={index * 100}
-              >
-                <div className="internship-card-header">
-                  <div className="internship-card-icon">{domain.icon}</div>
-                  <div className="internship-card-badges">
-                    <span className="internship-badge internship-badge--duration">{domain.duration}</span>
-                    <span className="internship-badge internship-badge--mode">{domain.mode}</span>
-                  </div>
-                </div>
-                
-                <h3 className="internship-card-title">{domain.title}</h3>
-                <p className="internship-card-description">{domain.description}</p>
-                
-                <div className="internship-technologies">
-                  <h4 className="internship-technologies-title">Technologies:</h4>
-                  <div className="internship-tech-tags">
-                    {domain.technologies.map((tech, techIndex) => (
-                      <span key={techIndex} className="internship-tech-tag">{tech}</span>
-                    ))}
-                  </div>
-                </div>
-                
-                <button className="internship-card-btn">
-                  <span className="internship-card-btn-text">Learn More</span>
-                  <span className="internship-card-btn-icon">→</span>
-                </button>
-                
-                <div className="internship-card-hover"></div>
-              </div>
-            </Link>
+        {/* Category Filters */}
+        <div className="category-filters">
+          {categories.map(category => (
+            <button
+              key={category.id}
+              className={`filter-tab ${activeCategory === category.id ? 'active' : ''}`}
+              onClick={() => {
+                setActiveCategory(category.id);
+                setShowAllCards(false);
+              }}
+            >
+              <span className="filter-label">{category.label}</span>
+              <span className="filter-count">{category.count}</span>
+            </button>
           ))}
         </div>
+
+        {/* Cards Grid - Using Flexbox instead of Grid */}
+        {!isMobile ? (
+          <div className="internship-flex-container">
+            <div className="internship-flex-grid">
+              {displayedDomains.map((domain, index) => renderDesktopCard(domain, index))}
+            </div>
+          </div>
+        ) : (
+          <div className="mobile-internship-list">
+            {displayedDomains.map((domain, index) => renderMobileCard(domain, index))}
+          </div>
+        )}
+
+        {/* Load More Button */}
+        {filteredDomains.length > 3 && (
+          <div className="load-more-container">
+            <button 
+              className="load-more-button"
+              onClick={toggleShowAllCards}
+            >
+              {showAllCards ? 'Show Less Programs' : `Explore More +${filteredDomains.length - 3}`}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
