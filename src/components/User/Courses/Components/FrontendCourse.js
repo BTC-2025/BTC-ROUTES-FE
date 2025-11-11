@@ -6,12 +6,11 @@ import styled, { keyframes } from 'styled-components';
 import { 
   FaHtml5, FaCss3Alt, FaJs, FaReact, FaBootstrap, FaGitAlt, 
   FaCode, FaChrome, FaLaptopCode, FaUserGraduate, FaBriefcase, 
-  FaUser, FaClock, FaDesktop, FaMobile, FaUserTie, FaPalette, 
-  FaCodeBranch, FaCheckCircle, FaBars, FaTimes, FaEnvelope,
+  FaUser,FaUserTie, FaCheckCircle, FaBars, FaTimes, FaEnvelope,
   FaPhone, FaMapMarkerAlt, FaTwitter, FaFacebook, FaLinkedin,
-  FaInstagram, FaArrowRight, FaStar, FaRocket, FaGraduationCap,
-  FaPlay, FaPause, FaVolumeUp, FaSearch, FaFilter, FaBook,
-  FaCertificate, FaUsers, FaChartLine, FaHandPointer, FaShield
+  FaInstagram, FaArrowRight, FaRocket, FaGraduationCap,
+  FaPlay,
+  FaCertificate,FaChartLine
 } from 'react-icons/fa';
 
 // Animations
@@ -25,10 +24,10 @@ const glow = keyframes`
   50% { box-shadow: 0 0 20px rgba(250, 177, 47, 0.8); }
 `;
 
-const slideIn = keyframes`
-  from { transform: translateX(-100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-`;
+// const slideIn = keyframes`
+//   from { transform: translateX(-100%); opacity: 0; }
+//   to { transform: translateX(0); opacity: 1; }
+// `;
 
 const pulse = keyframes`
   0% { transform: scale(1); }
@@ -999,7 +998,7 @@ const FrontendCourse = () => {
             <div className="col-lg-6" data-aos="fade-left">
               <InteractiveDemo>
                 <div className="code-editor">
-                  <div className="code-line highlight">// Build Amazing Websites</div>
+                  <div className="code-line highlight">Build Amazing Websites</div>
                   <div className="code-line">function createWebsite() {'{'}</div>
                   <div className="code-line">  return {'<'}div{'>'}</div>
                   <div className="code-line">    {'<'}h1{'>'}Hello World{'<'}/h1{'>'}</div>

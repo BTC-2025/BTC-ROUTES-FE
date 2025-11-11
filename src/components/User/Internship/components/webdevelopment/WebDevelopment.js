@@ -6,23 +6,20 @@ import Typed from 'typed.js';
 // import logo from '../../../../assests/logo2.png'
 import { BiLogoVisualStudio } from "react-icons/bi";
 import {Link, useNavigate} from 'react-router-dom'
-import { Navigate } from 'react-router-dom';
+// import { Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled, { keyframes, createGlobalStyle } from 'styled-components';
 import { 
   FaCode,
   FaLaptopCode,
   FaServer,
-  FaDatabase,
   FaCloud,
-  FaUserTie,
   FaCertificate,
   FaGraduationCap,
   FaCalendarAlt,
   FaUsers,
   FaQuoteLeft,
   FaRocket,
-  FaGitAlt,
   FaMobile,
   FaPalette
 } from 'react-icons/fa';
@@ -34,10 +31,7 @@ import {
   SiNodedotjs,
   SiExpress,
   SiMongodb,
-  SiGithub,
-  SiVisualstudiocode,
-  SiBootstrap,
-  SiPostgresql
+  SiGithub
 } from 'react-icons/si';
 import NavbarComponent from '../Navbarcomponent';
 
@@ -89,16 +83,16 @@ const float = keyframes`
   50% { transform: translateY(-15px) rotate(5deg); }
 `;
 
-const codePulse = keyframes`
-  0%, 100% { 
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% { 
-    opacity: 1;
-    transform: scale(1.05);
-  }
-`;
+// const codePulse = keyframes`
+//   0%, 100% { 
+//     opacity: 0.6;
+//     transform: scale(1);
+//   }
+//   50% { 
+//     opacity: 1;
+//     transform: scale(1.05);
+//   }
+// `;
 
 const rippleAnimation = keyframes`
   to {
@@ -121,14 +115,14 @@ const glowPulse = keyframes`
   }
 `;
 
-const terminalGlow = keyframes`
-  0%, 100% { 
-    text-shadow: 0 0 10px #00FFC6, 0 0 20px #00FFC6;
-  }
-  50% { 
-    text-shadow: 0 0 15px #4F46E5, 0 0 30px #4F46E5;
-  }
-`;
+// const terminalGlow = keyframes`
+//   0%, 100% { 
+//     text-shadow: 0 0 10px #00FFC6, 0 0 20px #00FFC6;
+//   }
+//   50% { 
+//     text-shadow: 0 0 15px #4F46E5, 0 0 30px #4F46E5;
+//   }
+// `;
 
 const quoteRotate = keyframes`
   0%, 25% { opacity: 1; transform: translateY(0); }
@@ -674,28 +668,28 @@ const MentorshipText = styled.p`
   font-family: 'Inter', sans-serif;
 `;
 
-const MentorStats = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin-top: 3rem;
+// const MentorStats = styled.div`
+//   display: flex;
+//   justify-content: space-around;
+//   margin-top: 3rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 2rem;
-  }
-`;
+//   @media (max-width: 768px) {
+//     flex-direction: column;
+//     gap: 2rem;
+//   }
+// `;
 
-const Stat = styled.div`
-  text-align: center;
-`;
+// const Stat = styled.div`
+//   text-align: center;
+// `;
 
-const StatNumber = styled.h4`
-  font-size: 2.5rem;
-  color: #FFD700;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 20px #FFD700;
-  font-family: 'Fira Code', monospace;
-`;
+// const StatNumber = styled.h4`
+//   font-size: 2.5rem;
+//   color: #FFD700;
+//   margin-bottom: 0.5rem;
+//   text-shadow: 0 0 20px #FFD700;
+//   font-family: 'Fira Code', monospace;
+// `;
 
 const MentorshipBackground = styled.div`
   position: absolute;
@@ -974,30 +968,30 @@ const ApplySubtitle = styled.p`
   font-family: 'Inter', sans-serif;
 `;
 
-const ApplyStats = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 4rem;
-  margin-top: 4rem;
+// const ApplyStats = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   gap: 4rem;
+//   margin-top: 4rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 2rem;
-  }
-`;
+//   @media (max-width: 768px) {
+//     flex-direction: column;
+//     gap: 2rem;
+//   }
+// `;
 
-const ApplyStat = styled.div`
-  text-align: center;
-`;
+// const ApplyStat = styled.div`
+//   text-align: center;
+// `;
 
-const ApplyStatNumber = styled.h4`
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  color: #FFD700;
-  text-shadow: 0 0 20px #FFD700;
-  font-family: 'Fira Code', monospace;
-`;
+// const ApplyStatNumber = styled.h4`
+//   font-size: 3rem;
+//   font-weight: 800;
+//   margin-bottom: 0.5rem;
+//   color: #FFD700;
+//   text-shadow: 0 0 20px #FFD700;
+//   font-family: 'Fira Code', monospace;
+// `;
 
 const ApplyBackgroundAnimation = styled.div`
   position: absolute;

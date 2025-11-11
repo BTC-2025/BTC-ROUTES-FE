@@ -35,24 +35,24 @@ const Projects = () => {
     }
   ];
 
-  const features = [
-    {
-      number: "200+",
-      title: "Projects Completed"
-    },
-    {
-      number: "50+",
-      title: "Colleges"
-    },
-    {
-      number: "4.9/5",
-      title: "Student Rating"
-    },
-    {
-      number: "100%",
-      title: "Satisfaction"
-    }
-  ];
+  // const features = [
+  //   {
+  //     number: "200+",
+  //     title: "Projects Completed"
+  //   },
+  //   {
+  //     number: "50+",
+  //     title: "Colleges"
+  //   },
+  //   {
+  //     number: "4.9/5",
+  //     title: "Student Rating"
+  //   },
+  //   {
+  //     number: "100%",
+  //     title: "Satisfaction"
+  //   }
+  // ];
 
   const technologies = [
     { name: "React", color: "#61DAFB" },

@@ -30,11 +30,8 @@ import {
 import { 
   SiTensorflow,
   SiPytorch,
-  SiPycharm,
   SiPandas,
   SiNumpy,
-  ScikitLearn,
-  SiStreamlit,
   SiFlask
 } from 'react-icons/si';
 import NavbarComponent from '../Navbarcomponent';
@@ -118,14 +115,14 @@ const glowPulse = keyframes`
   }
 `;
 
-const neuralGlow = keyframes`
-  0%, 100% { 
-    text-shadow: 0 0 10px #6A00FF, 0 0 20px #6A00FF;
-  }
-  50% { 
-    text-shadow: 0 0 15px #00E5FF, 0 0 30px #00E5FF;
-  }
-`;
+// const neuralGlow = keyframes`
+//   0%, 100% { 
+//     text-shadow: 0 0 10px #6A00FF, 0 0 20px #6A00FF;
+//   }
+//   50% { 
+//     text-shadow: 0 0 15px #00E5FF, 0 0 30px #00E5FF;
+//   }
+// `;
 
 const quoteRotate = keyframes`
   0%, 25% { opacity: 1; transform: translateY(0); }
@@ -637,27 +634,27 @@ const MentorshipText = styled.p`
   text-align: center;
 `;
 
-const MentorStats = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin-top: 3rem;
+// const MentorStats = styled.div`
+//   display: flex;
+//   justify-content: space-around;
+//   margin-top: 3rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 2rem;
-  }
-`;
+//   @media (max-width: 768px) {
+//     flex-direction: column;
+//     gap: 2rem;
+//   }
+// `;
 
-const Stat = styled.div`
-  text-align: center;
-`;
+// const Stat = styled.div`
+//   text-align: center;
+// `;
 
-const StatNumber = styled.h4`
-  font-size: 2.5rem;
-  color: #FF00C8;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 20px #FF00C8;
-`;
+// const StatNumber = styled.h4`
+//   font-size: 2.5rem;
+//   color: #FF00C8;
+//   margin-bottom: 0.5rem;
+//   text-shadow: 0 0 20px #FF00C8;
+// `;
 
 const MentorshipBackground = styled.div`
   position: absolute;
@@ -927,29 +924,29 @@ const ApplySubtitle = styled.p`
   margin-right: auto;
 `;
 
-const ApplyStats = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 4rem;
-  margin-top: 4rem;
+// const ApplyStats = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   gap: 4rem;
+//   margin-top: 4rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 2rem;
-  }
-`;
+//   @media (max-width: 768px) {
+//     flex-direction: column;
+//     gap: 2rem;
+//   }
+// `;
 
-const ApplyStat = styled.div`
-  text-align: center;
-`;
+// const ApplyStat = styled.div`
+//   text-align: center;
+// `;
 
-const ApplyStatNumber = styled.h4`
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  color: #FF00C8;
-  text-shadow: 0 0 20px #FF00C8;
-`;
+// const ApplyStatNumber = styled.h4`
+//   font-size: 3rem;
+//   font-weight: 800;
+//   margin-bottom: 0.5rem;
+//   color: #FF00C8;
+//   text-shadow: 0 0 20px #FF00C8;
+// `;
 
 const ApplyBackgroundAnimation = styled.div`
   position: absolute;

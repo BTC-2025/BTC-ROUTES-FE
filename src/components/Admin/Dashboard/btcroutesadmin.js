@@ -16,7 +16,6 @@ import {
   FiMenu,
   FiX,
   FiChevronRight,
-  FiLoader,
   FiCheckCircle,
   FiAlertCircle,
   FiCalendar

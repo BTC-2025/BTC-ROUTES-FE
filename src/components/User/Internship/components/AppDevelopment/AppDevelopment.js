@@ -22,7 +22,6 @@ import {
   FaUsers,
   FaLaptopCode,
   FaQuoteLeft,
-  FaGooglePlay,
   FaAppStoreIos,
   FaFigma,
   FaDatabase
@@ -112,14 +111,14 @@ const colorPulse = keyframes`
   50% { border-color: #00C6FF; }
 `;
 
-const neonGlow = keyframes`
-  0%, 100% { 
-    text-shadow: 0 0 10px #00C6FF, 0 0 20px #00C6FF;
-  }
-  50% { 
-    text-shadow: 0 0 15px #0072FF, 0 0 30px #0072FF;
-  }
-`;
+// const neonGlow = keyframes`
+//   0%, 100% { 
+//     text-shadow: 0 0 10px #00C6FF, 0 0 20px #00C6FF;
+//   }
+//   50% { 
+//     text-shadow: 0 0 15px #0072FF, 0 0 30px #0072FF;
+//   }
+// `;
 
 const quoteRotate = keyframes`
   0%, 25% { opacity: 1; transform: translateY(0); }
@@ -653,27 +652,27 @@ const MentorshipText = styled.p`
   text-align: center;
 `;
 
-const MentorStats = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin-top: 3rem;
+// const MentorStats = styled.div`
+//   display: flex;
+//   justify-content: space-around;
+//   margin-top: 3rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 2rem;
-  }
-`;
+//   @media (max-width: 768px) {
+//     flex-direction: column;
+//     gap: 2rem;
+//   }
+// `;
 
-const Stat = styled.div`
-  text-align: center;
-`;
+// const Stat = styled.div`
+//   text-align: center;
+// `;
 
-const StatNumber = styled.h4`
-  font-size: 2.5rem;
-  color: #00C6FF;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 20px #00C6FF;
-`;
+// const StatNumber = styled.h4`
+//   font-size: 2.5rem;
+//   color: #00C6FF;
+//   margin-bottom: 0.5rem;
+//   text-shadow: 0 0 20px #00C6FF;
+// `;
 
 const MentorshipBackground = styled.div`
   position: absolute;
@@ -932,29 +931,29 @@ const ApplySubtitle = styled.p`
   margin-right: auto;
 `;
 
-const ApplyStats = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 4rem;
-  margin-top: 4rem;
+// const ApplyStats = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   gap: 4rem;
+//   margin-top: 4rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 2rem;
-  }
-`;
+//   @media (max-width: 768px) {
+//     flex-direction: column;
+//     gap: 2rem;
+//   }
+// `;
 
-const ApplyStat = styled.div`
-  text-align: center;
-`;
+// const ApplyStat = styled.div`
+//   text-align: center;
+// `;
 
-const ApplyStatNumber = styled.h4`
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  color: #FF6B6B;
-  text-shadow: 0 0 20px #FF6B6B;
-`;
+// const ApplyStatNumber = styled.h4`
+//   font-size: 3rem;
+//   font-weight: 800;
+//   margin-bottom: 0.5rem;
+//   color: #FF6B6B;
+//   text-shadow: 0 0 20px #FF6B6B;
+// `;
 
 const ApplyBackgroundAnimation = styled.div`
   position: absolute;

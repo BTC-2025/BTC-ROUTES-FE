@@ -14,10 +14,7 @@ import {
   AiOutlineCopyright, 
   AiOutlineExclamation, 
   AiOutlineEdit, 
-  AiOutlineContacts,
-  AiOutlineHome,
-  AiOutlineMenu,
-  AiOutlineClose
+  AiOutlineContacts
 } from 'react-icons/ai';
 
 // Animations
@@ -41,17 +38,17 @@ const glow = keyframes`
   }
 `;
 
-const pulse = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
+// const pulse = keyframes`
+//   0% {
+//     transform: scale(1);
+//   }
+//   50% {
+//     transform: scale(1.05);
+//   }
+//   100% {
+//     transform: scale(1);
+//   }
+// `;
 
 // Styled Components
 const Container = styled.div`
@@ -62,117 +59,117 @@ const Container = styled.div`
 `;
 
 // Navigation
-const Navbar = styled.nav`
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  padding: 1rem 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  border-bottom: 1px solid rgba(1, 16, 150, 0.1);
-  transition: all 0.3s ease;
+// const Navbar = styled.nav`
+//   background: rgba(255, 255, 255, 0.95);
+//   backdrop-filter: blur(20px);
+//   padding: 1rem 0;
+//   position: fixed;
+//   top: 0;
+//   width: 100%;
+//   z-index: 1000;
+//   border-bottom: 1px solid rgba(1, 16, 150, 0.1);
+//   transition: all 0.3s ease;
 
-  @media (max-width: 768px) {
-    padding: 0.8rem 0;
-  }
-`;
+//   @media (max-width: 768px) {
+//     padding: 0.8rem 0;
+//   }
+// `;
 
-const NavContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+// const NavContainer = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   max-width: 1200px;
+//   margin: 0 auto;
+//   padding: 0 2rem;
 
-  @media (max-width: 768px) {
-    padding: 0 1rem;
-  }
-`;
+//   @media (max-width: 768px) {
+//     padding: 0 1rem;
+//   }
+// `;
 
-const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: #011096;
-  text-decoration: none;
+// const Logo = styled.div`
+//   display: flex;
+//   align-items: center;
+//   gap: 0.5rem;
+//   font-weight: 700;
+//   font-size: 1.5rem;
+//   color: #011096;
+//   text-decoration: none;
 
-  &:hover {
-    animation: ${pulse} 0.6s ease;
-  }
-`;
+//   &:hover {
+//     animation: ${pulse} 0.6s ease;
+//   }
+// `;
 
-const LogoIcon = styled.span`
-  color: #0b47b0;
-  font-size: 1.8rem;
-`;
+// const LogoIcon = styled.span`
+//   color: #0b47b0;
+//   font-size: 1.8rem;
+// `;
 
-const NavLinks = styled.div`
-  display: flex;
-  gap: 2rem;
-  align-items: center;
+// const NavLinks = styled.div`
+//   display: flex;
+//   gap: 2rem;
+//   align-items: center;
 
-  @media (max-width: 768px) {
-    position: fixed;
-    top: 0;
-    right: ${props => props.isOpen ? '0' : '-100%'};
-    width: 280px;
-    height: 100vh;
-    background: white;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 5rem;
-    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s ease;
-    gap: 0;
-  }
-`;
+//   @media (max-width: 768px) {
+//     position: fixed;
+//     top: 0;
+//     right: ${props => props.isOpen ? '0' : '-100%'};
+//     width: 280px;
+//     height: 100vh;
+//     background: white;
+//     flex-direction: column;
+//     justify-content: flex-start;
+//     padding-top: 5rem;
+//     box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+//     transition: right 0.3s ease;
+//     gap: 0;
+//   }
+// `;
 
-const NavLink = styled.a`
-  color: #1a1a1a;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  position: relative;
+// const NavLink = styled.a`
+//   color: #1a1a1a;
+//   text-decoration: none;
+//   font-weight: 500;
+//   transition: all 0.3s ease;
+//   padding: 0.5rem 1rem;
+//   border-radius: 8px;
+//   position: relative;
 
-  &:hover {
-    color: #011096;
-    background: rgba(1, 16, 150, 0.05);
-  }
+//   &:hover {
+//     color: #011096;
+//     background: rgba(1, 16, 150, 0.05);
+//   }
 
-  &.active {
-    color: #011096;
-    background: rgba(1, 16, 150, 0.1);
-  }
+//   &.active {
+//     color: #011096;
+//     background: rgba(1, 16, 150, 0.1);
+//   }
 
-  @media (max-width: 768px) {
-    padding: 1rem 2rem;
-    width: 100%;
-    text-align: left;
-    border-bottom: 1px solid rgba(1, 16, 150, 0.1);
-  }
-`;
+//   @media (max-width: 768px) {
+//     padding: 1rem 2rem;
+//     width: 100%;
+//     text-align: left;
+//     border-bottom: 1px solid rgba(1, 16, 150, 0.1);
+//   }
+// `;
 
-const MobileMenuButton = styled.button`
-  display: none;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #011096;
-  cursor: pointer;
-  padding: 0.5rem;
+// const MobileMenuButton = styled.button`
+//   display: none;
+//   background: none;
+//   border: none;
+//   font-size: 1.5rem;
+//   color: #011096;
+//   cursor: pointer;
+//   padding: 0.5rem;
 
-  @media (max-width: 768px) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
+//   @media (max-width: 768px) {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//   }
+// `;
 
 // Hero Section
 const HeroSection = styled.section`
@@ -310,49 +307,49 @@ const SectionContent = styled.p`
 `;
 
 // Quick Navigation
-const QuickNav = styled.div`
-  background: white;
-  border-radius: 15px;
-  padding: 2rem;
-  margin-bottom: 3rem;
-  box-shadow: 0 8px 32px rgba(1, 16, 150, 0.08);
-  border: 1px solid rgba(1, 16, 150, 0.1);
-`;
+// const QuickNav = styled.div`
+//   background: white;
+//   border-radius: 15px;
+//   padding: 2rem;
+//   margin-bottom: 3rem;
+//   box-shadow: 0 8px 32px rgba(1, 16, 150, 0.08);
+//   border: 1px solid rgba(1, 16, 150, 0.1);
+// `;
 
-const QuickNavTitle = styled.h4`
-  color: #011096;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-size: 1.3rem;
-`;
+// const QuickNavTitle = styled.h4`
+//   color: #011096;
+//   font-weight: 700;
+//   margin-bottom: 1.5rem;
+//   text-align: center;
+//   font-size: 1.3rem;
+// `;
 
-const QuickNavGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-`;
+// const QuickNavGrid = styled.div`
+//   display: grid;
+//   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+//   gap: 1rem;
+// `;
 
-const QuickNavItem = styled.a`
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 1rem;
-  background: rgba(1, 16, 150, 0.05);
-  border-radius: 10px;
-  text-decoration: none;
-  color: #4a5568;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
+// const QuickNavItem = styled.a`
+//   display: flex;
+//   align-items: center;
+//   gap: 0.8rem;
+//   padding: 1rem;
+//   background: rgba(1, 16, 150, 0.05);
+//   border-radius: 10px;
+//   text-decoration: none;
+//   color: #4a5568;
+//   font-weight: 500;
+//   transition: all 0.3s ease;
+//   border: 1px solid transparent;
 
-  &:hover {
-    background: rgba(1, 16, 150, 0.1);
-    color: #011096;
-    border-color: rgba(1, 16, 150, 0.2);
-    transform: translateY(-2px);
-  }
-`;
+//   &:hover {
+//     background: rgba(1, 16, 150, 0.1);
+//     color: #011096;
+//     border-color: rgba(1, 16, 150, 0.2);
+//     transform: translateY(-2px);
+//   }
+// `;
 
 // Footer Section
 const FooterSection = styled.footer`
@@ -497,20 +494,20 @@ const TermsAndConditions = () => {
     }
   ];
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+  // const scrollToSection = (sectionId) => {
+  //   const element = document.getElementById(sectionId);
+  //   if (element) {
+  //     const offset = 100;
+  //     const elementPosition = element.getBoundingClientRect().top;
+  //     const offsetPosition = elementPosition + window.pageYOffset - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-    setIsMenuOpen(false);
-  };
+  //     window.scrollTo({
+  //       top: offsetPosition,
+  //       behavior: 'smooth'
+  //     });
+  //   }
+  //   setIsMenuOpen(false);
+  // };
 
   return (
     <>
