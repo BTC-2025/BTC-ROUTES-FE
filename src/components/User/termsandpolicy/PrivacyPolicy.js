@@ -501,8 +501,8 @@ const ScrollToTop = styled.button`
 `;
 
 const PrivacyPolicy = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [searchTerm, setSearchTerm] = useState('');
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -524,20 +524,20 @@ const PrivacyPolicy = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+  // const scrollToSection = (sectionId) => {
+  //   const element = document.getElementById(sectionId);
+  //   if (element) {
+  //     const offset = 100;
+  //     const elementPosition = element.getBoundingClientRect().top;
+  //     const offsetPosition = elementPosition + window.pageYOffset - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-    setIsMenuOpen(false);
-  };
+  //     window.scrollTo({
+  //       top: offsetPosition,
+  //       behavior: 'smooth'
+  //     });
+  //   }
+  //   setIsMenuOpen(false);
+  // };
 
   const sections = [
     {
@@ -602,10 +602,10 @@ const PrivacyPolicy = () => {
     }
   ];
 
-  const filteredSections = sections.filter(section =>
-    section.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    section.content.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredSections = sections.filter(section =>
+  //   section.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   section.content.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   // const quickAccessItems = sections.slice(0, 6);
 
@@ -651,7 +651,7 @@ const PrivacyPolicy = () => {
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-lg-10">
-                {filteredSections.map((section, index) => (
+                {sections.map((section, index) => (
                   <SectionCard 
                     key={section.id}
                     id={section.id}

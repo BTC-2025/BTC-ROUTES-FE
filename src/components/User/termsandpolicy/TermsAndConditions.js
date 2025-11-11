@@ -415,7 +415,7 @@ const Copyright = styled.p`
 `;
 
 const TermsAndConditions = () => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  // const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   useEffect(() => {
     AOS.init({ 
