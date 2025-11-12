@@ -114,11 +114,11 @@
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-family: 'Roboto';
   font-weight: 380;
   line-height: 1.4;
-  
+  letter-spacing: normal;
   margin-bottom: 1.5rem;
   /* background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%); */
   background-color: black;
@@ -919,12 +919,13 @@
 }
 
 .hero-title {
-  font-size: 3.75rem;
+  font-size: 3.5rem;
   font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  font-weight: 350;
   line-height: 1.1;
   margin-bottom: 1.5rem;
   color: #111827;
+  letter-spacing: 1px;
 }
 
 .hero-title-gradient {

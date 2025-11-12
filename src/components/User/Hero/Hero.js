@@ -187,9 +187,9 @@ const Hero = () => {
           </div>
           
           <h1 className="hero-title">
-            Launch Your <span className="hero-title-gradient">Tech Career</span>
+            Launch your <span className="hero-title-gradient">tech career</span>
             <br />
-            <TypingEffect texts={["Expert Training.", "Real Projects.","Industry Mentorship.","Guided Placement."]} />
+            <TypingEffect texts={["Expert training.", "Real projects.","Industry mentorship.","Guided placement."]} />
           </h1>
           
           <p className="hero-subtitle">

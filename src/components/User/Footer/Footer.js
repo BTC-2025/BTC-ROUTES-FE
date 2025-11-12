@@ -21,16 +21,16 @@ const Footer = () => {
     { name: "Contact", navi: "/contact" }
   ];
 
-  const courses = [
-    {name:"Frontend Developement"},
-    {name:"Backend Development"},
-    {name:"Full-Stack Development"},
-    {name:"Flutter Development"},
-    {name:"Kotlin Development"},
-    {name:"AI & ML"},
-    {name:"Data Science"},
-    {name:"Data Analytics"}
-  ]
+  // const courses = [
+  //   {name:"Frontend Developement"},
+  //   {name:"Backend Development"},
+  //   {name:"Full-Stack Development"},
+  //   {name:"Flutter Development"},
+  //   {name:"Kotlin Development"},
+  //   {name:"AI & ML"},
+  //   {name:"Data Science"},
+  //   {name:"Data Analytics"}
+  // ]
 
   const social = [
     {name:"LinkedIn", icon:<FaLinkedin /> , link:"https://www.linkedin.com/company/btc-routes/?viewAsMember=true"},
@@ -81,11 +81,11 @@ const Footer = () => {
         <div className="footer-container">
           <div className="footer-content">
             <div className="footer-brand">
-              <div className="footer-logo">
+              {/* <div className="footer-logo">
                 <div className="footer-logo-dot footer-logo-dot--1"></div>
                 <div className="footer-logo-dot footer-logo-dot--2"></div>
                 <div className="footer-logo-dot footer-logo-dot--3"></div>
-              </div>
+              </div> */}
               <div className="footer-brand-info">
                 <h3 className="footer-brand-name">
                   {/* <span className="footer-brand-accent">Tech</span>Innovate */}
@@ -116,7 +116,7 @@ const Footer = () => {
               </div>
 
 
-              <div className="footer-link-group">
+              {/* <div className="footer-link-group">
                 <h4 className="footer-link-title">Courses</h4>
                 <ul className="footer-link-list">
                   {courses.map((course, index) => (
@@ -127,7 +127,7 @@ const Footer = () => {
                     </Link>
                   ))}
                 </ul>
-              </div>
+              </div> */}
 
               <div className="footer-link-group">
                 <h4 className="footer-link-title">Internships</h4>
