@@ -14,11 +14,23 @@ const Footer = () => {
   const quickLinks = [
     { name: "Home", section: "home" },
     { name: "About", section: "about" },
+    { name: "Courses", section:"courses"},
     { name: "Internships", section: "internship" },
     { name: "Projects", section: "projects" },
     { name: "Apply", navi: "/application" },
     { name: "Contact", navi: "/contact" }
   ];
+
+  const courses = [
+    {name:"Frontend Developement"},
+    {name:"Backend Development"},
+    {name:"Full-Stack Development"},
+    {name:"Flutter Development"},
+    {name:"Kotlin Development"},
+    {name:"AI & ML"},
+    {name:"Data Science"},
+    {name:"Data Analytics"}
+  ]
 
   const social = [
     {name:"LinkedIn", icon:<FaLinkedin /> , link:"https://www.linkedin.com/company/btc-routes/?viewAsMember=true"},
@@ -103,8 +115,22 @@ const Footer = () => {
                 </ul>
               </div>
 
+
               <div className="footer-link-group">
-                <h4 className="footer-link-title">Programs</h4>
+                <h4 className="footer-link-title">Courses</h4>
+                <ul className="footer-link-list">
+                  {courses.map((course, index) => (
+                    <Link  key={index} className="text-decoration-none">
+                      <li className="footer-link-item">
+                        <span className="footer-link">{course.name}</span>
+                      </li>
+                    </Link>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="footer-link-group">
+                <h4 className="footer-link-title">Internships</h4>
                 <ul className="footer-link-list">
                   {programs.map((program, index) => (
                     <Link to={program.link} key={index} className="text-decoration-none">

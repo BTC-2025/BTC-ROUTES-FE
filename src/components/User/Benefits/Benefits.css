@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 .benefits-section {
   padding: 6rem 0;
   position: relative;
@@ -83,12 +85,13 @@
 
 .benefits-title {
   font-size: 3.5rem;
-  font-weight: 800;
+  font-weight: 400;
   margin-bottom: 1.5rem;
   background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-family: 'Roboto';
 }
 
 .benefits-subtitle {
@@ -97,6 +100,7 @@
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.7;
+  font-weight: 300;
 }
 
 .benefits-grid {
@@ -156,8 +160,9 @@
 
 .benefits-card-title {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 400;
   margin-bottom: 1rem;
+  font-family: 'Roboto' !important;
   position: relative;
   z-index: 2;
 }
@@ -166,6 +171,7 @@
   opacity: 0.9;
   line-height: 1.6;
   margin-bottom: 2rem;
+  font-weight: 200;
   position: relative;
   z-index: 2;
   font-size: 0.95rem;

@@ -20,10 +20,13 @@ import styled from 'styled-components';
 
 // Styled Components
 const SectionWrapper = styled.section`
-  @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+   @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+  
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 25%, #f5f5f5 50%, #f8f8ff 75%, #fafafa 100%);
   padding: 60px 0;
-  font-family: 'Inter', sans-serif;
+  // font-family: 'Inter', sans-serif;
   position: relative;
   overflow: hidden;
 
@@ -95,7 +98,8 @@ const Title = styled.h2`
   -webkit-text-fill-color: transparent;
   background-clip: text;
   line-height: 1.5;
-  font-family: 'Inter', sans-serif;
+  // font-family: 'Inter', sans-serif;
+  font-family: 'Roboto';
   
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -114,8 +118,8 @@ const Subtitle = styled.p`
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.8;
-  font-weight: 400;
-  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-family: 'Roboto', sans-serif;
   
   @media (max-width: 768px) {
     font-size: 1.1rem;
@@ -136,6 +140,7 @@ const FilterTabs = styled.div`
   gap: 15px;
   margin-bottom: 30px;
   flex-wrap: wrap;
+  font-family: 'Roboto', sans-serif;
 
   @media (max-width: 576px) {
     gap: 8px;
@@ -145,6 +150,7 @@ const FilterTabs = styled.div`
 `;
 
 const FilterTab = styled.button`
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
   background: ${props => props.active ? 'linear-gradient(135deg, #0ea5e9, #6366f1)' : '#ffffff'};
   color: ${props => props.active ? '#ffffff' : '#64748b'};
   border: 1px solid ${props => props.active ? 'transparent' : '#e2e8f0'};
@@ -153,6 +159,7 @@ const FilterTab = styled.button`
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
+  font-family: 'Roboto', sans-serif;
   transition: all 0.3s ease;
   box-shadow: ${props => props.active ? '0 4px 15px rgba(14, 165, 233, 0.2)' : '0 2px 8px rgba(0, 0, 0, 0.05)'};
   font-family: 'Inter', sans-serif;
@@ -435,56 +442,6 @@ const CourseDescription = styled.p`
   font-weight: 400;
 `;
 
-// const CourseMeta = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   margin-bottom: 2rem;
-//   padding-top: 1rem;
-//   border-top: 1px solid #e2e8f0;
-// `;
-
-// const MetaItem = styled.div`
-//   display: flex;
-//   align-items: center;
-//   gap: 8px;
-//   color: #64748b;
-//   font-size: 0.85rem;
-//   font-weight: 400;
-//   font-family: 'Inter', sans-serif;
-// `;
-
-// const PriceSection = styled.div`
-//   display: flex;
-//   align-items: center;
-//   gap: 10px;
-//   margin-bottom: 1.5rem;
-// `;
-
-// const OriginalPrice = styled.span`
-//   color: #94a3b8;
-//   font-size: 1rem;
-//   text-decoration: line-through;
-//   font-family: 'Inter', sans-serif;
-// `;
-
-// const CurrentPrice = styled.span`
-//   color: #1e293b;
-//   font-size: 1.4rem;
-//   font-weight: 600;
-//   font-family: 'Inter', sans-serif;
-// `;
-
-// const DiscountBadge = styled.span`
-//   background: linear-gradient(135deg, #10b981, #22c55e);
-//   color: #ffffff;
-//   padding: 4px 8px;
-//   border-radius: 6px;
-//   font-size: 0.75rem;
-//   font-weight: 600;
-//   font-family: 'Inter', sans-serif;
-// `;
-
 const LearnMoreButton = styled.button`
   background: linear-gradient(135deg, #0ea5e9, #6366f1);
   color: #ffffff;
@@ -543,76 +500,6 @@ const ButtonWrapper = styled.div`
   margin-top: 20px;
 `;
 
-// Mobile-specific components
-// const MobileMetaGrid = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(3, 1fr);
-//   gap: 15px;
-//   margin: 20px 0;
-// `;
-
-// const MobileMetaItem = styled.div`
-//   text-align: center;
-//   padding: 10px;
-//   background: #ffffff;
-//   border-radius: 10px;
-//   border: 1px solid #e2e8f0;
-// `;
-
-// const MobileMetaValue = styled.div`
-//   font-size: 1rem;
-//   font-weight: 600;
-//   color: #1e293b;
-//   margin-bottom: 4px;
-//   font-family: 'Inter', sans-serif;
-// `;
-
-// const MobileMetaLabel = styled.div`
-//   font-size: 0.7rem;
-//   color: #64748b;
-//   font-weight: 400;
-//   font-family: 'Inter', sans-serif;
-// `;
-
-// const MobilePriceSection = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   margin: 20px 0;
-//   padding: 15px;
-//   background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-//   border-radius: 12px;
-// `;
-
-// const MobilePriceLeft = styled.div`
-//   display: flex;
-//   align-items: center;
-//   gap: 10px;
-// `;
-
-// const MobileOriginalPrice = styled.span`
-//   color: #94a3b8;
-//   font-size: 0.9rem;
-//   text-decoration: line-through;
-//   font-family: 'Inter', sans-serif;
-// `;
-
-// const MobileCurrentPrice = styled.span`
-//   color: #1e293b;
-//   font-size: 1.3rem;
-//   font-weight: 600;
-//   font-family: 'Inter', sans-serif;
-// `;
-
-// const MobileDiscountBadge = styled.span`
-//   background: linear-gradient(135deg, #10b981, #22c55e);
-//   color: #ffffff;
-//   padding: 4px 8px;
-//   border-radius: 6px;
-//   font-size: 0.7rem;
-//   font-weight: 600;
-//   font-family: 'Inter', sans-serif;
-// `;
 
 // Courses Data
 const coursesData = [
