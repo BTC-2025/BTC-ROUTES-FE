@@ -65,7 +65,7 @@ const Contact = () => {
     {
       icon: <FaPhone />,
       title: "Phone Number",
-      details: ["+91 9962454596"]
+      details: ["+91 9444369625"]
     },
     {
       icon: <FaEnvelope />,
