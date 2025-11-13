@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './Projects.css';
+import { useNavigate } from 'react-router-dom';
 
 const Projects = () => {
   useEffect(() => {
@@ -11,6 +12,8 @@ const Projects = () => {
       offset: 100
     });
   }, []);
+
+  const navigate = useNavigate()
 
   const services = [
     {
@@ -144,7 +147,7 @@ const Projects = () => {
             <h2>Start Your Project Today</h2>
             <p>Get expert guidance and build an impressive final year project</p>
             <div className="cta-buttons">
-              <button className="cta-btn primary">
+              <button className="cta-btn primary" onClick={() =>{navigate('/contact')}}>
                 Get Started
               </button>
               {/* <button className="cta-btn secondary">

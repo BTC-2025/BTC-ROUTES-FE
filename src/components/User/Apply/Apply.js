@@ -12,6 +12,7 @@ import {
   FaCloudUploadAlt
 } from "react-icons/fa";
 import './Apply.css';
+import { Link } from 'react-router-dom';
 
 const Apply = () => {
   const [formData, setFormData] = useState({
@@ -479,9 +480,8 @@ const Apply = () => {
                       </div>
                       <div className="terms-links">
                         <div className="policy-item">
-                          <a
-                            href="/privacy-policy"
-                            target="_blank"
+                          <Link
+                            to="/privacy-policy"
                             rel="noopener noreferrer"
                             className={`policy-link ${hasReadPrivacy ? 'visited' : ''}`}
                             onClick={() => setHasReadPrivacy(true)}
@@ -499,12 +499,11 @@ const Apply = () => {
                                 )}
                               </div>
                             </div>
-                          </a>
+                          </Link>
                         </div>
                         <div className="policy-item">
-                          <a
-                            href="/terms-and-conditions"
-                            target="_blank"
+                          <Link
+                            to="/terms-and-conditions"
                             rel="noopener noreferrer"
                             className={`policy-link ${hasReadTerms ? 'visited' : ''}`}
                             onClick={() => setHasReadTerms(true)}
@@ -522,7 +521,7 @@ const Apply = () => {
                                 )}
                               </div>
                             </div>
-                          </a>
+                          </Link>
                         </div>
                       </div>
                       {(!hasReadPrivacy || !hasReadTerms) && (

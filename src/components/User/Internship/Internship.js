@@ -174,8 +174,8 @@ const Internship = () => {
         {/* Header Section */}
         <div className="internship-header">
           <div className="header-badge">Internship Programs</div>
-          <h2 className="internship-title">Launch Your Tech Career</h2>
-          <p className="internship-subtitle">
+          <h2 className="internship-title text-white">Launch Your Tech Career</h2>
+          <p className="internship-subtitle text-light">
             Hands-on internship programs with real-world projects and industry mentorship to accelerate your career growth
           </p>
         </div>
