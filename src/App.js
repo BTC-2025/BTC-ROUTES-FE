@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import AOS from 'aos';
@@ -22,8 +22,13 @@ import Home from './components/User/Home/Home';
 // import BtcRoutesAdmin from './components/Admin/Dashboard/btcroutesadmin';
 import FrontendCourse from './components/User/Courses/Components/FrontendCourse';
 
+import Loader from './components/Loader/Loader';
+
 
 function App() {
+
+  const [loading,setLoading] = useState(true)
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -31,7 +36,20 @@ function App() {
       once: true,
       mirror: false
     });
+
+    // Fake delay for loader (2 sec) OR replace with real API load logic
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  if (loading) {
+    return <Loader />;  // ⬅ Show loading screen before website loads
+  }
+
+  
 
   return (
     <div className="App">
