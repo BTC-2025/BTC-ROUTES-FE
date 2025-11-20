@@ -17,6 +17,7 @@ import {
 } from 'react-icons/fa';
 import { SiKotlin } from 'react-icons/si';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 // Styled Components
 const SectionWrapper = styled.section`
@@ -601,6 +602,8 @@ const CoursesSection = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     if (activeFilter === 'all') {
       setFilteredCourses(coursesData);
@@ -610,9 +613,8 @@ const CoursesSection = () => {
     setShowAllCourses(false);
   }, [activeFilter]);
 
-  const handleLearnMore = (courseName) => {
-    console.log(`Learn more about ${courseName}`);
-    // Implement navigation logic here
+  const handleLearnMore = () => {
+    navigate('/application')
   };
 
   const toggleMobileCard = (courseId) => {
@@ -645,7 +647,7 @@ const CoursesSection = () => {
       data-aos={course.animation}
       className="mb-4"
     >
-      <DesktopCourseCard>
+      <DesktopCourseCard role='button' onClick={(e) =>{handleLearnMore()}}>
         <CardHeader>
           <IconWrapper className="card-icon">
             <CourseIcon>
@@ -665,9 +667,7 @@ const CoursesSection = () => {
           {course.description}
         </CourseDescription>
 
-        <LearnMoreButton
-          onClick={() => handleLearnMore(course.name)}
-        >
+        <LearnMoreButton style={{cursor:"pointer"}}>
           Enroll Now <FaArrowRight size={14} />
         </LearnMoreButton>
       </DesktopCourseCard>
@@ -707,7 +707,7 @@ const CoursesSection = () => {
           </CourseDescription>
 
           <LearnMoreButton
-            onClick={() => handleLearnMore(course.name)}
+            onClick={() => handleLearnMore()}
           >
             Enroll Now <FaArrowRight size={14} />
           </LearnMoreButton>
