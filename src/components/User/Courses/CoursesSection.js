@@ -676,7 +676,7 @@ const CoursesSection = () => {
 
   const renderMobileCard = (course) => (
     <div key={course.id} data-aos={course.animation}>
-      <MobileCourseCard>
+      <MobileCourseCard role='button' onClick={(e) =>{handleLearnMore()}}>
         <MobileCardHeader 
           onClick={() => toggleMobileCard(course.id)}
           isOpen={openMobileCard === course.id}
