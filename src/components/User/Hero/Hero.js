@@ -72,7 +72,7 @@ const Hero = () => {
               onClick={() => scrollToSection('apply')}
             >
               <span className="hero-btn-icon"><FiSend /></span>
-              Start Free Trial
+              Start Your Career
             </button>
             <button 
               className="hero-btn hero-btn--secondary"
