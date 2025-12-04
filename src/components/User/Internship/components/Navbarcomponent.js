@@ -7,10 +7,15 @@ const terminalGlow = keyframes`
   0%, 100% { text-shadow: 0 0 10px #00FFC6; }
   50% { text-shadow: 0 0 20px #4F46E5; }
 `;
+const colors = {
+
+  navyBlue: '#283593',
+  royalBlue: '#303f9f'
+};
 
 const Navbar = styled.nav`
   backdrop-filter: blur(10px);
-  padding: 1rem 0;
+  // padding: 1rem 0;
   transition: all 0.3s ease;
   position: fixed;
   top: 0;
@@ -19,7 +24,8 @@ const Navbar = styled.nav`
   height: 80px;
   border-bottom: 1px solid rgba(0, 255, 198, 0.3);
   font-family: 'Fira Code', monospace;
-  // background: rgba(17, 24, 39, 0.85);
+  // background: rgba(13, 27, 42, 0.95) !important;
+  background: transparent !important;
 
   .navbar-brand {
     font-weight: 700;
@@ -30,7 +36,8 @@ const Navbar = styled.nav`
   }
 
   .nav-link {
-    color: #E5E7EB !important;
+    // color: #E5E7EB !important;
+    color: black;
     font-weight: 500;
     margin: 0 0.5rem;
     transition: all 0.3s ease;
@@ -68,6 +75,16 @@ const Navbar = styled.nav`
 
     .navbar-toggler-icon {
       filter: invert(1);
+    }
+  }
+
+  @media (max-width: 991px) {
+    .navbar-collapse {
+      background: ${colors.navyBlue};
+      padding: 1rem;
+      color:white;
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
   }
 `;

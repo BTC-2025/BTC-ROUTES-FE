@@ -4,36 +4,67 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Typed from 'typed.js';
 import styled, { keyframes, createGlobalStyle } from 'styled-components';
-import { MdShowChart } from "react-icons/md";
-import {Link} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router-dom';
-import { BiBarChartAlt2 } from "react-icons/bi";   
-import { TbChartHistogram } from "react-icons/tb"; 
-import { 
+import {
+  MdShowChart,
+  MdTrendingUp,
+  MdDataArray,
+  // MdAnalytics
+} from "react-icons/md";
+import {
+  // BiBarChartAlt2,
+  BiAnalyse,
+  // BiStats
+} from "react-icons/bi";
+import {
+  TbChartHistogram,
+  TbDatabase,
+  // TbChartLine
+} from "react-icons/tb";
+import {
   FaChartLine,
   FaDatabase,
   FaPython,
   FaUserTie,
   FaCertificate,
   FaGraduationCap,
-  FaCalendarAlt,
-  FaUsers,
+  // FaCalendarAlt,
+  // FaUsers,
   FaLaptopCode,
-  FaQuoteLeft,
+  // FaQuoteLeft,
   FaRocket,
   FaChartBar,
-  FaChartPie,
+  // FaChartPie,
   FaSearch,
-  FaLightbulb
+  FaLightbulb,
+  FaChevronUp,
+  FaBrain,
+  FaChartArea,
+  // FaTable,
+  // FaFilter
 } from 'react-icons/fa';
-import { 
+import {
   SiPandas,
   SiNumpy,
   SiScikitlearn,
-  SiPycharm
+  SiPycharm,
+  SiJupyter,
+  SiTensorflow,
+  SiTableau,
+  SiPostgresql,
+  SiGooglecolab
 } from 'react-icons/si';
 import NavbarComponent from '../Navbarcomponent';
+
+// Color Palette
+const colors = {
+  parchment: '#edede9',
+  dustGrey: '#d6ccc2',
+  linen: '#f5ebe0',
+  powderPetal: '#e3d5ca',
+  almondSilk: '#d5bdaf'
+};
 
 // Global Styles
 const GlobalStyle = createGlobalStyle`
@@ -44,94 +75,69 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
     line-height: 1.6;
-    color: #E8F1FF;
+    color: #3c3c3c;
     overflow-x: hidden;
-    background: #0A1A2F;
+    background: ${colors.linen};
   }
 
   html {
     scroll-padding-top: 80px;
+    scroll-behavior: smooth;
   }
 
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
   /* Scrollbar Styling */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #122C4A;
+    background: ${colors.parchment};
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(#00B8A9, #1E90FF);
-    border-radius: 4px;
+    background: linear-gradient(to bottom, ${colors.almondSilk}, ${colors.powderPetal});
+    border-radius: 5px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(#1E90FF, #00B8A9);
+    background: linear-gradient(to bottom, ${colors.powderPetal}, ${colors.almondSilk});
   }
 `;
 
 // Animations
 const float = keyframes`
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(5deg); }
+  50% { transform: translateY(-15px) rotate(3deg); }
 `;
 
-const dataPulse = keyframes`
-  0%, 100% { 
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% { 
-    opacity: 1;
-    transform: scale(1.1);
-  }
+const dataStream = keyframes`
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 `;
 
-const rippleAnimation = keyframes`
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
+const gentlePulse = keyframes`
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.02); }
 `;
 
-const backgroundShimmer = keyframes`
-  0%, 100% { transform: translateX(-100%) rotate(0deg); }
-  50% { transform: translateX(100%) rotate(180deg); }
-`;
-
-const glowPulse = keyframes`
-  0%, 100% { 
-    box-shadow: 0 0 20px #00B8A9, 0 0 40px rgba(0, 184, 169, 0.3);
-  }
-  50% { 
-    box-shadow: 0 0 30px #1E90FF, 0 0 60px rgba(30, 144, 255, 0.4);
-  }
-`;
-
-// const chartGlow = keyframes`
-//   0%, 100% { 
-//     text-shadow: 0 0 10px #00B8A9, 0 0 20px #00B8A9;
-//   }
-//   50% { 
-//     text-shadow: 0 0 15px #1E90FF, 0 0 30px #1E90FF;
-//   }
+// const fadeIn = keyframes`
+//   from { opacity: 0; transform: translateY(20px); }
+//   to { opacity: 1; transform: translateY(0); }
 // `;
 
-const quoteRotate = keyframes`
-  0%, 25% { opacity: 1; transform: translateY(0); }
-  30%, 100% { opacity: 0; transform: translateY(-20px); }
-`;
+// const slideIn = keyframes`
+//   from { transform: translateX(-100%); opacity: 0; }
+//   to { transform: translateX(0); opacity: 1; }
+// `;
 
-const chartLine = keyframes`
-  0% { stroke-dashoffset: 1000; }
-  100% { stroke-dashoffset: 0; }
-`;
+// const chartDraw = keyframes`
+//   from { stroke-dashoffset: 1000; }
+//   to { stroke-dashoffset: 0; }
+// `;
 
 // Main Container
 const PageContainer = styled.div`
@@ -142,6 +148,7 @@ const PageContainer = styled.div`
 const Section = styled.section`
   padding: 100px 0;
   position: relative;
+  overflow: hidden;
 `;
 
 const SectionHeader = styled.div`
@@ -149,77 +156,98 @@ const SectionHeader = styled.div`
   text-align: ${props => props.center ? 'center' : 'left'};
 
   h2 {
-    font-size: 3rem;
-    font-weight: 800;
-    // background: linear-gradient(90deg, #1E90FF, #FFD460);
-    background:white;
+    font-size: 3.5rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #8b7355, #a1887f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 1rem;
-    text-shadow: 0 0 30px rgba(30, 144, 255, 0.3);
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: -0.5px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: ${props => props.center ? '50%' : '0'};
+      transform: ${props => props.center ? 'translateX(-50%)' : 'none'};
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, ${colors.almondSilk}, ${colors.powderPetal});
+      border-radius: 2px;
+    }
   }
 `;
 
-const SectionDivider = styled.div`
-  width: 100px;
-  height: 4px;
-  background: linear-gradient(90deg, #1E90FF, #FFD460);
-  border-radius: 2px;
-  margin: ${props => props.center ? '0 auto' : '0'};
-  box-shadow: 0 0 15px rgba(255, 212, 96, 0.3);
-`;
-
 const SectionSubtitle = styled.p`
-  font-size: 1.2rem;
-  color: #E8F1FF;
-  margin-top: 1.5rem;
-  opacity: 0.9;
+  font-size: 1.3rem;
+  color: #6d4c41;
+  margin-top: 2rem;
+  opacity: 0.8;
+  max-width: 600px;
+  margin-left: ${props => props.center ? 'auto' : '0'};
+  margin-right: ${props => props.center ? 'auto' : '0'};
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
 `;
 
 // Hero Section
 const HeroSection = styled(Section)`
-  background: linear-gradient(135deg, #00B8A9, #1E90FF);
+  background: linear-gradient(135deg, ${colors.linen} 0%, ${colors.parchment} 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
   position: relative;
-  overflow: hidden;
-  color: #E8F1FF;
-  margin: 0;
   padding-top: 80px;
+  border-bottom: 1px solid ${colors.dustGrey};
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(circle at 20% 80%, ${colors.powderPetal}22 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, ${colors.almondSilk}22 0%, transparent 50%);
+  }
 
   .container {
     position: relative;
     z-index: 2;
   }
-
-  .row {
-    min-height: calc(100vh - 80px);
-  }
 `;
 
 const HeroTitle = styled.h1`
   font-size: 4.5rem;
-  font-weight: 900;
+  font-weight: 700;
   margin-bottom: 1.5rem;
   line-height: 1.1;
-  text-shadow: 0 0 30px rgba(30, 144, 255, 0.5);
-  background: linear-gradient(135deg, #E8F1FF, #FFD460);
+  background: linear-gradient(135deg, #2c1810, #5d4037);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    font-size: 3rem;
+    font-size: 3.2rem;
   }
 `;
 
 const HeroSubtitle = styled.div`
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  font-weight: 700;
+  font-weight: 500;
   min-height: 3rem;
+  color: #3e2723;
+  font-family: 'Roboto', sans-serif;
 
   @media (max-width: 768px) {
     font-size: 1.8rem;
@@ -227,71 +255,98 @@ const HeroSubtitle = styled.div`
 `;
 
 const TypedText = styled.span`
-  color: #FFD460;
-  font-weight: 800;
-  text-shadow: 0 0 20px rgba(255, 212, 96, 0.5);
+  color: #5d4037;
+  font-weight: 600;
+  position: relative;
+  font-style: italic;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, ${colors.almondSilk}, ${colors.powderPetal});
+    border-radius: 1px;
+  }
 `;
 
 const HeroTagline = styled.p`
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   margin-bottom: 3rem;
-  opacity: 0.95;
-  font-weight: 500;
+  color: #4e342e;
+  opacity: 1;
+  font-weight: 400;
   max-width: 600px;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.8;
 `;
 
 // Buttons
-const PrimaryButton = styled.button`
-  background: linear-gradient(90deg, #00B8A9, #1E90FF);
+const ButtonBase = styled.button`
   border: none;
-  padding: ${props => props.large ? '18px 50px' : '15px 40px'};
-  border-radius: 50px;
-  font-weight: 700;
+  padding: ${props => props.large ? '20px 50px' : '16px 40px'};
+  border-radius: 8px;
+  font-weight: 500;
   font-size: ${props => props.large ? '1.3rem' : '1.1rem'};
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 0 25px rgba(0, 184, 169, 0.4);
-  color: white;
-  animation: ${glowPulse} 2s ease-in-out infinite;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none !important;
+  letter-spacing: 0.5px;
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 35px rgba(30, 144, 255, 0.6);
-    background: linear-gradient(90deg, #1E90FF, #00B8A9);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 115, 85, 0.2);
   }
 `;
 
-const GoldButton = styled(PrimaryButton)`
-  background: linear-gradient(90deg, #FFD460, #FFE082);
-  animation: none;
-  box-shadow: 0 0 25px rgba(255, 212, 96, 0.4);
+const PrimaryButton = styled(ButtonBase)`
+  background: linear-gradient(135deg, ${colors.almondSilk}, #8b7355);
+  color: #5d4037;
+  box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+  border: 1px solid ${colors.dustGrey};
 
   &:hover {
-    background: linear-gradient(90deg, #00B8A9, #1E90FF);
-    box-shadow: 0 0 35px rgba(0, 184, 169, 0.6);
+    background: linear-gradient(135deg, #8b7355, ${colors.almondSilk});
+    color: #5d4037;
+  }
+
+  &:active {
+    transform: translateY(-1px);
   }
 `;
 
-const Ripple = styled.span`
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.6);
-  transform: scale(0);
-  animation: ${rippleAnimation} 0.6s linear;
-  pointer-events: none;
+const SecondaryButton = styled(ButtonBase)`
+  background: transparent;
+  color: #8d6e63;
+  border: 2px solid ${colors.almondSilk};
+  box-shadow: 0 4px 12px rgba(141, 110, 99, 0.1);
+
+  &:hover {
+    background: rgba(213, 189, 175, 0.1);
+    border-color: #8b7355;
+  }
 `;
 
-// Data Visualization Elements
-const DataNode = styled.div`
+// Data Elements
+const DataPoint = styled.div`
   position: absolute;
   width: ${props => props.size || '12px'};
   height: ${props => props.size || '12px'};
-  background: ${props => props.color || '#00B8A9'};
+  background: ${props => props.color || colors.almondSilk};
   border-radius: 50%;
-  animation: ${dataPulse} 3s ease-in-out infinite;
-  box-shadow: 0 0 20px ${props => props.color || '#00B8A9'};
+  animation: ${float} 6s ease-in-out infinite;
+  box-shadow: 0 4px 12px rgba(139, 115, 85, 0.2);
   z-index: 1;
+  border: 2px solid white;
 
   top: ${props => props.top || 'auto'};
   left: ${props => props.left || 'auto'};
@@ -300,132 +355,118 @@ const DataNode = styled.div`
   animation-delay: ${props => props.delay || '0s'};
 `;
 
-const ChartLine = styled.svg`
+const DataStream = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  opacity: 0.2;
   z-index: 0;
-
-  path {
-    stroke: url(#chartGradient);
-    stroke-width: 3;
-    fill: none;
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: ${chartLine} 8s ease-in-out infinite;
-    animation-delay: ${props => props.delay || '0s'};
-  }
-`;
-
-// Hero Background Animation
-const HeroBackgroundAnimation = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(0, 184, 169, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(30, 144, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(255, 212, 96, 0.1) 0%, transparent 50%);
-  animation: ${backgroundShimmer} 8s ease-in-out infinite;
-  z-index: 1;
-`;
-
-// About Section
-const AboutSection = styled(Section)`
-  background: #122C4A;
-  position: relative;
-  overflow: hidden;
-`;
-
-const AboutText = styled.p`
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  color: #E8F1FF;
-  opacity: 0.9;
-  line-height: 1.8;
-`;
-
-const AboutFeatures = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin-top: 2rem;
-
-  li {
-    padding: 0.8rem 0;
-    padding-left: 2rem;
-    position: relative;
-    font-size: 1.1rem;
-    color: #E8F1FF;
-
-    &::before {
-      content: '📊';
-      position: absolute;
-      left: 0;
-      font-size: 1.2rem;
-    }
-  }
-`;
-
-const DataVisual = styled.div`
-  position: relative;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ChartIcon = styled.div`
-  font-size: 8rem;
-  color: #00B8A9;
-  animation: ${float} 6s ease-in-out infinite;
-  text-shadow: 0 0 50px rgba(0, 184, 169, 0.5);
-  position: relative;
-  z-index: 2;
-`;
-
-const DataGrid = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.3;
 
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    background: 
-      linear-gradient(90deg, transparent 49%, #00B8A9 50%, transparent 51%),
-      linear-gradient(transparent 49%, #00B8A9 50%, transparent 51%);
-    background-size: 50px 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, ${colors.almondSilk}, transparent);
+    animation: ${dataStream} 15s linear infinite;
+    top: ${props => props.top || '50%'};
+    animation-delay: ${props => props.delay || '0s'};
   }
 `;
 
-// Skills Section
-const SkillsSection = styled(Section)`
+// Hero Visual Components
+const HeroVisualContainer = styled.div`
   position: relative;
-  background: linear-gradient(135deg, rgba(0, 184, 169, 0.05), rgba(30, 144, 255, 0.05));
-  overflow: hidden;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
 `;
 
-const SkillCard = styled.div`
-  background: rgba(18, 44, 74, 0.8);
-  backdrop-filter: blur(10px);
-  padding: 2.5rem 1.5rem;
-  border-radius: 20px;
-  text-align: center;
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
+const CentralIcon = styled.div`
+  font-size: 8rem;
+  color: #5d4037;
+  filter: drop-shadow(0 10px 20px rgba(93, 64, 55, 0.2));
+  animation: ${float} 6s ease-in-out infinite;
+  z-index: 2;
+  background: white;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${colors.dustGrey};
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.05),
+    inset 0 0 40px rgba(213, 189, 175, 0.2);
+`;
+
+const OrbitRing = styled.div`
+  position: absolute;
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
+  border: 1px dashed ${colors.almondSilk};
+  border-radius: 50%;
+  animation: ${props => keyframes`
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  `} ${props => props.duration}s linear infinite;
+  animation-direction: ${props => props.reverse ? 'reverse' : 'normal'};
+`;
+
+const OrbitIcon = styled.div`
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #8b7355;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  border: 1px solid ${colors.dustGrey};
+  animation: ${props => keyframes`
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(-50%) rotate(-360deg); }
+  `} ${props => props.duration}s linear infinite;
+  animation-direction: ${props => props.reverse ? 'reverse' : 'normal'};
+`;
+
+// About Section
+const AboutSection = styled(Section)`
+  background: ${colors.parchment};
+  position: relative;
+  border-top: 1px solid ${colors.dustGrey};
+  border-bottom: 1px solid ${colors.dustGrey};
+`;
+
+const AboutCard = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid ${colors.dustGrey};
+  transition: all 0.4s ease;
   position: relative;
   overflow: hidden;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(139, 115, 85, 0.15);
+    
+    &::before {
+      transform: translateX(100%);
+    }
+  }
 
   &::before {
     content: '';
@@ -434,450 +475,117 @@ const SkillCard = styled.div`
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 184, 169, 0.1), transparent);
-    transition: left 0.5s ease;
-  }
-
-  &:hover {
-    transform: translateY(-10px);
-    border-color: #FFD460;
-    box-shadow: 0 0 30px rgba(255, 212, 96, 0.3);
-
-    &::before {
-      left: 100%;
-    }
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(227, 213, 202, 0.1),
+      transparent
+    );
+    transition: transform 0.8s ease;
   }
 `;
 
-const SkillIcon = styled.div`
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
-  color: ${props => props.color || '#FFD460'};
-  text-shadow: 0 0 20px ${props => props.color || '#FFD460'};
+const FeatureGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
 `;
 
-const SkillName = styled.h5`
-  font-weight: 700;
-  color: #E8F1FF;
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-`;
-
-const SkillDescription = styled.p`
-  color: #E8F1FF;
-  opacity: 0.8;
-  font-size: 0.95rem;
-`;
-
-const SkillsBackground = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 10% 20%, rgba(0, 184, 169, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, rgba(30, 144, 255, 0.1) 0%, transparent 50%);
-  z-index: -1;
-`;
-
-// Curriculum Section
-const CurriculumSection = styled(Section)`
-  background: linear-gradient(135deg, #00B8A9, #1E90FF);
-  color: #E8F1FF;
-  position: relative;
-`;
-
-const Timeline = styled.div`
-  position: relative;
-  max-width: 800px;
-  margin: 0 auto;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
-
-    @media (max-width: 768px) {
-      left: 20px;
-    }
-  }
-`;
-
-const TimelineItem = styled.div`
-  position: relative;
-  margin-bottom: 3rem;
-  width: 45%;
-  left: ${props => props.even ? '55%' : '0'};
-  text-align: ${props => props.even ? 'left' : 'right'};
-  padding: ${props => props.even ? '0 0 0 3rem' : '0 3rem 0 0'};
-
-  @media (max-width: 768px) {
-    width: 100%;
-    left: 0 !important;
-    padding-left: 3rem !important;
-    padding-right: 1rem !important;
-    text-align: left !important;
-  }
-`;
-
-const TimelinePhase = styled.div`
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: #FFD460;
-  text-shadow: 0 0 10px rgba(255, 212, 96, 0.5);
-`;
-
-const TimelineDesc = styled.div`
-  opacity: 0.95;
-  font-size: 1.1rem;
-`;
-
-const TimelineConnector = styled.div`
-  position: absolute;
-  top: 10px;
-  width: 20px;
-  height: 20px;
-  background: #FFD460;
-  border-radius: 50%;
-  box-shadow: 0 0 20px #FFD460;
-  right: ${props => props.even ? 'auto' : '-10px'};
-  left: ${props => props.even ? '-10px' : 'auto'};
-
-  @media (max-width: 768px) {
-    left: 10px !important;
-    right: auto !important;
-  }
-`;
-
-// Tools Section
-const ToolsSection = styled(Section)`
-  background: #0A1A2F;
-  color: #E8F1FF;
-`;
-
-const ToolCard = styled.div`
-  text-align: center;
-  padding: 2.5rem 1rem;
-  transition: all 0.3s ease;
-  border-radius: 50%;
-  background: rgba(18, 44, 74, 0.6);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  width: 150px;
-  height: 150px;
+const FeatureItem = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px #00B8A9;
-  }
-`;
-
-const ToolIcon = styled.div`
-  font-size: 3rem;
-  color: #1E90FF;
-  margin-bottom: 1rem;
+  align-items: flex-start;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, ${colors.linen}, white);
+  border-radius: 12px;
   transition: all 0.3s ease;
-
-  ${ToolCard}:hover & {
-    color: #00B8A9;
-    filter: drop-shadow(0 0 10px #00B8A9);
-  }
-`;
-
-const ToolName = styled.span`
-  font-weight: 600;
-  color: #E8F1FF;
-  font-size: 0.9rem;
-`;
-
-// Mentorship Section
-const MentorshipSection = styled(Section)`
-  background: linear-gradient(135deg, #122C4A, #0A1A2F);
+  border: 1px solid ${colors.dustGrey};
   position: relative;
-`;
-
-const MentorshipContent = styled.div`
-  background: rgba(18, 44, 74, 0.6);
-  backdrop-filter: blur(10px);
-  padding: 4rem 3rem;
-  border-radius: 25px;
-  border: 1px solid rgba(0, 184, 169, 0.3);
-  position: relative;
-  box-shadow: 0 0 50px rgba(0, 184, 169, 0.2);
-`;
-
-const QuoteIcon = styled.div`
-  font-size: 2.5rem;
-  color: #1E90FF;
-  margin-bottom: 2rem;
-  text-shadow: 0 0 20px #1E90FF;
-`;
-
-const MentorshipText = styled.p`
-  font-size: 1.3rem;
-  font-style: italic;
-  margin-bottom: 3rem;
-  color: #E8F1FF;
-  line-height: 1.8;
-  text-align: center;
-`;
-
-// const MentorStats = styled.div`
-//   display: flex;
-//   justify-content: space-around;
-//   margin-top: 3rem;
-
-//   @media (max-width: 768px) {
-//     flex-direction: column;
-//     gap: 2rem;
-//   }
-// `;
-
-// const Stat = styled.div`
-//   text-align: center;
-// `;
-
-// const StatNumber = styled.h4`
-//   font-size: 2.5rem;
-//   color: #FFD460;
-//   margin-bottom: 0.5rem;
-//   text-shadow: 0 0 20px #FFD460;
-// `;
-
-const MentorshipBackground = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="100" fill="%2300B8A9" fill-opacity="0.05"/><circle cx="800" cy="800" r="150" fill="%231E90FF" fill-opacity="0.05"/></svg>');
-  z-index: -1;
-`;
-
-// Projects Section
-const ProjectsSection = styled(Section)`
-  background: #0A1A2F;
-  position: relative;
-`;
-
-const ProjectCard = styled.div`
-  background: rgba(18, 44, 74, 0.8);
-  backdrop-filter: blur(10px);
-  padding: 2.5rem;
-  border-radius: 20px;
-  text-align: center;
-  border: 2px solid #1E90FF;
-  transition: all 0.3s ease;
-  height: 100%;
-  animation: ${glowPulse} 4s ease-in-out infinite;
-
-  &:hover {
-    transform: translateY(-10px);
-    border-color: #FFD460;
-    box-shadow: 0 0 40px rgba(255, 212, 96, 0.4);
-    animation: none;
-  }
-`;
-
-const ProjectIcon = styled.div`
-  font-size: 3rem;
-  color: #FFD460;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 20px #FFD460;
-`;
-
-const ProjectTitle = styled.h5`
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #E8F1FF;
-  font-size: 1.4rem;
-`;
-
-const ProjectDescription = styled.p`
-  color: #E8F1FF;
-  opacity: 0.9;
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-`;
-
-const ProjectTech = styled.div`
-  font-size: 0.9rem;
-  color: #00B8A9;
-  font-weight: 600;
-  text-shadow: 0 0 10px #00B8A9;
-`;
-
-// Eligibility Section
-const EligibilitySection = styled(Section)`
-  background: #122C4A;
-`;
-
-const InfoCard = styled.div`
-  text-align: center;
-  padding: 2.5rem 1.5rem;
-  background: rgba(0, 184, 169, 0.1);
-  border-radius: 20px;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(0, 184, 169, 0.3);
 
   &:hover {
     transform: translateY(-5px);
-    background: rgba(0, 184, 169, 0.2);
-    box-shadow: 0 0 30px rgba(0, 184, 169, 0.3);
-  }
-`;
+    box-shadow: 0 8px 20px rgba(139, 115, 85, 0.1);
+    border-color: ${colors.almondSilk};
 
-const InfoIcon = styled.div`
-  font-size: 2.5rem;
-  color: #1E90FF;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 20px #1E90FF;
-`;
-
-const InfoTitle = styled.h5`
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #E8F1FF;
-  font-size: 1.3rem;
-`;
-
-const InfoValue = styled.p`
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #FFD460;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 10px #FFD460;
-`;
-
-const InfoSubtext = styled.span`
-  color: #E8F1FF;
-  opacity: 0.8;
-  font-size: 0.95rem;
-`;
-
-// Benefits Section
-const BenefitsSection = styled(Section)`
-  background: linear-gradient(135deg, #00B8A9, #1E90FF);
-  color: #E8F1FF;
-  position: relative;
-`;
-
-const BenefitCard = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: 3rem 2rem;
-  border-radius: 20px;
-  text-align: center;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transform: rotate(45deg);
-    transition: all 0.6s ease;
-  }
-
-  &:hover {
-    transform: translateY(-10px);
-    border-color: #FFD460;
-    box-shadow: 0 0 40px rgba(255, 212, 96, 0.4);
-
-    &::before {
-      transform: rotate(45deg) translate(50%, 50%);
+    &::after {
+      transform: scaleX(1);
     }
   }
-`;
 
-const BenefitIcon = styled.div`
-  font-size: 3rem;
-  color: #FFD460;
-  margin-bottom: 1.5rem;
-  position: relative;
-  z-index: 2;
-  text-shadow: 0 0 20px #FFD460;
-`;
-
-const BenefitTitle = styled.h5`
-  font-weight: 700;
-  margin-bottom: 1rem;
-  position: relative;
-  z-index: 2;
-  font-size: 1.4rem;
-`;
-
-const BenefitDescription = styled.p`
-  opacity: 0.95;
-  position: relative;
-  z-index: 2;
-  line-height: 1.6;
-`;
-
-// Quotes Section
-const QuotesSection = styled(Section)`
-  background: #0A1A2F;
-  position: relative;
-  overflow: hidden;
-`;
-
-const QuotesContent = styled.div`
-  padding: 5rem 2rem;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-`;
-
-const QuoteText = styled.h3`
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin-bottom: 3rem;
-  line-height: 1.4;
-  color: #E8F1FF;
-  text-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
-
-  @media (max-width: 768px) {
-    font-size: 2rem;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, ${colors.almondSilk}, ${colors.powderPetal});
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
   }
 `;
 
-const QuoteRotation = styled.div`
-  font-size: 1.4rem;
-  opacity: 0.9;
-  min-height: 2rem;
+const FeatureIcon = styled.div`
+  background: linear-gradient(135deg, ${colors.linen}, ${colors.parchment});
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: #8b7355;
+  font-size: 1.8rem;
+  border: 1px solid ${colors.dustGrey};
 `;
 
-const RotatingQuote = styled.span`
-  display: block;
-  animation: ${quoteRotate} 12s ease-in-out infinite;
-  animation-delay: ${props => props.delay || '0s'};
+const FeatureContent = styled.div`
+  h4 {
+    color: #5d4037;
+    font-weight: 500;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  p {
+    color: #6d4c41;
+    opacity: 0.9;
+    line-height: 1.6;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+  }
 `;
 
-const DataParticles = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+// Skills Section
+const SkillsSection = styled(Section)`
+  background: ${colors.linen};
+  position: relative;
+  border-top: 1px solid ${colors.dustGrey};
+`;
+
+const SkillCard = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  border: 1px solid ${colors.dustGrey};
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
   height: 100%;
-  opacity: 0.1;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-8px);
+    border-color: ${colors.almondSilk};
+    box-shadow: 0 15px 35px rgba(139, 115, 85, 0.15);
+
+    &::before {
+      transform: translateY(0);
+    }
+  }
 
   &::before {
     content: '';
@@ -885,116 +593,415 @@ const DataParticles = styled.div`
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: 
-      radial-gradient(circle at center, #00B8A9 1px, transparent 1px),
-      radial-gradient(circle at center, #1E90FF 1px, transparent 1px);
-    background-size: 50px 50px, 30px 30px;
-    background-position: 0 0, 25px 25px;
+    height: 4px;
+    background: linear-gradient(90deg, ${colors.almondSilk}, ${colors.powderPetal});
+    transform: translateY(-100%);
+    transition: transform 0.4s ease;
   }
+`;
+
+const SkillIcon = styled.div`
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  color: #8b7355;
+  transition: all 0.3s ease;
+
+  ${SkillCard}:hover & {
+    animation: ${gentlePulse} 0.5s ease;
+  }
+`;
+
+const SkillName = styled.h4`
+  font-weight: 600;
+  color: #5d4037;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
+`;
+
+const SkillDescription = styled.p`
+  color: #6d4c41;
+  opacity: 0.9;
+  line-height: 1.6;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem;
+`;
+
+// Curriculum Section
+const CurriculumSection = styled(Section)`
+  background: ${colors.parchment};
+  position: relative;
+  border-top: 1px solid ${colors.dustGrey};
+  border-bottom: 1px solid ${colors.dustGrey};
+`;
+
+const PhaseContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+`;
+
+const PhaseCard = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid ${colors.dustGrey};
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: ${colors.almondSilk};
+    box-shadow: 0 15px 35px rgba(139, 115, 85, 0.15);
+  }
+
+  &::before {
+    content: '${props => props.number}';
+    position: absolute;
+    top: -12px;
+    left: 30px;
+    background: linear-gradient(135deg, ${colors.almondSilk}, ${colors.powderPetal});
+    color: #5d4037;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 0 4px 12px rgba(139, 115, 85, 0.2);
+    border: 2px solid white;
+  }
+`;
+
+const PhaseTitle = styled.h4`
+  color: #5d4037;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+`;
+
+const PhaseDescription = styled.p`
+  color: #6d4c41;
+  line-height: 1.7;
+  margin-bottom: 0;
+  font-family: 'Roboto', sans-serif;
+  opacity: 0.9;
+`;
+
+// Tools Section
+const ToolsSection = styled(Section)`
+  background: ${colors.linen};
+  position: relative;
+  border-top: 1px solid ${colors.dustGrey};
+`;
+
+const ToolsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+`;
+
+const ToolItem = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid ${colors.dustGrey};
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-8px) scale(1.05);
+    border-color: ${colors.almondSilk};
+    box-shadow: 0 12px 30px rgba(139, 115, 85, 0.15);
+  }
+`;
+
+const ToolIcon = styled.div`
+  font-size: 3rem;
+  color: #8b7355;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+
+  ${ToolItem}:hover & {
+    color: #5d4037;
+    animation: ${gentlePulse} 0.5s ease;
+  }
+`;
+
+const ToolName = styled.span`
+  font-weight: 400;
+  color: #5d4037;
+  font-size: 0.9rem;
+  font-family: 'Roboto', sans-serif;
+`;
+
+// Projects Section
+const ProjectsSection = styled(Section)`
+  background: ${colors.parchment};
+  position: relative;
+  border-top: 1px solid ${colors.dustGrey};
+  border-bottom: 1px solid ${colors.dustGrey};
+`;
+
+const ProjectCard = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  height: 100%;
+  border: 1px solid ${colors.dustGrey};
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-10px);
+    border-color: ${colors.almondSilk};
+    box-shadow: 0 20px 40px rgba(139, 115, 85, 0.15);
+
+    &::after {
+      transform: translateX(100%);
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(227, 213, 202, 0.1),
+      transparent
+    );
+    transition: transform 0.6s ease;
+  }
+`;
+
+const ProjectIcon = styled.div`
+  font-size: 3.5rem;
+  color: #8b7355;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, ${colors.linen}, ${colors.parchment});
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${colors.dustGrey};
+`;
+
+const ProjectTitle = styled.h4`
+  color: #5d4037;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
+`;
+
+const ProjectDescription = styled.p`
+  color: #6d4c41;
+  opacity: 0.9;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+`;
+
+const ProjectTech = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+`;
+
+const TechTag = styled.span`
+  background: linear-gradient(135deg, ${colors.linen}, white);
+  color: #8b7355;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  border: 1px solid ${colors.dustGrey};
+`;
+
+// Benefits Section
+const BenefitsSection = styled(Section)`
+  background: linear-gradient(135deg, ${colors.parchment} 0%, ${colors.linen} 100%);
+  position: relative;
+  border-top: 1px solid ${colors.dustGrey};
+`;
+
+const BenefitCard = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  transition: all 0.4s ease;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid ${colors.dustGrey};
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-8px);
+    border-color: ${colors.almondSilk};
+    box-shadow: 0 15px 35px rgba(139, 115, 85, 0.15);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, ${colors.almondSilk}, ${colors.powderPetal});
+  }
+`;
+
+const BenefitIcon = styled.div`
+  font-size: 3.5rem;
+  color: #8b7355;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+`;
+
+const BenefitTitle = styled.h4`
+  color: #5d4037;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
+`;
+
+const BenefitDescription = styled.p`
+  color: #6d4c41;
+  opacity: 0.9;
+  position: relative;
+  z-index: 2;
+  line-height: 1.6;
+  font-family: 'Roboto', sans-serif;
 `;
 
 // Apply Section
 const ApplySection = styled(Section)`
-  background: linear-gradient(135deg, #00B8A9, #1E90FF);
-  color: #E8F1FF;
+  background: linear-gradient(135deg, ${colors.almondSilk} 0%, ${colors.powderPetal} 100%);
+  color: #5d4037;
   text-align: center;
   position: relative;
+  border-top: 1px solid ${colors.dustGrey};
 `;
 
 const ApplyTitle = styled.h2`
   font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 2rem;
-  text-shadow: 0 0 30px rgba(0, 184, 169, 0.5);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
   }
 `;
 
 const ApplySubtitle = styled.p`
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   margin-bottom: 3rem;
   opacity: 0.95;
   line-height: 1.6;
-  max-width: 600px;
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+  font-family: 'Roboto', sans-serif;
+  color: #5d4037;
+  font-weight: 400;
 `;
 
-// const ApplyStats = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   gap: 4rem;
-//   margin-top: 4rem;
+const ApplyButton = styled(PrimaryButton)`
+  background: white;
+  color: #5d4037;
+  font-size: 1.3rem;
+  padding: 20px 60px;
+  border: 2px solid rgba(93, 64, 55, 0.2);
+  box-shadow: 0 8px 25px rgba(93, 64, 55, 0.15);
 
-//   @media (max-width: 768px) {
-//     flex-direction: column;
-//     gap: 2rem;
-//   }
-// `;
-
-// const ApplyStat = styled.div`
-//   text-align: center;
-// `;
-
-// const ApplyStatNumber = styled.h4`
-//   font-size: 3rem;
-//   font-weight: 800;
-//   margin-bottom: 0.5rem;
-//   color: #FFD460;
-//   text-shadow: 0 0 20px #FFD460;
-// `;
-
-const ApplyBackgroundAnimation = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
-  animation: ${backgroundShimmer} 6s ease-in-out infinite;
-  z-index: -1;
+  &:hover {
+    background: ${colors.parchment};
+    color: #5d4037;
+    border-color: #5d4037;
+  }
 `;
 
 // Footer
 const Footer = styled.footer`
-  background: #122C4A;
-  color: #E8F1FF;
-  padding: 3rem 0;
-  text-align: center;
-  border-top: 1px solid rgba(0, 184, 169, 0.3);
+  background: ${colors.parchment};
+  color: #5d4037;
+  padding: 4rem 0 2rem;
+  position: relative;
+  border-top: 1px solid ${colors.dustGrey};
+`;
+
+const FooterContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 `;
 
 const FooterText = styled.p`
   margin: 0;
   opacity: 0.8;
   font-size: 1.1rem;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
 `;
 
 const FooterLinks = styled.div`
   display: flex;
-  gap: 2rem;
+  gap: 3rem;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin: 1rem 0;
 
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 1rem;
+    align-items: center;
   }
 
   a {
-    color: #E8F1FF;
+    color: #8b7355;
     text-decoration: none;
     opacity: 0.8;
     transition: all 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
     position: relative;
 
     &:hover {
       opacity: 1;
-      color: #1E90FF;
-      text-shadow: 0 0 10px #1E90FF;
+      color: #5d4037;
+
+      &::after {
+        width: 100%;
+      }
     }
 
     &::after {
@@ -1004,12 +1011,8 @@ const FooterLinks = styled.div`
       left: 0;
       width: 0;
       height: 2px;
-      background: linear-gradient(90deg, #00B8A9, #1E90FF);
+      background: ${colors.almondSilk};
       transition: width 0.3s ease;
-    }
-
-    &:hover::after {
-      width: 100%;
     }
   }
 `;
@@ -1019,30 +1022,37 @@ const ScrollToTop = styled.button`
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #00B8A9, #1E90FF);
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, ${colors.almondSilk}, ${colors.powderPetal});
   border: none;
-  border-radius: 50%;
-  color: white;
-  font-size: 1.2rem;
+  border-radius: 12px;
+  color: #5d4037;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(0, 184, 169, 0.4);
+  box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  border: 2px solid white;
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 30px rgba(30, 144, 255, 0.6);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(139, 115, 85, 0.4);
   }
+
+  opacity: ${props => props.show ? 1 : 0};
+  visibility: ${props => props.show ? 'visible' : 'hidden'};
+  transform: translateY(${props => props.show ? 0 : '20px'});
 `;
 
 const DataScienceInternship = () => {
   const typedRef = useRef(null);
   const [showScrollTop, setShowScrollTop] = React.useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Initialize AOS
@@ -1054,35 +1064,13 @@ const DataScienceInternship = () => {
 
     // Initialize Typed.js
     const typed = new Typed(typedRef.current, {
-      strings: ['Data.', 'Analytics.', 'Insights.', 'Prediction.', 'Visualization.'],
+      strings: ['Data Science.', 'Machine Learning.', 'Analytics.', 'Visualization.', 'Insights.'],
       typeSpeed: 50,
       backSpeed: 30,
       backDelay: 2000,
       loop: true,
       showCursor: true,
       cursorChar: '|'
-    });
-
-    // Smooth scroll function
-    const smoothScroll = (target) => {
-      const element = document.querySelector(target);
-      if (element) {
-        const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth'
-        });
-      }
-    };
-
-    // Add smooth scroll to all anchor links
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    anchorLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = link.getAttribute('href');
-        smoothScroll(target);
-      });
     });
 
     // Scroll to top visibility
@@ -1098,27 +1086,6 @@ const DataScienceInternship = () => {
     };
   }, []);
 
-  // Ripple effect function
-  const createRipple = (event) => {
-    const button = event.currentTarget;
-    const circle = document.createElement('span');
-    const diameter = Math.max(button.clientWidth, button.clientHeight);
-    const radius = diameter / 2;
-
-    circle.style.width = circle.style.height = `${diameter}px`;
-    circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-    circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
-    circle.classList.add('ripple');
-
-    const ripple = button.getElementsByClassName('ripple')[0];
-    if (ripple) {
-      ripple.remove();
-    }
-
-    button.appendChild(circle);
-  };
-
-  // Scroll to top function
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -1128,43 +1095,36 @@ const DataScienceInternship = () => {
 
   // Skills data
   const skills = [
-    { 
-      icon: <FaPython />, 
-      name: 'Python, NumPy, Pandas', 
-      desc: 'Data manipulation and analysis with Python',
-      color: '#3776AB'
+    {
+      icon: <FaPython />,
+      name: 'Python Programming',
+      desc: 'Master Python for data manipulation, analysis, and machine learning applications'
     },
-    { 
-      icon: <FaDatabase />, 
-      name: 'Data Cleaning & Wrangling', 
-      desc: 'Preprocess and clean datasets for analysis',
-      color: '#00B8A9'
+    {
+      icon: <SiPandas />,
+      name: 'Data Analysis',
+      desc: 'Pandas and NumPy for cleaning, transforming, and analyzing complex datasets'
     },
-    { 
-      icon: <FaSearch />, 
-      name: 'Exploratory Data Analysis', 
-      desc: 'Discover patterns and insights in data',
-      color: '#1E90FF'
+    {
+      icon: <FaChartBar />,
+      name: 'Data Visualization',
+      desc: 'Create compelling visualizations with Matplotlib, Seaborn, and Plotly'
     },
-    { 
-      icon: <FaChartBar />, 
-      name: 'Data Visualization', 
-      desc: 'Create visualizations using PowerBI & SQL',
-      color: '#FFD460'
+    {
+      icon: <FaBrain />,
+      name: 'Machine Learning',
+      desc: 'Build predictive models using Scikit-learn, TensorFlow, and deep learning'
     },
-    { 
-      icon: <FaLightbulb />, 
-      name: 'Predictive Analytics', 
-      desc: 'Build ML models for predictions and insights',
-      color: '#00B8A9'
+    {
+      icon: <TbDatabase />,
+      name: 'Database Management',
+      desc: 'SQL for efficient data querying and database operations'
     },
-    { 
-      icon: <FaChartBar />, 
-      name: 'Probability & Statistics', 
-      desc: 'Data distribution, correlation, and inference analysis',
-      color: '#0EA5E9'
+    {
+      icon: <BiAnalyse />,
+      name: 'Statistical Analysis',
+      desc: 'Probability, statistics, and hypothesis testing for data-driven insights'
     }
-
   ];
 
   // Tools data
@@ -1174,104 +1134,154 @@ const DataScienceInternship = () => {
     { icon: <SiNumpy />, name: 'NumPy' },
     { icon: <SiScikitlearn />, name: 'Scikit-learn' },
     { icon: <MdShowChart />, name: 'Matplotlib' },
-    { icon: <TbChartHistogram/>, name: 'Seaborn' },
-    { icon: <BiBarChartAlt2/>, name: 'Power BI' },
-    { icon: <SiPycharm />, name: 'Pycharm' }
+    { icon: <TbChartHistogram />, name: 'Seaborn' },
+    { icon: <SiTensorflow />, name: 'TensorFlow' },
+    { icon: <SiJupyter />, name: 'Jupyter' },
+    { icon: <SiTableau />, name: 'Tableau' },
+    { icon: <SiPycharm />, name: 'PyCharm' },
+    { icon: <SiPostgresql />, name: 'PostgreSQL' },
+    { icon: <SiGooglecolab />, name: 'Colab' }
   ];
 
   // Projects data
   const projects = [
-    { 
-      icon: <FaChartLine />, 
-      name: 'Sales Forecasting', 
-      desc: 'Predict future sales using time series analysis',
-      tech: 'Python, ARIMA, Prophet'
+    {
+      icon: <FaChartLine />,
+      name: 'Sales Forecasting',
+      desc: 'Predict future sales using advanced time series analysis and forecasting models',
+      tech: ['Python', 'Prophet', 'ARIMA', 'Statsmodels']
     },
-    { 
-      icon: <FaUserTie />, 
-      name: 'Customer Churn Prediction', 
-      desc: 'Identify customers likely to leave using ML',
-      tech: 'Scikit-learn, XGBoost, Pandas'
+    {
+      icon: <FaUserTie />,
+      name: 'Customer Analytics',
+      desc: 'Customer segmentation and churn prediction using clustering algorithms',
+      tech: ['Scikit-learn', 'XGBoost', 'Pandas', 'Plotly']
     },
-    { 
-      icon: <FaChartBar />, 
-      name: 'COVID-19 Dashboard', 
-      desc: 'Interactive visualization of pandemic data',
-      tech: 'Plotly, Dash, Pandas'
+    {
+      icon: <FaChartArea />,
+      name: 'Financial Dashboard',
+      desc: 'Interactive financial dashboard with real-time data visualization',
+      tech: ['Plotly Dash', 'Pandas', 'Plotly', 'Flask']
     },
-    { 
-      icon: <FaRocket />, 
-      name: 'Movie Recommendation', 
-      desc: 'Content-based filtering for movie suggestions',
-      tech: 'Cosine Similarity, Pandas'
+    {
+      icon: <FaRocket />,
+      name: 'Recommendation Engine',
+      desc: 'Content-based filtering system for personalized recommendations',
+      tech: ['Cosine Similarity', 'TF-IDF', 'Pandas', 'NLTK']
     },
-    { 
-      icon: <FaChartPie />, 
-      name: 'Stock Market Analysis', 
-      desc: 'Technical analysis and trend prediction',
-      tech: 'yFinance, Matplotlib, NumPy'
+    {
+      icon: <MdTrendingUp />,
+      name: 'Stock Analysis',
+      desc: 'Technical analysis and trend prediction using historical market data',
+      tech: ['yFinance', 'NumPy', 'Matplotlib', 'Ta-Lib']
     },
-    { 
-      icon: <FaLightbulb />, 
-      name: 'Employee Performance', 
-      desc: 'Analyze and predict employee performance',
-      tech: 'Random Forest, Feature Engineering'
+    {
+      icon: <MdDataArray />,
+      name: 'Employee Analytics',
+      desc: 'Comprehensive analysis of employee performance and engagement metrics',
+      tech: ['Random Forest', 'Feature Engineering', 'Scikit-learn', 'SHAP']
     }
   ];
 
   // Benefits data
   const benefits = [
-    { 
-      icon: <FaCertificate />, 
-      name: 'Internship Certificate', 
-      desc: 'Industry-recognized data science certification'
+    {
+      icon: <FaCertificate />,
+      name: 'Internship Certificate',
+      desc: 'Industry-recognized certification upon successful completion'
     },
-    { 
-      icon: <FaLaptopCode />, 
-      name: 'Real Data Projects', 
-      desc: 'Hands-on experience with real datasets'
+    {
+      icon: <FaLaptopCode />,
+      name: 'Real Data Projects',
+      desc: 'Hands-on experience with real-world datasets and business problems'
     },
-    { 
-      icon: <FaUserTie />, 
-      name: 'Portfolio Enhancement', 
-      desc: 'Build a strong data science portfolio'
+    {
+      icon: <FaGraduationCap />,
+      name: 'Portfolio Development',
+      desc: 'Build a professional portfolio showcasing your data science skills'
     },
-    { 
-      icon: <FaGraduationCap />, 
-      name: 'LOR', 
-      desc: 'Letter of Recommendation from data experts'
+    {
+      icon: <FaUserTie />,
+      name: 'Letter of Recommendation',
+      desc: 'LOR from experienced data scientists and industry mentors'
     }
   ];
 
-  // Quotes data
-  const quotes = [
-    "Data is the new oil — and you're about to refine it.",
-    "The goal is to turn data into information, and information into insight.",
-    "Analyze. Predict. Decide. Lead.",
-    "In God we trust, all others must bring data.",
-    "Without data, you're just another person with an opinion."
+  // Curriculum data
+  const curriculum = [
+    {
+      number: '01',
+      title: 'Data Science Fundamentals',
+      desc: 'Introduction to data science ecosystem, tools, and best practices'
+    },
+    {
+      number: '02',
+      title: 'Python for Data Science',
+      desc: 'Master Python programming for data manipulation and analysis workflows'
+    },
+    {
+      number: '03',
+      title: 'Data Wrangling',
+      desc: 'Techniques for preprocessing, cleaning, and preparing datasets'
+    },
+    {
+      number: '04',
+      title: 'Exploratory Analysis',
+      desc: 'Discover insights and patterns through statistical analysis'
+    },
+    {
+      number: '05',
+      title: 'Data Visualization',
+      desc: 'Create compelling visualizations and dashboards for storytelling'
+    },
+    {
+      number: '06',
+      title: 'Machine Learning',
+      desc: 'Build and evaluate predictive models using various algorithms'
+    }
   ];
 
-  // Timeline data
-  const timelineData = [
-    { phase: "Data Science & Tools Intro", desc: "Fundamentals of data science ecosystem" },
-    { phase: "Python for Analytics", desc: "Programming and data manipulation skills" },
-    { phase: "Data Cleaning & Preprocessing", desc: "Prepare datasets for analysis" },
-    { phase: "EDA & Visualization", desc: "Discover insights and create visual stories" },
-    { phase: "Machine Learning", desc: "Build predictive models and algorithms" },
-    { phase: "Capstone Data Project", desc: "End-to-end data science solution" }
+  // Features data
+  const features = [
+    {
+      icon: <FaPython />,
+      title: 'Python Mastery',
+      desc: 'Comprehensive Python training focused on data science applications'
+    },
+    {
+      icon: <FaDatabase />,
+      title: 'Data Processing',
+      desc: 'Learn to clean, transform, and prepare data for analysis using Pandas'
+    },
+    {
+      icon: <FaChartBar />,
+      title: 'Visual Storytelling',
+      desc: 'Create compelling visualizations that communicate insights effectively'
+    },
+    {
+      icon: <FaBrain />,
+      title: 'ML Algorithms',
+      desc: 'Understand and implement machine learning algorithms for predictions'
+    },
+    {
+      icon: <FaSearch />,
+      title: 'Statistical Methods',
+      desc: 'Apply statistical techniques for hypothesis testing and analysis'
+    },
+    {
+      icon: <FaLightbulb />,
+      title: 'Business Insights',
+      desc: 'Transform complex data into actionable business intelligence'
+    }
   ];
-
-  const navigate = useNavigate()
 
   return (
     <PageContainer>
-
       <Helmet>
         <title>Data Science Internship | BTC Routes</title>
         <meta
           name="description"
-          content="Gain hands-on experience with BTC Routes’ Data Science Internship. Learn Python, Pandas, NumPy, Machine Learning, and data visualization through real-world projects."
+          content="Gain hands-on experience with BTC Routes' Data Science Internship. Learn Python, Pandas, NumPy, Machine Learning, and data visualization through real-world projects."
         />
         <meta
           name="keywords"
@@ -1279,18 +1289,14 @@ const DataScienceInternship = () => {
         />
         <meta name="author" content="BTC Routes" />
         <link rel="canonical" href="https://www.btcroutes.com/internship/data-science" />
-
-        {/* ✅ Open Graph Meta Tags */}
         <meta property="og:title" content="Data Science Internship | BTC Routes" />
         <meta
           property="og:description"
-          content="Join BTC Routes’ Data Science Internship to master Python, data analysis, and machine learning. Work on live projects and build your career in data science."
+          content="Join BTC Routes' Data Science Internship to master Python, data analysis, and machine learning. Work on live projects and build your career in data science."
         />
         <meta property="og:image" content="%PUBLIC_URL%/logo2.png" />
         <meta property="og:url" content="https://www.btcroutes.com/internship/data-science" />
         <meta property="og:type" content="website" />
-
-        {/* ✅ Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="BTC Routes | Data Science Internship" />
         <meta
@@ -1298,48 +1304,18 @@ const DataScienceInternship = () => {
           content="Master data science with BTC Routes through hands-on projects. Learn Python, ML, and data visualization for your professional growth."
         />
         <meta name="twitter:image" content="%PUBLIC_URL%/logo2.png" />
-
-        {/* ✅ Structured Data (JSON-LD) */}
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "Course",
-              "name": "Data Science Internship",
-              "description": "Gain hands-on experience with BTC Routes’ Data Science Internship. Learn Python, Pandas, NumPy, Machine Learning, and data visualization through real-world projects.",
-              "provider": {
-                "@type": "Organization",
-                "name": "BTC Routes",
-                "url": "https://www.btcroutes.com",
-                "logo": "https://www.btcroutes.com/logo2.png"
-              },
-              "courseMode": "Online",
-              "educationalCredentialAwarded": "Internship Certificate",
-              "teaches": [
-                "Python",
-                "Pandas",
-                "NumPy",
-                "Data Analysis",
-                "Machine Learning",
-                "Data Visualization"
-              ],
-              "url": "https://www.btcroutes.com/internship/data-science"
-            }
-          `}
-        </script>
       </Helmet>
 
       <GlobalStyle />
-      
-      {/* Navigation */}
 
+      {/* Navigation */}
       <NavbarComponent />
 
       {/* Hero Section */}
       <HeroSection id="hero">
         <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-8" data-aos="fade-up">
+          <div className="row align-items-center min-vh-80">
+            <div className="col-lg-7" data-aos="fade-right">
               <HeroTitle>
                 Data Science <br />Internship
               </HeroTitle>
@@ -1347,81 +1323,90 @@ const DataScienceInternship = () => {
                 Master <TypedText ref={typedRef}></TypedText>
               </HeroSubtitle>
               <HeroTagline>
-                Turn raw data into real-world decisions.
+                Transform raw data into meaningful insights. Learn cutting-edge data science
+                techniques through hands-on projects and real-world applications.
               </HeroTagline>
-              <GoldButton 
-                onClick={(e) => {
-                  createRipple(e);
-                  navigate("/application")
-                  // document.querySelector('#apply').scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                Apply Now
-                <Ripple />
-              </GoldButton>
+              <div className="d-flex gap-3">
+                <PrimaryButton
+                  onClick={() => navigate('/application')}
+                  large
+                >
+                  Apply Now
+                  <FaRocket />
+                </PrimaryButton>
+                <SecondaryButton
+                  onClick={() => document.querySelector('#curriculum').scrollIntoView({ behavior: 'smooth' })}
+                >
+                  View Curriculum
+                </SecondaryButton>
+              </div>
+            </div>
+            <div className="col-lg-5" data-aos="fade-left">
+              <HeroVisualContainer>
+                <CentralIcon>
+                  <FaBrain />
+                </CentralIcon>
+
+                <OrbitRing size={300} duration={20}>
+                  <OrbitIcon duration={20}>
+                    <FaPython />
+                  </OrbitIcon>
+                </OrbitRing>
+
+                <OrbitRing size={450} duration={25} reverse>
+                  <OrbitIcon duration={25} reverse>
+                    <FaDatabase />
+                  </OrbitIcon>
+                </OrbitRing>
+
+                <OrbitRing size={380} duration={30}>
+                  <OrbitIcon duration={30} style={{ top: 'auto', bottom: '-20px' }}>
+                    <FaChartLine />
+                  </OrbitIcon>
+                </OrbitRing>
+              </HeroVisualContainer>
             </div>
           </div>
         </div>
 
-        {/* Chart Animation */}
-        <ChartLine delay="0s">
-          <defs>
-            <linearGradient id="chartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#00B8A9" />
-              <stop offset="50%" stopColor="#1E90FF" />
-              <stop offset="100%" stopColor="#FFD460" />
-            </linearGradient>
-          </defs>
-          <path d="M100,300 C200,200 300,400 400,300 C500,200 600,400 700,300" />
-          <path d="M150,350 C250,250 350,450 450,350 C550,250 650,450 750,350" />
-        </ChartLine>
+        {/* Data Points */}
+        <DataPoint top="20%" left="10%" delay="0s" color={colors.almondSilk} />
+        <DataPoint top="30%" right="15%" delay="0.5s" color={colors.powderPetal} />
+        <DataPoint top="60%" left="20%" delay="1s" color={colors.almondSilk} />
+        <DataPoint bottom="25%" right="25%" delay="1.5s" color={colors.powderPetal} />
 
-        {/* Data Nodes */}
-        <DataNode top="25%" left="15%" delay="0s" color="#00B8A9" />
-        <DataNode top="35%" right="20%" delay="0.5s" color="#1E90FF" />
-        <DataNode top="65%" left="25%" delay="1s" color="#FFD460" />
-        <DataNode bottom="30%" right="30%" delay="1.5s" color="#00B8A9" />
-        <DataNode top="50%" left="35%" delay="2s" color="#1E90FF" />
-        <DataNode bottom="40%" right="40%" delay="2.5s" color="#FFD460" />
-
-        <HeroBackgroundAnimation />
+        {/* Data Streams */}
+        <DataStream top="40%" delay="0s" />
+        <DataStream top="60%" delay="3s" />
+        <DataStream top="80%" delay="6s" />
       </HeroSection>
 
       {/* About Section */}
       <AboutSection id="about">
         <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-6" data-aos="fade-right">
-              <SectionHeader>
-                <h2>About the Internship</h2>
-                <SectionDivider />
-              </SectionHeader>
-              <AboutText>
-                Understand data from collection to insight. Gain the ability to clean, 
-                analyze, visualize, and predict outcomes with confidence through our 
-                comprehensive Data Science Internship.
-              </AboutText>
-              <AboutText>
-                Designed for BE/B.Tech students in IT, CSE, AI, ML, and DS, this program 
-                takes you through the complete data science lifecycle using industry-standard 
-                tools and real-world datasets.
-              </AboutText>
-              <AboutFeatures>
-                <li>Python Programming for Data Science</li>
-                <li>Statistical Analysis & Hypothesis Testing</li>
-                <li>Data Visualization & Dashboard Reporting</li>
-                <li>Machine Learning Integration & Model Building</li>
-                <li>SQL Database Queries & Management</li>
-                <li>Business Intelligence & Insights Generation</li>
-              </AboutFeatures>
-            </div>
-            <div className="col-lg-6" data-aos="fade-left">
-              <DataVisual>
-                <ChartIcon>
-                  <FaChartLine />
-                </ChartIcon>
-                <DataGrid />
-              </DataVisual>
+          <SectionHeader center>
+            <h2>About the Internship</h2>
+            <SectionSubtitle center>
+              Comprehensive training in data science from fundamentals to advanced applications
+            </SectionSubtitle>
+          </SectionHeader>
+          <div className="row justify-content-center">
+            <div className="col-lg-10">
+              <AboutCard data-aos="zoom-in">
+                <FeatureGrid>
+                  {features.map((feature, index) => (
+                    <FeatureItem key={index} data-aos="fade-up" data-aos-delay={index * 100}>
+                      <FeatureIcon>
+                        {feature.icon}
+                      </FeatureIcon>
+                      <FeatureContent>
+                        <h4>{feature.title}</h4>
+                        <p>{feature.desc}</p>
+                      </FeatureContent>
+                    </FeatureItem>
+                  ))}
+                </FeatureGrid>
+              </AboutCard>
             </div>
           </div>
         </div>
@@ -1431,17 +1416,16 @@ const DataScienceInternship = () => {
       <SkillsSection id="skills">
         <div className="container">
           <SectionHeader center>
-            <h2>Skills You'll Learn</h2>
-            <SectionDivider center />
-            <SectionSubtitle>
-              Master the essential technologies for modern data science
+            <h2>Skills You'll Master</h2>
+            <SectionSubtitle center>
+              Comprehensive curriculum covering modern data science technologies
             </SectionSubtitle>
           </SectionHeader>
           <div className="row g-4">
             {skills.map((skill, index) => (
-              <div key={index} className="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay={index * 100}>
+              <div key={index} className="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay={index * 100}>
                 <SkillCard>
-                  <SkillIcon color={skill.color}>
+                  <SkillIcon>
                     {skill.icon}
                   </SkillIcon>
                   <SkillName>{skill.name}</SkillName>
@@ -1451,30 +1435,30 @@ const DataScienceInternship = () => {
             ))}
           </div>
         </div>
-        <SkillsBackground />
       </SkillsSection>
 
       {/* Curriculum Section */}
       <CurriculumSection id="curriculum">
         <div className="container">
           <SectionHeader center>
-            <h2>Learning Roadmap</h2>
-            <SectionDivider center />
+            <h2>Learning Journey</h2>
+            <SectionSubtitle center>
+              Structured curriculum designed for progressive learning in data science
+            </SectionSubtitle>
           </SectionHeader>
-          <Timeline>
-            {timelineData.map((item, index) => (
-              <TimelineItem 
-                key={index} 
-                even={index % 2 !== 0}
-                data-aos="fade-up" 
-                data-aos-delay={index * 200}
+          <PhaseContainer>
+            {curriculum.map((phase, index) => (
+              <PhaseCard
+                key={index}
+                number={phase.number}
+                data-aos="fade-up"
+                data-aos-delay={index * 150}
               >
-                <TimelinePhase>{item.phase}</TimelinePhase>
-                <TimelineDesc>{item.desc}</TimelineDesc>
-                <TimelineConnector even={index % 2 !== 0} />
-              </TimelineItem>
+                <PhaseTitle>{phase.title}</PhaseTitle>
+                <PhaseDescription>{phase.desc}</PhaseDescription>
+              </PhaseCard>
             ))}
-          </Timeline>
+          </PhaseContainer>
         </div>
       </CurriculumSection>
 
@@ -1483,64 +1467,30 @@ const DataScienceInternship = () => {
         <div className="container">
           <SectionHeader center>
             <h2>Tools & Technologies</h2>
-            <SectionDivider center />
+            <SectionSubtitle center>
+              Industry-standard tools used in modern data science workflows
+            </SectionSubtitle>
           </SectionHeader>
-          <div className="row g-4 justify-content-center">
+          <ToolsGrid>
             {tools.map((tool, index) => (
-              <div key={index} className="col-6 col-md-4 col-lg-3" data-aos="flip-up" data-aos-delay={index * 100}>
-                <ToolCard>
-                  <ToolIcon>
-                    {tool.icon}
-                  </ToolIcon>
-                  <ToolName>{tool.name}</ToolName>
-                </ToolCard>
-              </div>
+              <ToolItem key={index} data-aos="zoom-in" data-aos-delay={index * 50}>
+                <ToolIcon>
+                  {tool.icon}
+                </ToolIcon>
+                <ToolName>{tool.name}</ToolName>
+              </ToolItem>
             ))}
-          </div>
+          </ToolsGrid>
         </div>
       </ToolsSection>
-
-      {/* Mentorship Section */}
-      <MentorshipSection>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-10 text-center" data-aos="fade-up-right">
-              <MentorshipContent>
-                <QuoteIcon><FaQuoteLeft /></QuoteIcon>
-                <MentorshipText>
-                  "Learn directly from experts who've built predictive models, visual dashboards, 
-                  and data-driven decision systems for real businesses. Get personalized guidance 
-                  from professionals who understand both the technical and business aspects of data science."
-                </MentorshipText>
-                {/* <MentorStats>
-                  <Stat>
-                    <StatNumber>8+</StatNumber>
-                    <span>Years Experience</span>
-                  </Stat>
-                  <Stat>
-                    <StatNumber>100+</StatNumber>
-                    <span>Data Projects</span>
-                  </Stat>
-                  <Stat>
-                    <StatNumber>500+</StatNumber>
-                    <span>Models Deployed</span>
-                  </Stat>
-                </MentorStats> */}
-              </MentorshipContent>
-            </div>
-          </div>
-        </div>
-        <MentorshipBackground />
-      </MentorshipSection>
 
       {/* Projects Section */}
       <ProjectsSection id="projects">
         <div className="container">
           <SectionHeader center>
-            <h2>Project Work</h2>
-            <SectionDivider center />
-            <SectionSubtitle>
-              Build real-world data applications that demonstrate your expertise
+            <h2>Real-World Projects</h2>
+            <SectionSubtitle center>
+              Build practical data science applications that showcase your expertise
             </SectionSubtitle>
           </SectionHeader>
           <div className="row g-4">
@@ -1552,7 +1502,11 @@ const DataScienceInternship = () => {
                   </ProjectIcon>
                   <ProjectTitle>{project.name}</ProjectTitle>
                   <ProjectDescription>{project.desc}</ProjectDescription>
-                  <ProjectTech>{project.tech}</ProjectTech>
+                  <ProjectTech>
+                    {project.tech.map((tech, techIndex) => (
+                      <TechTag key={techIndex}>{tech}</TechTag>
+                    ))}
+                  </ProjectTech>
                 </ProjectCard>
               </div>
             ))}
@@ -1560,60 +1514,18 @@ const DataScienceInternship = () => {
         </div>
       </ProjectsSection>
 
-      {/* Eligibility Section */}
-      <EligibilitySection>
-        <div className="container">
-          <SectionHeader center>
-            <h2>Duration, Mode & Eligibility</h2>
-            <SectionDivider center />
-          </SectionHeader>
-          <div className="row g-4" data-aos="zoom-in">
-            <div className="col-md-6 col-lg-3">
-              <InfoCard>
-                <InfoIcon><FaCalendarAlt /></InfoIcon>
-                <InfoTitle>Duration</InfoTitle>
-                <InfoValue>1-3 Months</InfoValue>
-                <InfoSubtext>Flexible Program</InfoSubtext>
-              </InfoCard>
-            </div>
-            <div className="col-md-6 col-lg-3">
-              <InfoCard>
-                <InfoIcon><FaLaptopCode /></InfoIcon>
-                <InfoTitle>Mode</InfoTitle>
-                <InfoValue>Online/Hybrid/Offline</InfoValue>
-                <InfoSubtext>Remote Learning</InfoSubtext>
-              </InfoCard>
-            </div>
-            <div className="col-md-6 col-lg-3">
-              <InfoCard>
-                <InfoIcon><FaUsers /></InfoIcon>
-                <InfoTitle>Eligibility</InfoTitle>
-                <InfoValue>IT/CSE/AI/ML/DS</InfoValue>
-                <InfoSubtext>BE/B.Tech/B.Sc Students</InfoSubtext>
-              </InfoCard>
-            </div>
-            <div className="col-md-6 col-lg-3">
-              <InfoCard>
-                <InfoIcon><FaPython /></InfoIcon>
-                <InfoTitle>Prerequisite</InfoTitle>
-                <InfoValue>Python Basics</InfoValue>
-                <InfoSubtext>Recommended</InfoSubtext>
-              </InfoCard>
-            </div>
-          </div>
-        </div>
-      </EligibilitySection>
-
       {/* Benefits Section */}
-      <BenefitsSection>
+      <BenefitsSection id="benefits">
         <div className="container">
           <SectionHeader center>
             <h2>Certification & Benefits</h2>
-            <SectionDivider center />
+            <SectionSubtitle center>
+              What you'll gain from this comprehensive data science internship
+            </SectionSubtitle>
           </SectionHeader>
           <div className="row g-4">
             {benefits.map((benefit, index) => (
-              <div key={index} className="col-md-6 col-lg-3" data-aos="fade-right" data-aos-delay={index * 100}>
+              <div key={index} className="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay={index * 100}>
                 <BenefitCard>
                   <BenefitIcon>
                     {benefit.icon}
@@ -1627,80 +1539,46 @@ const DataScienceInternship = () => {
         </div>
       </BenefitsSection>
 
-      {/* Quotes Section */}
-      <QuotesSection>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-10 text-center" data-aos="fade-in">
-              <QuotesContent>
-                <QuoteText>
-                  {quotes[0]}
-                </QuoteText>
-                <QuoteRotation>
-                  {quotes.slice(1).map((quote, index) => (
-                    <RotatingQuote key={index} delay={`${(index + 1) * 3}s`}>
-                      {quote}
-                    </RotatingQuote>
-                  ))}
-                </QuoteRotation>
-              </QuotesContent>
-            </div>
-          </div>
-        </div>
-        <DataParticles />
-      </QuotesSection>
-
       {/* Apply Section */}
       <ApplySection id="apply">
         <div className="container">
           <div className="row justify-content-center text-center">
             <div className="col-lg-8" data-aos="zoom-in">
-              <ApplyTitle>Shape the Future with Data</ApplyTitle>
+              <ApplyTitle>Transform Data into Decisions</ApplyTitle>
               <ApplySubtitle>
-                Shape the future with data. Join our Data Science Internship and learn 
-                to uncover insights that power innovation and drive business decisions.
+                Join aspiring data scientists and learn to uncover insights that drive innovation.
+                Build a career in one of the most in-demand fields in technology today.
               </ApplySubtitle>
-              <GoldButton 
-                large
-                onClick={createRipple}
-              >
-              <Link to="/application" className='text-decoration-none'>
+              <ApplyButton onClick={() => navigate('/application')}>
                 Apply Now
-              </Link>  
-                <Ripple />
-              </GoldButton>
+                <FaRocket />
+              </ApplyButton>
             </div>
           </div>
         </div>
-        <ApplyBackgroundAnimation />
       </ApplySection>
 
       {/* Footer */}
       <Footer>
         <div className="container">
-          <div className="row align-items-center">
-            <div className="col-md-6">
-              <FooterText>
-                &copy; 2025 Data Science Internship. All rights reserved.
-              </FooterText>
-            </div>
-            <div className="col-md-6 text-md-end">
-              <FooterLinks>
-                <Link to="/privacy-policy">Privacy Policy</Link>
-                <Link to="/terms-and-condition">Terms of Service</Link>
-                <Link to="/contact">Contact Us</Link>
-              </FooterLinks>
-            </div>
-          </div>
+          <FooterContent>
+            <FooterText>
+              &copy; {new Date().getFullYear()} BTC Routes Data Science Internship. All rights reserved.
+            </FooterText>
+            <FooterLinks>
+              <Link to="/privacy-policy">Privacy Policy</Link>
+              <Link to="/terms-and-condition">Terms of Service</Link>
+              <Link to="/contact">Contact Us</Link>
+              <Link to="/faq">FAQ</Link>
+            </FooterLinks>
+          </FooterContent>
         </div>
       </Footer>
 
       {/* Scroll to Top Button */}
-      {showScrollTop && (
-        <ScrollToTop onClick={scrollToTop}>
-          ↑
-        </ScrollToTop>
-      )}
+      <ScrollToTop onClick={scrollToTop} show={showScrollTop}>
+        <FaChevronUp />
+      </ScrollToTop>
     </PageContainer>
   );
 };

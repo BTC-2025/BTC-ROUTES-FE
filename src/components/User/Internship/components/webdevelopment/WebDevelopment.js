@@ -3,13 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Typed from 'typed.js';
-// import logo from '../../../../assests/logo2.png'
-import { BiLogoVisualStudio } from "react-icons/bi";
-import {Link, useNavigate} from 'react-router-dom'
-// import { Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { BiLogoVisualStudio } from "react-icons/bi"
 import styled, { keyframes, createGlobalStyle } from 'styled-components';
-import { 
+import {
   FaCode,
   FaLaptopCode,
   FaServer,
@@ -18,12 +16,13 @@ import {
   FaGraduationCap,
   FaCalendarAlt,
   FaUsers,
-  FaQuoteLeft,
+  // FaQuoteLeft,
   FaRocket,
   FaMobile,
-  FaPalette
+  FaPalette,
+  FaChevronUp
 } from 'react-icons/fa';
-import { 
+import {
   SiHtml5,
   SiCss3,
   SiJavascript,
@@ -31,9 +30,23 @@ import {
   SiNodedotjs,
   SiExpress,
   SiMongodb,
-  SiGithub
+  SiGithub,
 } from 'react-icons/si';
 import NavbarComponent from '../Navbarcomponent';
+
+// Color Palette
+const colors = {
+  aliceBlue: '#edf2fb',
+  lavender: '#e2eafc',
+  lavender2: '#d7e3fc',
+  periwinkle: '#ccdbfd',
+  periwinkle2: '#c1d3fe',
+  periwinkle3: '#b6ccfe',
+  babyBlueIce: '#abc4ff',
+  darkBlue: '#1a237e',
+  navyBlue: '#283593',
+  royalBlue: '#303f9f'
+};
 
 // Global Styles
 const GlobalStyle = createGlobalStyle`
@@ -44,106 +57,62 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Inter', 'Fira Code', monospace;
+    font-family: 'Roboto', sans-serif;
     line-height: 1.6;
-    color: #E5E7EB;
+    color: ${colors.darkBlue};
     overflow-x: hidden;
-    background: #0A0F1F;
+    background: linear-gradient(135deg, ${colors.aliceBlue} 0%, ${colors.lavender} 100%);
   }
 
   html {
     scroll-padding-top: 80px;
+    scroll-behavior: smooth;
   }
 
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
   /* Scrollbar Styling */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 0px;
+    background: transparent;
   }
-
-  ::-webkit-scrollbar-track {
-    background: #111827;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(#00FFC6, #4F46E5);
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(#4F46E5, #00FFC6);
-  }
-`;
+`
 
 // Animations
 const float = keyframes`
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(5deg); }
+  50% { transform: translateY(-20px) rotate(3deg); }
 `;
 
-// const codePulse = keyframes`
-//   0%, 100% { 
-//     opacity: 0.6;
-//     transform: scale(1);
-//   }
-//   50% { 
-//     opacity: 1;
-//     transform: scale(1.05);
-//   }
+// const shimmer = keyframes`
+//   0% { background-position: -1000px 0; }
+//   100% { background-position: 1000px 0; }
 // `;
 
-const rippleAnimation = keyframes`
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-`;
-
-const backgroundShimmer = keyframes`
-  0%, 100% { transform: translateX(-100%) rotate(0deg); }
-  50% { transform: translateX(100%) rotate(180deg); }
-`;
-
-const glowPulse = keyframes`
-  0%, 100% { 
-    box-shadow: 0 0 20px #00FFC6, 0 0 40px rgba(0, 255, 198, 0.3);
-  }
-  50% { 
-    box-shadow: 0 0 30px #4F46E5, 0 0 60px rgba(79, 70, 229, 0.4);
-  }
-`;
-
-// const terminalGlow = keyframes`
-//   0%, 100% { 
-//     text-shadow: 0 0 10px #00FFC6, 0 0 20px #00FFC6;
-//   }
-//   50% { 
-//     text-shadow: 0 0 15px #4F46E5, 0 0 30px #4F46E5;
-//   }
+// const pulse = keyframes`
+//   0%, 100% { opacity: 1; }
+//   50% { opacity: 0.7; }
 // `;
 
-const quoteRotate = keyframes`
-  0%, 25% { opacity: 1; transform: translateY(0); }
-  30%, 100% { opacity: 0; transform: translateY(-20px); }
+// const wave = keyframes`
+//   0% { transform: translateX(-100%); }
+//   100% { transform: translateX(100%); }
+// `;
+
+const rotate = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 `;
 
-const cursorBlink = keyframes`
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-`;
-
-const codeLine = keyframes`
-  0% { width: 0; }
-  100% { width: 100%; }
+const bounce = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 `;
 
 // Main Container
 const PageContainer = styled.div`
   position: relative;
 `;
-
 
 // Section Base Styles
 const Section = styled.section`
@@ -156,80 +125,84 @@ const SectionHeader = styled.div`
   text-align: ${props => props.center ? 'center' : 'left'};
 
   h2 {
-    font-size: 3rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, #00FFC6, #FFD700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1rem;
-    text-shadow: 0 0 30px rgba(0, 255, 198, 0.3);
-    font-family: 'Fira Code', monospace;
+    font-size: 3.2rem;
+    font-weight: 600;
+    color: ${colors.navyBlue};
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: ${props => props.center ? '50%' : '0'};
+      transform: ${props => props.center ? 'translateX(-50%)' : 'none'};
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, ${colors.periwinkle3}, ${colors.babyBlueIce});
+      border-radius: 2px;
+    }
   }
 `;
 
-const SectionDivider = styled.div`
-  width: 100px;
-  height: 4px;
-  background: linear-gradient(90deg, #00FFC6, #FFD700);
-  border-radius: 2px;
-  margin: ${props => props.center ? '0 auto' : '0'};
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-`;
-
 const SectionSubtitle = styled.p`
-  font-size: 1.2rem;
-  color: #E5E7EB;
-  margin-top: 1.5rem;
+  font-size: 1.3rem;
+  color: ${colors.navyBlue};
+  margin-top: 2rem;
   opacity: 0.9;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  max-width: 600px;
+  margin-left: ${props => props.center ? 'auto' : '0'};
+  margin-right: ${props => props.center ? 'auto' : '0'};
 `;
 
 // Hero Section
 const HeroSection = styled(Section)`
-  background: linear-gradient(135deg, #00FFC6, #4F46E5);
+  background: linear-gradient(135deg, ${colors.aliceBlue} 0%, ${colors.periwinkle2} 50%, ${colors.babyBlueIce} 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
   position: relative;
   overflow: hidden;
-  color: #E5E7EB;
-  margin: 0;
   padding-top: 80px;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 
-  .container {
-    position: relative;
-    z-index: 2;
-  }
-
-  .row {
-    min-height: calc(100vh - 80px);
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(171, 196, 255, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(182, 204, 254, 0.3) 0%, transparent 50%);
   }
 `;
 
 const HeroTitle = styled.h1`
   font-size: 4.5rem;
-  font-weight: 900;
+  font-weight: 700;
   margin-bottom: 1.5rem;
   line-height: 1.1;
-  text-shadow: 0 0 30px rgba(79, 70, 229, 0.5);
-  background: linear-gradient(135deg, #E5E7EB, #FFD700);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-family: 'Fira Code', monospace;
+  color: ${colors.navyBlue};
+  font-family: 'Roboto', sans-serif;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    font-size: 3rem;
+    font-size: 3.2rem;
   }
 `;
 
 const HeroSubtitle = styled.div`
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  font-weight: 700;
+  font-weight: 500;
   min-height: 3rem;
-  font-family: 'Fira Code', monospace;
+  color: ${colors.navyBlue};
+  font-family: 'Roboto', sans-serif;
 
   @media (max-width: 768px) {
     font-size: 1.8rem;
@@ -237,193 +210,383 @@ const HeroSubtitle = styled.div`
 `;
 
 const TypedText = styled.span`
-  color: #FFD700;
-  font-weight: 800;
-  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  color: ${colors.royalBlue};
+  font-weight: 600;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, ${colors.periwinkle3}, ${colors.babyBlueIce});
+    border-radius: 2px;
+  }
 `;
 
 const HeroTagline = styled.p`
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   margin-bottom: 3rem;
-  opacity: 0.95;
-  font-weight: 500;
+  color: ${colors.navyBlue};
+  opacity: 0.9;
+  font-weight: 400;
   max-width: 600px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.8;
 `;
 
 // Buttons
-const PrimaryButton = styled.button`
-  background: linear-gradient(90deg, #4F46E5, #00FFC6);
+const ButtonBase = styled.button`
   border: none;
-  padding: ${props => props.large ? '18px 50px' : '15px 40px'};
+  padding: ${props => props.large ? '20px 50px' : '16px 40px'};
   border-radius: 50px;
-  font-weight: 700;
+  font-weight: 500;
   font-size: ${props => props.large ? '1.3rem' : '1.1rem'};
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 0 25px rgba(79, 70, 229, 0.4);
-  color: #0A0F1F;
-  animation: ${glowPulse} 2s ease-in-out infinite;
-  font-family: 'Fira Code', monospace;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none !important;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 0 35px rgba(0, 255, 198, 0.6);
-    background: linear-gradient(90deg, #00FFC6, #4F46E5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   }
 `;
 
-const GoldButton = styled(PrimaryButton)`
-  background: linear-gradient(90deg, #FFD700, #FFE44D);
-  animation: none;
-  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+const PrimaryButton = styled(ButtonBase)`
+  background: linear-gradient(135deg, ${colors.periwinkle3}, ${colors.babyBlueIce});
+  color: ${colors.royalBlue};
+  box-shadow: 0 5px 20px rgba(171, 196, 255, 0.4);
 
   &:hover {
-    background: linear-gradient(90deg, #00FFC6, #4F46E5);
-    box-shadow: 0 0 35px rgba(0, 255, 198, 0.6);
+    background: linear-gradient(135deg, ${colors.babyBlueIce}, ${colors.periwinkle3});
+    color: ${colors.royalBlue};
+  }
+
+  &:active {
+    transform: translateY(-1px);
   }
 `;
 
-const Ripple = styled.span`
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(10, 15, 31, 0.6);
-  transform: scale(0);
-  animation: ${rippleAnimation} 0.6s linear;
-  pointer-events: none;
+const SecondaryButton = styled(ButtonBase)`
+  background: ${colors.lavender};
+  color: ${colors.royalBlue};
+  border: 2px solid ${colors.babyBlueIce};
+  box-shadow: 0 5px 15px rgba(171, 196, 255, 0.3);
+
+  &:hover {
+    background: ${colors.periwinkle};
+    border-color: ${colors.periwinkle3};
+  }
 `;
 
-// Code Elements
-const CodeElement = styled.div`
+// Floating Elements
+const FloatingElement = styled.div`
   position: absolute;
-  background: rgba(0, 255, 198, 0.1);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
-  border-radius: 10px;
-  border: 1px solid rgba(0, 255, 198, 0.3);
+  border-radius: 20px;
+  border: 2px solid rgba(171, 196, 255, 0.3);
   animation: ${float} 6s ease-in-out infinite;
-  box-shadow: 0 0 30px rgba(0, 255, 198, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  font-family: 'Fira Code', monospace;
-  padding: 10px;
-  font-size: 0.8rem;
-  color: #00FFC6;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05) translateY(-10px);
+    box-shadow: 0 15px 40px rgba(171, 196, 255, 0.4);
+  }
 
   top: ${props => props.top || 'auto'};
   left: ${props => props.left || 'auto'};
   right: ${props => props.right || 'auto'};
   bottom: ${props => props.bottom || 'auto'};
   animation-delay: ${props => props.delay || '0s'};
+  width: ${props => props.width || 'auto'};
 `;
 
-const Cursor = styled.div`
-  position: absolute;
-  width: 2px;
-  height: 30px;
-  background: #00FFC6;
-  animation: ${cursorBlink} 1s infinite;
-  box-shadow: 0 0 10px #00FFC6;
-  z-index: 1;
-
-  top: ${props => props.top || 'auto'};
-  left: ${props => props.left || 'auto'};
-  right: ${props => props.right || 'auto'};
-  bottom: ${props => props.bottom || 'auto'};
+const ElementIcon = styled.div`
+  font-size: 2.5rem;
+  color: ${colors.royalBlue};
+  margin-bottom: 10px;
 `;
 
-const CodeLine = styled.div`
-  position: absolute;
-  height: 2px;
-  background: linear-gradient(90deg, #00FFC6, #4F46E5);
-  animation: ${codeLine} 3s ease-in-out infinite;
-  box-shadow: 0 0 10px #00FFC6;
-  z-index: 1;
-
-  top: ${props => props.top || 'auto'};
-  left: ${props => props.left || 'auto'};
-  right: ${props => props.right || 'auto'};
-  bottom: ${props => props.bottom || 'auto'};
-  animation-delay: ${props => props.delay || '0s'};
-`;
-
-// Hero Background Animation
-const HeroBackgroundAnimation = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(0, 255, 198, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
-  animation: ${backgroundShimmer} 8s ease-in-out infinite;
-  z-index: 1;
+const ElementText = styled.span`
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: ${colors.navyBlue};
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
 `;
 
 // About Section
 const AboutSection = styled(Section)`
-  background: #111827;
+  background: ${colors.lavender};
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23abc4ff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+  }
+`;
+
+const AboutCard = styled.div`
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 3rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(171, 196, 255, 0.3);
+  transition: all 0.3s ease;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(171, 196, 255, 0.3);
+  }
+`;
+
+const AboutFeature = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const FeatureIcon = styled.div`
+  background: linear-gradient(135deg, ${colors.periwinkle2}, ${colors.babyBlueIce});
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: ${colors.royalBlue};
+  font-size: 1.5rem;
+  box-shadow: 0 5px 15px rgba(171, 196, 255, 0.4);
+`;
+
+const FeatureText = styled.div`
+  h4 {
+    color: ${colors.navyBlue};
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  p {
+    color: ${colors.darkBlue};
+    opacity: 0.9;
+    line-height: 1.6;
+    font-family: 'Roboto', sans-serif;
+  }
+`;
+
+// Skills Section
+const SkillsSection = styled(Section)`
+  background: linear-gradient(135deg, ${colors.aliceBlue} 0%, ${colors.lavender2} 100%);
   position: relative;
   overflow: hidden;
 `;
 
-const AboutText = styled.p`
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  color: #E5E7EB;
-  opacity: 0.9;
-  line-height: 1.8;
-  font-family: 'Inter', sans-serif;
-`;
+const SkillCard = styled.div`
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
 
-const AboutFeatures = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin-top: 2rem;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, ${colors.periwinkle3}, ${colors.babyBlueIce});
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
 
-  li {
-    padding: 0.8rem 0;
-    padding-left: 2rem;
-    position: relative;
-    font-size: 1.1rem;
-    color: #E5E7EB;
-    font-family: 'Inter', sans-serif;
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(171, 196, 255, 0.3);
+    border-color: ${colors.babyBlueIce};
 
     &::before {
-      content: '⚡';
-      position: absolute;
-      left: 0;
-      font-size: 1.2rem;
-      color: #00FFC6;
+      transform: scaleX(1);
     }
   }
 `;
 
-const CodeVisual = styled.div`
-  position: relative;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const SkillIcon = styled.div`
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  color: ${props => props.color || colors.royalBlue};
+  transition: all 0.3s ease;
+
+  ${SkillCard}:hover & {
+    animation: ${bounce} 0.5s ease;
+  }
 `;
 
-const CodeIcon = styled.div`
-  font-size: 8rem;
-  color: #00FFC6;
-  animation: ${float} 6s ease-in-out infinite;
-  text-shadow: 0 0 50px rgba(0, 255, 198, 0.5);
-  position: relative;
-  z-index: 2;
+const SkillName = styled.h4`
+  font-weight: 600;
+  color: ${colors.navyBlue};
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
 `;
 
-const CodeGrid = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.3;
+const SkillDescription = styled.p`
+  color: ${colors.darkBlue};
+  opacity: 0.9;
+  line-height: 1.6;
+  font-family: 'Roboto', sans-serif;
+`;
+
+// Curriculum Section
+const CurriculumSection = styled(Section)`
+  background: linear-gradient(135deg, ${colors.periwinkle} 0%, ${colors.periwinkle3} 100%);
+  position: relative;
+  clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+`;
+
+const PhaseCard = styled.div`
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateX(10px);
+    border-color: ${colors.babyBlueIce};
+    box-shadow: 0 20px 40px rgba(171, 196, 255, 0.3);
+  }
+
+  &::before {
+    content: '${props => props.number}';
+    position: absolute;
+    top: -20px;
+    left: 30px;
+    background: linear-gradient(135deg, ${colors.royalBlue}, ${colors.babyBlueIce});
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const PhaseTitle = styled.h4`
+  color: ${colors.navyBlue};
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+`;
+
+const PhaseDescription = styled.p`
+  color: ${colors.darkBlue};
+  line-height: 1.7;
+  margin-bottom: 0;
+  font-family: 'Roboto', sans-serif;
+`;
+
+// Tools Section
+const ToolsSection = styled(Section)`
+  background: ${colors.lavender};
+  position: relative;
+`;
+
+const ToolsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+`;
+
+const ToolItem = styled.div`
+  background: white;
+  border-radius: 20px;
+  padding: 2rem 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-10px) scale(1.05);
+    border-color: ${colors.babyBlueIce};
+    box-shadow: 0 20px 40px rgba(171, 196, 255, 0.3);
+  }
+`;
+
+const ToolIcon = styled.div`
+  font-size: 3.5rem;
+  color: ${colors.royalBlue};
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+
+  ${ToolItem}:hover & {
+    color: ${colors.babyBlueIce};
+    animation: ${rotate} 2s linear infinite;
+  }
+`;
+
+const ToolName = styled.span`
+  font-weight: 500;
+  color: ${colors.navyBlue};
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+`;
+
+// Projects Section
+const ProjectsSection = styled(Section)`
+  background: linear-gradient(135deg, ${colors.aliceBlue} 0%, ${colors.lavender2} 100%);
+  position: relative;
+  overflow: hidden;
 
   &::before {
     content: '';
@@ -433,494 +596,164 @@ const CodeGrid = styled.div`
     width: 100%;
     height: 100%;
     background: 
-      linear-gradient(90deg, transparent 49%, #00FFC6 50%, transparent 51%),
-      linear-gradient(transparent 49%, #00FFC6 50%, transparent 51%);
-    background-size: 50px 50px;
+      radial-gradient(circle at 10% 10%, rgba(171, 196, 255, 0.2) 0%, transparent 20%),
+      radial-gradient(circle at 90% 90%, rgba(182, 204, 254, 0.2) 0%, transparent 20%);
   }
 `;
 
-// Skills Section
-const SkillsSection = styled(Section)`
-  position: relative;
-  background: linear-gradient(135deg, rgba(0, 255, 198, 0.05), rgba(79, 70, 229, 0.05));
-  overflow: hidden;
-`;
-
-const SkillCard = styled.div`
-  background: rgba(17, 24, 39, 0.8);
-  backdrop-filter: blur(10px);
-  padding: 2.5rem 1.5rem;
-  border-radius: 20px;
-  text-align: center;
+const ProjectCard = styled.div`
+  background: white;
+  border-radius: 25px;
+  padding: 2.5rem;
+  height: 100%;
   border: 2px solid transparent;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   position: relative;
   overflow: hidden;
-  font-family: 'Inter', sans-serif;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
 
-  &::before {
+  &:hover {
+    transform: translateY(-15px);
+    border-color: ${colors.babyBlueIce};
+    box-shadow: 0 30px 60px rgba(171, 196, 255, 0.4);
+
+    &::after {
+      transform: translateX(100%);
+    }
+  }
+
+  &::after {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 255, 198, 0.1), transparent);
-    transition: left 0.5s ease;
-  }
-
-  &:hover {
-    transform: translateY(-10px);
-    border-color: #FFD700;
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-
-    &::before {
-      left: 100%;
-    }
-  }
-`;
-
-const SkillIcon = styled.div`
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
-  color: ${props => props.color || '#FFD700'};
-  text-shadow: 0 0 20px ${props => props.color || '#FFD700'};
-`;
-
-const SkillName = styled.h5`
-  font-weight: 700;
-  color: #E5E7EB;
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-`;
-
-const SkillDescription = styled.p`
-  color: #E5E7EB;
-  opacity: 0.8;
-  font-size: 0.95rem;
-`;
-
-const SkillsBackground = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 10% 20%, rgba(0, 255, 198, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
-  z-index: -1;
-`;
-
-// Curriculum Section
-const CurriculumSection = styled(Section)`
-  background: linear-gradient(135deg, #00FFC6, #4F46E5);
-  color: #E5E7EB;
-  position: relative;
-`;
-
-const Timeline = styled.div`
-  position: relative;
-  max-width: 800px;
-  margin: 0 auto;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
-
-    @media (max-width: 768px) {
-      left: 20px;
-    }
-  }
-`;
-
-const TimelineItem = styled.div`
-  position: relative;
-  margin-bottom: 3rem;
-  width: 45%;
-  left: ${props => props.even ? '55%' : '0'};
-  text-align: ${props => props.even ? 'left' : 'right'};
-  padding: ${props => props.even ? '0 0 0 3rem' : '0 3rem 0 0'};
-
-  @media (max-width: 768px) {
-    width: 100%;
-    left: 0 !important;
-    padding-left: 3rem !important;
-    padding-right: 1rem !important;
-    text-align: left !important;
-  }
-`;
-
-const TimelinePhase = styled.div`
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: #FFD700;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-  font-family: 'Fira Code', monospace;
-`;
-
-const TimelineDesc = styled.div`
-  opacity: 0.95;
-  font-size: 1.1rem;
-  font-family: 'Inter', sans-serif;
-`;
-
-const TimelineConnector = styled.div`
-  position: absolute;
-  top: 10px;
-  width: 20px;
-  height: 20px;
-  background: #FFD700;
-  border-radius: 50%;
-  box-shadow: 0 0 20px #FFD700;
-  right: ${props => props.even ? 'auto' : '-10px'};
-  left: ${props => props.even ? '-10px' : 'auto'};
-
-  @media (max-width: 768px) {
-    left: 10px !important;
-    right: auto !important;
-  }
-`;
-
-// Tools Section
-const ToolsSection = styled(Section)`
-  background: #0A0F1F;
-  color: #E5E7EB;
-`;
-
-const ToolCard = styled.div`
-  text-align: center;
-  padding: 2.5rem 1rem;
-  transition: all 0.3s ease;
-  border-radius: 50%;
-  background: rgba(17, 24, 39, 0.6);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  width: 150px;
-  height: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px #00FFC6;
-  }
-`;
-
-const ToolIcon = styled.div`
-  font-size: 3rem;
-  color: #4F46E5;
-  margin-bottom: 1rem;
-  transition: all 0.3s ease;
-
-  ${ToolCard}:hover & {
-    color: #00FFC6;
-    filter: drop-shadow(0 0 10px #00FFC6);
-  }
-`;
-
-const ToolName = styled.span`
-  font-weight: 600;
-  color: #E5E7EB;
-  font-size: 0.9rem;
-  font-family: 'Fira Code', monospace;
-`;
-
-// Mentorship Section
-const MentorshipSection = styled(Section)`
-  background: linear-gradient(135deg, #111827, #0A0F1F);
-  position: relative;
-`;
-
-const MentorshipContent = styled.div`
-  background: rgba(17, 24, 39, 0.6);
-  backdrop-filter: blur(10px);
-  padding: 4rem 3rem;
-  border-radius: 25px;
-  border: 1px solid rgba(0, 255, 198, 0.3);
-  position: relative;
-  box-shadow: 0 0 50px rgba(0, 255, 198, 0.2);
-`;
-
-const QuoteIcon = styled.div`
-  font-size: 2.5rem;
-  color: #00FFC6;
-  margin-bottom: 2rem;
-  text-shadow: 0 0 20px #00FFC6;
-`;
-
-const MentorshipText = styled.p`
-  font-size: 1.3rem;
-  font-style: italic;
-  margin-bottom: 3rem;
-  color: #E5E7EB;
-  line-height: 1.8;
-  text-align: center;
-  font-family: 'Inter', sans-serif;
-`;
-
-// const MentorStats = styled.div`
-//   display: flex;
-//   justify-content: space-around;
-//   margin-top: 3rem;
-
-//   @media (max-width: 768px) {
-//     flex-direction: column;
-//     gap: 2rem;
-//   }
-// `;
-
-// const Stat = styled.div`
-//   text-align: center;
-// `;
-
-// const StatNumber = styled.h4`
-//   font-size: 2.5rem;
-//   color: #FFD700;
-//   margin-bottom: 0.5rem;
-//   text-shadow: 0 0 20px #FFD700;
-//   font-family: 'Fira Code', monospace;
-// `;
-
-const MentorshipBackground = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="100" fill="%2300FFC6" fill-opacity="0.05"/><circle cx="800" cy="800" r="150" fill="%234F46E5" fill-opacity="0.05"/></svg>');
-  z-index: -1;
-`;
-
-// Projects Section
-const ProjectsSection = styled(Section)`
-  background: #0A0F1F;
-  position: relative;
-`;
-
-const ProjectCard = styled.div`
-  background: rgba(17, 24, 39, 0.8);
-  backdrop-filter: blur(10px);
-  padding: 2.5rem;
-  border-radius: 20px;
-  text-align: center;
-  border: 2px solid #4F46E5;
-  transition: all 0.3s ease;
-  height: 100%;
-  animation: ${glowPulse} 4s ease-in-out infinite;
-  font-family: 'Inter', sans-serif;
-
-  &:hover {
-    transform: translateY(-10px);
-    border-color: #FFD700;
-    box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
-    animation: none;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(171, 196, 255, 0.2),
+      transparent
+    );
+    transition: transform 0.6s ease;
   }
 `;
 
 const ProjectIcon = styled.div`
-  font-size: 3rem;
-  color: #FFD700;
+  font-size: 3.5rem;
+  color: ${colors.royalBlue};
   margin-bottom: 1.5rem;
-  text-shadow: 0 0 20px #FFD700;
+  background: linear-gradient(135deg, ${colors.periwinkle2}, ${colors.babyBlueIce});
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(171, 196, 255, 0.4);
 `;
 
-const ProjectTitle = styled.h5`
-  font-weight: 700;
+const ProjectTitle = styled.h4`
+  color: ${colors.navyBlue};
+  font-weight: 600;
   margin-bottom: 1rem;
-  color: #E5E7EB;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
 `;
 
 const ProjectDescription = styled.p`
-  color: #E5E7EB;
+  color: ${colors.darkBlue};
   opacity: 0.9;
+  line-height: 1.7;
   margin-bottom: 1.5rem;
-  line-height: 1.6;
+  font-family: 'Roboto', sans-serif;
 `;
 
 const ProjectTech = styled.div`
-  font-size: 0.9rem;
-  color: #00FFC6;
-  font-weight: 600;
-  text-shadow: 0 0 10px #00FFC6;
-  font-family: 'Fira Code', monospace;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 `;
 
-// Eligibility Section
-const EligibilitySection = styled(Section)`
-  background: #111827;
-`;
-
-const InfoCard = styled.div`
-  text-align: center;
-  padding: 2.5rem 1.5rem;
-  background: rgba(0, 255, 198, 0.1);
+const TechTag = styled.span`
+  background: ${colors.lavender};
+  color: ${colors.royalBlue};
+  padding: 0.4rem 1rem;
   border-radius: 20px;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(0, 255, 198, 0.3);
-
-  &:hover {
-    transform: translateY(-5px);
-    background: rgba(0, 255, 198, 0.2);
-    box-shadow: 0 0 30px rgba(0, 255, 198, 0.3);
-  }
-`;
-
-const InfoIcon = styled.div`
-  font-size: 2.5rem;
-  color: #4F46E5;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 20px #4F46E5;
-`;
-
-const InfoTitle = styled.h5`
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #E5E7EB;
-  font-size: 1.3rem;
-  font-family: 'Fira Code', monospace;
-`;
-
-const InfoValue = styled.p`
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #FFD700;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 10px #FFD700;
-`;
-
-const InfoSubtext = styled.span`
-  color: #E5E7EB;
-  opacity: 0.8;
-  font-size: 0.95rem;
-  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  border: 1px solid ${colors.periwinkle};
 `;
 
 // Benefits Section
 const BenefitsSection = styled(Section)`
-  background: linear-gradient(135deg, #4F46E5, #00FFC6);
-  color: #E5E7EB;
-  position: relative;
+  background: linear-gradient(135deg, ${colors.periwinkle3} 0%, ${colors.babyBlueIce} 100%);
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
 `;
 
 const BenefitCard = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 25px;
   padding: 3rem 2rem;
-  border-radius: 20px;
   text-align: center;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   height: 100%;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  }
 
   &::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transform: rotate(45deg);
-    transition: all 0.6s ease;
-  }
-
-  &:hover {
-    transform: translateY(-10px);
-    border-color: #FFD700;
-    box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
-
-    &::before {
-      transform: rotate(45deg) translate(50%, 50%);
-    }
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, ${colors.royalBlue}, ${colors.babyBlueIce});
   }
 `;
 
 const BenefitIcon = styled.div`
-  font-size: 3rem;
-  color: #FFD700;
+  font-size: 3.5rem;
+  color: ${colors.royalBlue};
   margin-bottom: 1.5rem;
   position: relative;
   z-index: 2;
-  text-shadow: 0 0 20px #FFD700;
 `;
 
-const BenefitTitle = styled.h5`
-  font-weight: 700;
+const BenefitTitle = styled.h4`
+  color: ${colors.navyBlue};
+  font-weight: 600;
   margin-bottom: 1rem;
+  font-size: 1.4rem;
   position: relative;
   z-index: 2;
-  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
 `;
 
 const BenefitDescription = styled.p`
-  opacity: 0.95;
+  color: ${colors.darkBlue};
+  opacity: 0.9;
+  line-height: 1.6;
   position: relative;
   z-index: 2;
-  line-height: 1.6;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
 `;
 
-// Quotes Section
-const QuotesSection = styled(Section)`
-  background: #0A0F1F;
-  position: relative;
-  overflow: hidden;
-`;
-
-const QuotesContent = styled.div`
-  padding: 5rem 2rem;
+// Apply Section
+const ApplySection = styled(Section)`
+  background: linear-gradient(135deg, ${colors.royalBlue} 0%, ${colors.navyBlue} 100%);
+  color: white;
   text-align: center;
   position: relative;
-  z-index: 2;
-`;
-
-const QuoteText = styled.h3`
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin-bottom: 3rem;
-  line-height: 1.4;
-  color: #E5E7EB;
-  text-shadow: 0 0 20px rgba(0, 255, 198, 0.5);
-  font-family: 'Fira Code', monospace;
-
-  @media (max-width: 768px) {
-    font-size: 2rem;
-  }
-`;
-
-const QuoteRotation = styled.div`
-  font-size: 1.4rem;
-  opacity: 0.9;
-  min-height: 2rem;
-  font-family: 'Inter', sans-serif;
-`;
-
-const RotatingQuote = styled.span`
-  display: block;
-  animation: ${quoteRotate} 12s ease-in-out infinite;
-  animation-delay: ${props => props.delay || '0s'};
-`;
-
-const CodeBackground = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.1;
+  overflow: hidden;
+  clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
 
   &::before {
     content: '';
@@ -929,120 +762,97 @@ const CodeBackground = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-      radial-gradient(circle at center, #00FFC6 1px, transparent 1px),
-      radial-gradient(circle at center, #4F46E5 1px, transparent 1px);
-    background-size: 50px 50px, 30px 30px;
-    background-position: 0 0, 25px 25px;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
   }
-`;
-
-// Apply Section
-const ApplySection = styled(Section)`
-  background: linear-gradient(135deg, #4F46E5, #00FFC6);
-  color: #E5E7EB;
-  text-align: center;
-  position: relative;
 `;
 
 const ApplyTitle = styled.h2`
   font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 2rem;
-  text-shadow: 0 0 30px rgba(79, 70, 229, 0.5);
-  font-family: 'Fira Code', monospace;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
   }
 `;
 
 const ApplySubtitle = styled.p`
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   margin-bottom: 3rem;
   opacity: 0.95;
   line-height: 1.6;
-  max-width: 600px;
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
 `;
 
-// const ApplyStats = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   gap: 4rem;
-//   margin-top: 4rem;
+const ApplyButton = styled(PrimaryButton)`
+  background: white;
+  color: ${colors.royalBlue};
+  font-size: 1.3rem;
+  padding: 20px 60px;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
 
-//   @media (max-width: 768px) {
-//     flex-direction: column;
-//     gap: 2rem;
-//   }
-// `;
-
-// const ApplyStat = styled.div`
-//   text-align: center;
-// `;
-
-// const ApplyStatNumber = styled.h4`
-//   font-size: 3rem;
-//   font-weight: 800;
-//   margin-bottom: 0.5rem;
-//   color: #FFD700;
-//   text-shadow: 0 0 20px #FFD700;
-//   font-family: 'Fira Code', monospace;
-// `;
-
-const ApplyBackgroundAnimation = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
-  animation: ${backgroundShimmer} 6s ease-in-out infinite;
-  z-index: -1;
+  &:hover {
+    background: ${colors.lavender};
+    color: ${colors.royalBlue};
+  }
 `;
 
 // Footer
 const Footer = styled.footer`
-  background: #111827;
-  color: #E5E7EB;
-  padding: 3rem 0;
-  text-align: center;
-  border-top: 1px solid rgba(0, 255, 198, 0.3);
+  background: ${colors.darkBlue};
+  color: white;
+  padding: 4rem 0 2rem;
+  position: relative;
+`;
+
+const FooterContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 `;
 
 const FooterText = styled.p`
   margin: 0;
-  opacity: 0.8;
+  opacity: 0.9;
   font-size: 1.1rem;
-  font-family: 'Inter', sans-serif;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
 `;
 
 const FooterLinks = styled.div`
   display: flex;
-  gap: 2rem;
+  gap: 3rem;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin: 1rem 0;
 
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 1rem;
+    align-items: center;
   }
 
   a {
-    color: #E5E7EB;
+    color: white;
     text-decoration: none;
     opacity: 0.8;
     transition: all 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
     position: relative;
-    font-family: 'Fira Code', monospace;
 
     &:hover {
       opacity: 1;
-      color: #00FFC6;
-      text-shadow: 0 0 10px #00FFC6;
+      color: ${colors.babyBlueIce};
+
+      &::after {
+        width: 100%;
+      }
     }
 
     &::after {
@@ -1052,12 +862,8 @@ const FooterLinks = styled.div`
       left: 0;
       width: 0;
       height: 2px;
-      background: linear-gradient(90deg, #00FFC6, #4F46E5);
+      background: ${colors.babyBlueIce};
       transition: width 0.3s ease;
-    }
-
-    &:hover::after {
-      width: 100%;
     }
   }
 `;
@@ -1067,31 +873,36 @@ const ScrollToTop = styled.button`
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #4F46E5, #00FFC6);
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, ${colors.royalBlue}, ${colors.babyBlueIce});
   border: none;
   border-radius: 50%;
-  color: #0A0F1F;
-  font-size: 1.2rem;
+  color: white;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(0, 255, 198, 0.4);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Fira Code', monospace;
+  font-family: 'Roboto', sans-serif;
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 30px rgba(79, 70, 229, 0.6);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(171, 196, 255, 0.4);
   }
+
+  opacity: ${props => props.show ? 1 : 0};
+  visibility: ${props => props.show ? 'visible' : 'hidden'};
+  transform: translateY(${props => props.show ? 0 : '20px'});
 `;
 
 const WebDevelopmentInternship = () => {
   const typedRef = useRef(null);
   const [showScrollTop, setShowScrollTop] = React.useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Initialize AOS
@@ -1112,28 +923,6 @@ const WebDevelopmentInternship = () => {
       cursorChar: '|'
     });
 
-    // Smooth scroll function
-    const smoothScroll = (target) => {
-      const element = document.querySelector(target);
-      if (element) {
-        const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth'
-        });
-      }
-    };
-
-    // Add smooth scroll to all anchor links
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    anchorLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = link.getAttribute('href');
-        smoothScroll(target);
-      });
-    });
-
     // Scroll to top visibility
     const handleScroll = () => {
       setShowScrollTop(window.pageYOffset > 400);
@@ -1147,29 +936,6 @@ const WebDevelopmentInternship = () => {
     };
   }, []);
 
-  const navigate = useNavigate()
-
-  // Ripple effect function
-  const createRipple = (event) => {
-    const button = event.currentTarget;
-    const circle = document.createElement('span');
-    const diameter = Math.max(button.clientWidth, button.clientHeight);
-    const radius = diameter / 2;
-
-    circle.style.width = circle.style.height = `${diameter}px`;
-    circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-    circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
-    circle.classList.add('ripple');
-
-    const ripple = button.getElementsByClassName('ripple')[0];
-    if (ripple) {
-      ripple.remove();
-    }
-
-    button.appendChild(circle);
-  };
-
-  // Scroll to top function
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -1179,142 +945,157 @@ const WebDevelopmentInternship = () => {
 
   // Skills data
   const skills = [
-    { 
-      icon: <SiHtml5 />, 
-      name: 'HTML5 & CSS3', 
-      desc: 'Modern semantic markup and responsive design',
-      color: '#E34F26'
+    {
+      icon: <SiHtml5 />,
+      name: 'HTML5 & CSS3',
+      desc: 'Modern semantic markup, responsive design, and CSS animations',
+      color: colors.royalBlue
     },
-    { 
-      icon: <SiJavascript />, 
-      name: 'JavaScript ES6+', 
-      desc: 'Advanced JavaScript and modern features',
-      color: '#F7DF1E'
+    {
+      icon: <SiJavascript />,
+      name: 'JavaScript ES6+',
+      desc: 'Advanced JavaScript, async programming, and modern features',
+      color: colors.navyBlue
     },
-    { 
-      icon: <SiReact />, 
-      name: 'React & Bootstrap', 
-      desc: 'Component-based UI and responsive frameworks',
-      color: '#61DAFB'
+    {
+      icon: <SiReact />,
+      name: 'React & State Management',
+      desc: 'Component-based architecture, hooks, and state management',
+      color: colors.babyBlueIce
     },
-    { 
-      icon: <SiNodedotjs />, 
-      name: 'Node.js & Express', 
-      desc: 'Server-side JavaScript and API development',
-      color: '#339933'
+    {
+      icon: <SiNodedotjs />,
+      name: 'Node.js & Express',
+      desc: 'Server-side JavaScript, REST APIs, and middleware',
+      color: colors.periwinkle3
     },
-    { 
-      icon: <SiMongodb />, 
-      name: 'MongoDB Database', 
-      desc: 'NoSQL database and data modeling',
-      color: '#47A248'
+    {
+      icon: <SiMongodb />,
+      name: 'MongoDB & Databases',
+      desc: 'NoSQL databases, data modeling, and aggregation',
+      color: colors.periwinkle2
     },
-    { 
-      icon: <FaCloud />, 
-      name: 'API & Deployment', 
-      desc: 'REST APIs and cloud deployment strategies',
-      color: '#00FFC6'
+    {
+      icon: <FaCloud />,
+      name: 'API & Deployment',
+      desc: 'Cloud deployment, CI/CD, and performance optimization',
+      color: colors.lavender2
     }
   ];
 
   // Tools data
   const tools = [
-    { icon: <SiHtml5 />, name: 'HTML' },
-    { icon: <SiCss3 />, name: 'CSS' },
+    { icon: <SiHtml5 />, name: 'HTML5' },
+    { icon: <SiCss3 />, name: 'CSS3' },
     { icon: <SiJavascript />, name: 'JavaScript' },
     { icon: <SiReact />, name: 'React' },
     { icon: <SiNodedotjs />, name: 'Node.js' },
     { icon: <SiExpress />, name: 'Express' },
     { icon: <SiMongodb />, name: 'MongoDB' },
-    { icon: <SiGithub />, name: 'GitHub' }
+    { icon: <SiGithub />, name: 'GitHub' },
+    { icon: <BiLogoVisualStudio />, name: 'VS Code' }
   ];
 
   // Projects data
   const projects = [
-    { 
-      icon: <FaCode />, 
-      name: 'Portfolio Website', 
-      desc: 'Personal portfolio with modern design and animations',
-      tech: 'React, CSS3, Framer Motion'
+    {
+      icon: <FaCode />,
+      name: 'Portfolio Website',
+      desc: 'Modern portfolio with animations and responsive design',
+      tech: ['React', 'Styled Components', 'Framer Motion']
     },
-    { 
-      icon: <FaLaptopCode />, 
-      name: 'E-commerce Platform', 
-      desc: 'Full-stack online shopping with payment integration',
-      tech: 'MERN Stack, Stripe, JWT'
+    {
+      icon: <FaLaptopCode />,
+      name: 'E-commerce Platform',
+      desc: 'Full-featured online store with cart and payment system',
+      tech: ['MERN Stack', 'Stripe', 'Redux']
     },
-    { 
-      icon: <FaMobile />, 
-      name: 'Chat Application', 
-      desc: 'Real-time messaging with Socket.io and React',
-      tech: 'Socket.io, Node.js, MongoDB'
+    {
+      icon: <FaMobile />,
+      name: 'Chat Application',
+      desc: 'Real-time messaging app with user authentication',
+      tech: ['Socket.io', 'JWT', 'MongoDB']
     },
-    { 
-      icon: <FaPalette />, 
-      name: 'Blog Management', 
-      desc: 'Content management system with admin dashboard',
-      tech: 'React, Node.js, PostgreSQL'
+    {
+      icon: <FaPalette />,
+      name: 'Blog CMS',
+      desc: 'Content management system with rich text editor',
+      tech: ['React', 'Node.js', 'PostgreSQL']
     },
-    { 
-      icon: <FaServer />, 
-      name: 'Task Tracker API', 
-      desc: 'REST API for task management with authentication',
-      tech: 'Express.js, JWT, MongoDB'
+    {
+      icon: <FaServer />,
+      name: 'Task Manager API',
+      desc: 'RESTful API for task management with user roles',
+      tech: ['Express', 'JWT', 'MongoDB']
     },
-    { 
-      icon: <FaRocket />, 
-      name: 'Weather Dashboard', 
-      desc: 'Real-time weather data with interactive charts',
-      tech: 'React, Chart.js, Weather API'
+    {
+      icon: <FaRocket />,
+      name: 'Weather Dashboard',
+      desc: 'Interactive weather app with charts and forecasts',
+      tech: ['React', 'Chart.js', 'Weather API']
     }
   ];
 
   // Benefits data
   const benefits = [
-    { 
-      icon: <FaCertificate />, 
-      name: 'Internship Certificate', 
-      desc: 'Industry-recognized web development certification'
+    {
+      icon: <FaCertificate />,
+      name: 'Internship Certificate',
+      desc: 'Industry-recognized certification upon completion'
     },
-    { 
-      icon: <SiGithub />, 
-      name: 'GitHub Portfolio', 
-      desc: 'Professional GitHub profile with live projects'
+    {
+      icon: <SiGithub />,
+      name: 'GitHub Portfolio',
+      desc: 'Professional portfolio showcasing your projects'
     },
-    { 
-      icon: <FaLaptopCode />, 
-      name: 'Live Project Experience', 
+    {
+      icon: <FaLaptopCode />,
+      name: 'Live Project Experience',
       desc: 'Hands-on experience with real web applications'
     },
-    { 
-      icon: <FaGraduationCap />, 
-      name: 'LOR', 
-      desc: 'Letter of Recommendation from senior developers'
+    {
+      icon: <FaGraduationCap />,
+      name: 'Letter of Recommendation',
+      desc: 'LOR from experienced developers and mentors'
     }
   ];
 
-  // Quotes data
-  const quotes = [
-    "Code is like humor. When you have to explain it, it's bad.",
-    "First, solve the problem. Then, write the code.",
-    "Web is the new world — start building it.",
-    "The best error message is the one that never shows up.",
-    "Any code of your own that you haven't looked at for six months might as well have been written by someone else."
-  ];
-
-  // Timeline data
-  const timelineData = [
-    { phase: "Frontend Foundations", desc: "HTML5, CSS3, JavaScript fundamentals" },
-    { phase: "React Development", desc: "Component-based design and state management" },
-    { phase: "Backend with Node.js", desc: "Server-side JavaScript and Express framework" },
-    { phase: "Database Integration", desc: "MongoDB and database modeling" },
-    { phase: "REST APIs & Auth", desc: "API development and authentication systems" },
-    { phase: "Deployment", desc: "Cloud deployment on Vercel, Render, AWS" }
+  // Curriculum data
+  const curriculum = [
+    {
+      number: '01',
+      title: 'Frontend Foundations',
+      desc: 'Master HTML5, CSS3, and modern JavaScript fundamentals with responsive design principles and accessibility standards.'
+    },
+    {
+      number: '02',
+      title: 'React Development',
+      desc: 'Learn component-based architecture, state management, hooks, and routing in React applications.'
+    },
+    {
+      number: '03',
+      title: 'Backend with Node.js',
+      desc: 'Build server-side applications with Express, middleware, and RESTful API development.'
+    },
+    {
+      number: '04',
+      title: 'Database Integration',
+      desc: 'Work with MongoDB for data modeling, queries, and database architecture patterns.'
+    },
+    {
+      number: '05',
+      title: 'REST APIs & Authentication',
+      desc: 'Implement secure authentication systems and build robust REST APIs with error handling.'
+    },
+    {
+      number: '06',
+      title: 'Deployment & DevOps',
+      desc: 'Deploy applications to cloud platforms and implement CI/CD pipelines for production.'
+    }
   ];
 
   return (
     <PageContainer>
-
       <Helmet>
         <title>Web Development Internship | BTC Routes</title>
         <meta
@@ -1330,12 +1111,7 @@ const WebDevelopmentInternship = () => {
           rel="canonical"
           href="https://www.btcroutes.com/internship/web-development"
         />
-
-        {/* ✅ Open Graph Meta Tags (for social sharing) */}
-        <meta
-          property="og:title"
-          content="Web Development Internship | BTC Routes"
-        />
+        <meta property="og:title" content="Web Development Internship | BTC Routes" />
         <meta
           property="og:description"
           content="Master modern web development with BTC Routes. Learn React, JavaScript, and full-stack web technologies through live projects."
@@ -1346,140 +1122,136 @@ const WebDevelopmentInternship = () => {
           content="https://www.btcroutes.com/internship/web-development"
         />
         <meta property="og:type" content="website" />
-
-        {/* ✅ Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="BTC Routes | Web Development Internship"
-        />
+        <meta name="twitter:title" content="BTC Routes | Web Development Internship" />
         <meta
           name="twitter:description"
-          content="Build a strong web development foundation with BTC Routes’ live internship program using React, Node.js, and MongoDB."
+          content="Build a strong web development foundation with BTC Routes' live internship program using React, Node.js, and MongoDB."
         />
         <meta name="twitter:image" content="%PUBLIC_URL%/logo2.png" />
-
-        {/* ✅ Structured Data (JSON-LD for SEO Rich Snippets) */}
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "EducationalOccupationalProgram",
-              "name": "Full-Stack Web Development Internship",
-              "description": "Join BTC Routes' Web Development Internship to learn modern web technologies such as React, Node.js, and MongoDB through live hands-on projects.",
-              "provider": {
-                "@type": "Organization",
-                "name": "BTC Routes",
-                "url": "https://www.btcroutes.com",
-                "logo": "https://www.btcroutes.com/logo2.png"
-              },
-              "educationalCredentialAwarded": "Certificate of Completion",
-              "occupationalCategory": "Web Developer",
-              "programPrerequisites": {
-                "@type": "EducationalOccupationalCredential",
-                "credentialCategory": "Bachelor's degree or pursuing"
-              },
-              "timeToComplete": "P1M",
-              "hasCourse": [
-                {
-                  "@type": "Course",
-                  "name": "Frontend Development with React",
-                  "description": "Learn HTML, CSS, JavaScript, and React to build responsive user interfaces."
-                },
-                {
-                  "@type": "Course",
-                  "name": "Backend Development with Node.js and MongoDB",
-                  "description": "Understand server-side logic, RESTful APIs, and database integration using the MERN stack."
-                }
-              ],
-              "url": "https://www.btcroutes.com/internship/web-development"
-            }
-          `}
-        </script>
       </Helmet>
 
       <GlobalStyle />
-      
+
       {/* Navigation */}
       <NavbarComponent />
 
       {/* Hero Section */}
       <HeroSection id="hero">
         <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-8" data-aos="fade-up">
+          <div className="row align-items-center min-vh-80">
+            <div className="col-lg-7" data-aos="fade-right">
               <HeroTitle>
                 Web Development <br />Internship
-                {/* <img src={logo} alt='web development' width={120} /> */}
               </HeroTitle>
               <HeroSubtitle>
                 Master <TypedText ref={typedRef}></TypedText>
               </HeroSubtitle>
               <HeroTagline>
-                Build fast, scalable, and beautiful web applications.
+                Transform your ideas into reality. Learn to build modern, scalable web applications
+                with industry-standard tools and best practices.
               </HeroTagline>
-              <GoldButton 
-                onClick={(e) => {
-                  createRipple(e);
-                  navigate("/application")
-                  // document.querySelector('#apply').scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                Apply Now
-                <Ripple />
-              </GoldButton>
+              <div className="d-flex gap-3">
+                <PrimaryButton
+                  onClick={() => navigate('/application')}
+                  large
+                >
+                  Apply Now
+                  <FaRocket />
+                </PrimaryButton>
+                <SecondaryButton
+                  onClick={() => document.querySelector('#curriculum').scrollIntoView({ behavior: 'smooth' })}
+                >
+                  View Curriculum
+                </SecondaryButton>
+              </div>
+            </div>
+            <div className="col-lg-5" data-aos="fade-left">
+              {/* Floating elements will be positioned here */}
             </div>
           </div>
         </div>
 
-        {/* Code Elements */}
-        <CodeElement top="20%" left="10%" delay="0s">{"<Code />"}</CodeElement>
-        <CodeElement top="30%" right="15%" delay="1s">{"function dev()"}</CodeElement>
-        <CodeElement bottom="25%" left="20%" delay="2s">{"const innovation = true;"}</CodeElement>
+        {/* Floating Elements */}
+        {/* <FloatingElement top="20%" left="5%" delay="0s" width="140px">
+          <ElementIcon><FaCode /></ElementIcon>
+          <ElementText>Hands-on Coding</ElementText>
+        </FloatingElement> */}
 
-        {/* Cursor and Lines */}
-        <Cursor top="40%" left="25%" />
-        <CodeLine top="45%" left="15%" delay="0.5s" style={{width: '200px'}} />
-        <CodeLine top="55%" right="20%" delay="1.5s" style={{width: '150px'}} />
+        <FloatingElement top="15%" right="10%" delay="1s" width="140px">
+          <ElementIcon><FaLaptopCode /></ElementIcon>
+          <ElementText>Live Projects</ElementText>
+        </FloatingElement>
 
-        <HeroBackgroundAnimation />
+        {/* <FloatingElement bottom="25%" left="15%" delay="2s" width="140px">
+          <ElementIcon><FaCertificate /></ElementIcon>
+          <ElementText>Certification</ElementText>
+        </FloatingElement> */}
+
+        <FloatingElement bottom="20%" right="8%" delay="3s" width="140px">
+          <ElementIcon><FaGraduationCap /></ElementIcon>
+          <ElementText>Mentorship</ElementText>
+        </FloatingElement>
       </HeroSection>
 
       {/* About Section */}
       <AboutSection id="about">
         <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-6" data-aos="fade-right">
-              <SectionHeader>
-                <h2>About the Internship</h2>
-                <SectionDivider />
-              </SectionHeader>
-              <AboutText>
-                Join our full stack web development internship to learn how to design, 
-                develop, and deploy modern web applications from scratch using the latest 
-                technologies and best practices.
-              </AboutText>
-              <AboutText>
-                Designed for BE/B.Tech students in IT, CSE, AI, ML, and DS, this program 
-                provides hands-on experience with real-world projects and industry-standard 
-                development workflows.
-              </AboutText>
-              <AboutFeatures>
-                <li>Real-world website & API development</li>
-                <li>Modern frameworks (React, Express, Node.js)</li>
-                <li>Database design and integration</li>
-                <li>Deployment on cloud platforms</li>
-                <li>Team-based live projects</li>
-                <li>Git version control and collaboration</li>
-              </AboutFeatures>
-            </div>
-            <div className="col-lg-6" data-aos="fade-left">
-              <CodeVisual>
-                <CodeIcon>
-                  <FaCode />
-                </CodeIcon>
-                <CodeGrid />
-              </CodeVisual>
+          <SectionHeader center>
+            <h2>About the Internship</h2>
+          </SectionHeader>
+          <div className="row justify-content-center">
+            <div className="col-lg-10">
+              <AboutCard data-aos="zoom-in">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <AboutFeature>
+                      <FeatureIcon><FaLaptopCode /></FeatureIcon>
+                      <FeatureText>
+                        <h4>Real-World Projects</h4>
+                        <p>Work on live projects that solve actual problems and add value to your portfolio.</p>
+                      </FeatureText>
+                    </AboutFeature>
+                    <AboutFeature>
+                      <FeatureIcon><FaUsers /></FeatureIcon>
+                      <FeatureText>
+                        <h4>Expert Mentorship</h4>
+                        <p>Learn from experienced developers who guide you through complex concepts.</p>
+                      </FeatureText>
+                    </AboutFeature>
+                    <AboutFeature>
+                      <FeatureIcon><FaCalendarAlt /></FeatureIcon>
+                      <FeatureText>
+                        <h4>Flexible Duration</h4>
+                        <p>Choose between 1-3 months based on your learning pace and goals.</p>
+                      </FeatureText>
+                    </AboutFeature>
+                  </div>
+                  <div className="col-lg-6">
+                    <AboutFeature>
+                      <FeatureIcon><FaServer /></FeatureIcon>
+                      <FeatureText>
+                        <h4>Full-Stack Development</h4>
+                        <p>Master both frontend and backend technologies in the MERN stack.</p>
+                      </FeatureText>
+                    </AboutFeature>
+                    <AboutFeature>
+                      <FeatureIcon><SiGithub /></FeatureIcon>
+                      <FeatureText>
+                        <h4>Git & Collaboration</h4>
+                        <p>Learn professional version control and team collaboration workflows.</p>
+                      </FeatureText>
+                    </AboutFeature>
+                    <AboutFeature>
+                      <FeatureIcon><FaCloud /></FeatureIcon>
+                      <FeatureText>
+                        <h4>Cloud Deployment</h4>
+                        <p>Deploy your applications to cloud platforms like Vercel and AWS.</p>
+                      </FeatureText>
+                    </AboutFeature>
+                  </div>
+                </div>
+              </AboutCard>
             </div>
           </div>
         </div>
@@ -1489,15 +1261,14 @@ const WebDevelopmentInternship = () => {
       <SkillsSection id="skills">
         <div className="container">
           <SectionHeader center>
-            <h2>Skills You'll Learn</h2>
-            <SectionDivider center />
-            <SectionSubtitle>
-              Master the full stack development technologies used by modern companies
+            <h2>Skills You'll Master</h2>
+            <SectionSubtitle center>
+              Comprehensive curriculum covering modern web development technologies
             </SectionSubtitle>
           </SectionHeader>
           <div className="row g-4">
             {skills.map((skill, index) => (
-              <div key={index} className="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay={index * 100}>
+              <div key={index} className="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay={index * 100}>
                 <SkillCard>
                   <SkillIcon color={skill.color}>
                     {skill.icon}
@@ -1509,30 +1280,32 @@ const WebDevelopmentInternship = () => {
             ))}
           </div>
         </div>
-        <SkillsBackground />
       </SkillsSection>
 
       {/* Curriculum Section */}
       <CurriculumSection id="curriculum">
         <div className="container">
           <SectionHeader center>
-            <h2>Learning Roadmap</h2>
-            <SectionDivider center />
+            <h2>Learning Journey</h2>
+            <SectionSubtitle center>
+              Structured curriculum designed for progressive learning
+            </SectionSubtitle>
           </SectionHeader>
-          <Timeline>
-            {timelineData.map((item, index) => (
-              <TimelineItem 
-                key={index} 
-                even={index % 2 !== 0}
-                data-aos="fade-up" 
-                data-aos-delay={index * 200}
-              >
-                <TimelinePhase>{item.phase}</TimelinePhase>
-                <TimelineDesc>{item.desc}</TimelineDesc>
-                <TimelineConnector even={index % 2 !== 0} />
-              </TimelineItem>
-            ))}
-          </Timeline>
+          <div className="row justify-content-center">
+            <div className="col-lg-10">
+              {curriculum.map((phase, index) => (
+                <PhaseCard
+                  key={index}
+                  number={phase.number}
+                  data-aos="fade-right"
+                  data-aos-delay={index * 150}
+                >
+                  <PhaseTitle>{phase.title}</PhaseTitle>
+                  <PhaseDescription>{phase.desc}</PhaseDescription>
+                </PhaseCard>
+              ))}
+            </div>
+          </div>
         </div>
       </CurriculumSection>
 
@@ -1541,64 +1314,30 @@ const WebDevelopmentInternship = () => {
         <div className="container">
           <SectionHeader center>
             <h2>Tools & Technologies</h2>
-            <SectionDivider center />
+            <SectionSubtitle center>
+              Industry-standard tools used in modern web development
+            </SectionSubtitle>
           </SectionHeader>
-          <div className="row g-4 justify-content-center">
+          <ToolsGrid>
             {tools.map((tool, index) => (
-              <div key={index} className="col-6 col-md-4 col-lg-3" data-aos="flip-up" data-aos-delay={index * 100}>
-                <ToolCard>
-                  <ToolIcon>
-                    {tool.icon}
-                  </ToolIcon>
-                  <ToolName>{tool.name}</ToolName>
-                </ToolCard>
-              </div>
+              <ToolItem key={index} data-aos="zoom-in" data-aos-delay={index * 50}>
+                <ToolIcon>
+                  {tool.icon}
+                </ToolIcon>
+                <ToolName>{tool.name}</ToolName>
+              </ToolItem>
             ))}
-          </div>
+          </ToolsGrid>
         </div>
       </ToolsSection>
-
-      {/* Mentorship Section */}
-      <MentorshipSection>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-10 text-center" data-aos="fade-up-right">
-              <MentorshipContent>
-                <QuoteIcon><FaQuoteLeft /></QuoteIcon>
-                <MentorshipText>
-                  "Learn under mentors who build real-world applications using MERN stack 
-                  and modern cloud tools. Get personalized code reviews and career guidance 
-                  from experienced full-stack developers."
-                </MentorshipText>
-                {/* <MentorStats>
-                  <Stat>
-                    <StatNumber>8+</StatNumber>
-                    <span>Years Experience</span>
-                  </Stat>
-                  <Stat>
-                    <StatNumber>50+</StatNumber>
-                    <span>Websites Built</span>
-                  </Stat>
-                  <Stat>
-                    <StatNumber>100+</StatNumber>
-                    <span>Students Mentored</span>
-                  </Stat>
-                </MentorStats> */}
-              </MentorshipContent>
-            </div>
-          </div>
-        </div>
-        <MentorshipBackground />
-      </MentorshipSection>
 
       {/* Projects Section */}
       <ProjectsSection id="projects">
         <div className="container">
           <SectionHeader center>
             <h2>Live Projects</h2>
-            <SectionDivider center />
-            <SectionSubtitle>
-              Build real-world web applications that showcase your full-stack skills
+            <SectionSubtitle center>
+              Build real applications that showcase your full-stack skills
             </SectionSubtitle>
           </SectionHeader>
           <div className="row g-4">
@@ -1610,7 +1349,11 @@ const WebDevelopmentInternship = () => {
                   </ProjectIcon>
                   <ProjectTitle>{project.name}</ProjectTitle>
                   <ProjectDescription>{project.desc}</ProjectDescription>
-                  <ProjectTech>{project.tech}</ProjectTech>
+                  <ProjectTech>
+                    {project.tech.map((tech, techIndex) => (
+                      <TechTag key={techIndex}>{tech}</TechTag>
+                    ))}
+                  </ProjectTech>
                 </ProjectCard>
               </div>
             ))}
@@ -1618,60 +1361,18 @@ const WebDevelopmentInternship = () => {
         </div>
       </ProjectsSection>
 
-      {/* Eligibility Section */}
-      <EligibilitySection>
-        <div className="container">
-          <SectionHeader center>
-            <h2>Duration, Mode & Eligibility</h2>
-            <SectionDivider center />
-          </SectionHeader>
-          <div className="row g-4" data-aos="zoom-in">
-            <div className="col-md-6 col-lg-3">
-              <InfoCard>
-                <InfoIcon><FaCalendarAlt /></InfoIcon>
-                <InfoTitle>Duration</InfoTitle>
-                <InfoValue>1-3 Months</InfoValue>
-                <InfoSubtext>Flexible Program</InfoSubtext>
-              </InfoCard>
-            </div>
-            <div className="col-md-6 col-lg-3">
-              <InfoCard>
-                <InfoIcon><FaLaptopCode /></InfoIcon>
-                <InfoTitle>Mode</InfoTitle>
-                <InfoValue>Online/Hybrid/Offline</InfoValue>
-                <InfoSubtext>Remote Learning</InfoSubtext>
-              </InfoCard>
-            </div>
-            <div className="col-md-6 col-lg-3">
-              <InfoCard>
-                <InfoIcon><FaUsers /></InfoIcon>
-                <InfoTitle>Eligibility</InfoTitle>
-                <InfoValue>IT/CSE/AI/ML/DS</InfoValue>
-                <InfoSubtext>BE/B.Tech/B.Sc Students</InfoSubtext>
-              </InfoCard>
-            </div>
-            <div className="col-md-6 col-lg-3">
-              <InfoCard>
-                <InfoIcon><BiLogoVisualStudio /></InfoIcon>
-                <InfoTitle>Tools</InfoTitle>
-                <InfoValue>VS Code, GitHub</InfoValue>
-                <InfoSubtext>Node.js, React</InfoSubtext>
-              </InfoCard>
-            </div>
-          </div>
-        </div>
-      </EligibilitySection>
-
       {/* Benefits Section */}
-      <BenefitsSection>
+      <BenefitsSection id="benefits">
         <div className="container">
           <SectionHeader center>
             <h2>Certification & Benefits</h2>
-            <SectionDivider center />
+            <SectionSubtitle center>
+              What you'll gain from this internship program
+            </SectionSubtitle>
           </SectionHeader>
           <div className="row g-4">
             {benefits.map((benefit, index) => (
-              <div key={index} className="col-md-6 col-lg-3" data-aos="fade-right" data-aos-delay={index * 100}>
+              <div key={index} className="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay={index * 100}>
                 <BenefitCard>
                   <BenefitIcon>
                     {benefit.icon}
@@ -1685,80 +1386,46 @@ const WebDevelopmentInternship = () => {
         </div>
       </BenefitsSection>
 
-      {/* Quotes Section */}
-      <QuotesSection>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-10 text-center" data-aos="fade-in">
-              <QuotesContent>
-                <QuoteText>
-                  {quotes[0]}
-                </QuoteText>
-                <QuoteRotation>
-                  {quotes.slice(1).map((quote, index) => (
-                    <RotatingQuote key={index} delay={`${(index + 1) * 3}s`}>
-                      {quote}
-                    </RotatingQuote>
-                  ))}
-                </QuoteRotation>
-              </QuotesContent>
-            </div>
-          </div>
-        </div>
-        <CodeBackground />
-      </QuotesSection>
-
       {/* Apply Section */}
       <ApplySection id="apply">
         <div className="container">
           <div className="row justify-content-center text-center">
             <div className="col-lg-8" data-aos="zoom-in">
-              <ApplyTitle>Join the Web Revolution</ApplyTitle>
+              <ApplyTitle>Start Your Development Journey</ApplyTitle>
               <ApplySubtitle>
-                Join the web revolution. Build, deploy, and transform your ideas 
-                into production-ready applications that solve real-world problems.
+                Join aspiring developers and build the future of web applications.
+                Gain practical experience, industry recognition, and launch your career.
               </ApplySubtitle>
-              <GoldButton 
-                large
-                onClick={createRipple}
-              >
-              <Link to="/application" className='text-decoration-none'>
+              <ApplyButton onClick={() => navigate('/application')}>
                 Apply Now
-              </Link>  
-                <Ripple />
-              </GoldButton>
+                <FaRocket />
+              </ApplyButton>
             </div>
           </div>
         </div>
-        <ApplyBackgroundAnimation />
       </ApplySection>
 
       {/* Footer */}
       <Footer>
         <div className="container">
-          <div className="row align-items-center">
-            <div className="col-md-6">
-              <FooterText>
-                &copy; 2025 Web Development Internship. All rights reserved.
-              </FooterText>
-            </div>
-            <div className="col-md-6 text-md-end">
-              <FooterLinks>
-                <Link to="/privacy-policy">Privacy Policy</Link>
-                <Link to="/terms-and-condition">Terms of Service</Link>
-                <Link to="/contact">Contact Us</Link>
-              </FooterLinks>
-            </div>
-          </div>
+          <FooterContent>
+            <FooterText>
+              &copy; {new Date().getFullYear()} BTC Routes Web Development Internship. All rights reserved.
+            </FooterText>
+            <FooterLinks>
+              <Link to="/privacy-policy">Privacy Policy</Link>
+              <Link to="/terms-and-condition">Terms of Service</Link>
+              <Link to="/contact">Contact Us</Link>
+              <Link to="/faq">FAQ</Link>
+            </FooterLinks>
+          </FooterContent>
         </div>
       </Footer>
 
       {/* Scroll to Top Button */}
-      {showScrollTop && (
-        <ScrollToTop onClick={scrollToTop}>
-          ↑
-        </ScrollToTop>
-      )}
+      <ScrollToTop onClick={scrollToTop} show={showScrollTop}>
+        <FaChevronUp />
+      </ScrollToTop>
     </PageContainer>
   );
 };

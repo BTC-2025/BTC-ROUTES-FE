@@ -5,11 +5,11 @@ import 'aos/dist/aos.css';
 import Typed from 'typed.js';
 import { RiBook2Line } from "react-icons/ri";
 import { SiKeras } from "react-icons/si";
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes, createGlobalStyle } from 'styled-components';
-import { 
+import {
   FaBrain,
   FaPython,
   FaRobot,
@@ -27,7 +27,7 @@ import {
   FaNetworkWired,
   FaMicrochip
 } from 'react-icons/fa';
-import { 
+import {
   SiTensorflow,
   SiPytorch,
   SiPandas,
@@ -35,6 +35,17 @@ import {
   SiFlask
 } from 'react-icons/si';
 import NavbarComponent from '../Navbarcomponent';
+
+// Color Palette
+const COLORS = {
+  gunmetal: '#474448',
+  shadowGrey: '#2d232e',
+  bone: '#e0ddcf',
+  taupeGrey: '#534b52',
+  parchment: '#f1f0ea',
+  accent: '#8a4fff', // Added accent color for highlights
+  accent2: '#ff6b8b' // Secondary accent
+};
 
 // Global Styles
 const GlobalStyle = createGlobalStyle`
@@ -45,18 +56,18 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
     line-height: 1.6;
-    color: #EAEAFB;
+    color: ${COLORS.bone};
     overflow-x: hidden;
-    background: #0B0B1E;
+    background: ${COLORS.shadowGrey};
   }
 
   html {
     scroll-padding-top: 80px;
   }
 
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
   /* Scrollbar Styling */
   ::-webkit-scrollbar {
@@ -64,33 +75,33 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-track {
-    background: #141432;
+    background: ${COLORS.gunmetal};
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(#6A00FF, #00E5FF);
+    background: linear-gradient(${COLORS.accent}, ${COLORS.accent2});
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(#00E5FF, #6A00FF);
+    background: linear-gradient(${COLORS.accent2}, ${COLORS.accent});
   }
 `;
 
 // Animations
 const float = keyframes`
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(180deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
 `;
 
 const neuralPulse = keyframes`
   0%, 100% { 
-    opacity: 0.3;
+    opacity: 0.5;
     transform: scale(1);
   }
   50% { 
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 `;
 
@@ -101,37 +112,28 @@ const rippleAnimation = keyframes`
   }
 `;
 
-const backgroundShimmer = keyframes`
-  0%, 100% { transform: translateX(-100%) rotate(0deg); }
-  50% { transform: translateX(100%) rotate(180deg); }
-`;
+// const backgroundShimmer = keyframes`
+//   0% { background-position: -200% center; }
+//   100% { background-position: 200% center; }
+// `;
 
-const glowPulse = keyframes`
-  0%, 100% { 
-    box-shadow: 0 0 20px #6A00FF, 0 0 40px rgba(106, 0, 255, 0.3);
-  }
-  50% { 
-    box-shadow: 0 0 30px #00E5FF, 0 0 60px rgba(0, 229, 255, 0.4);
-  }
-`;
-
-// const neuralGlow = keyframes`
+// const glowPulse = keyframes`
 //   0%, 100% { 
-//     text-shadow: 0 0 10px #6A00FF, 0 0 20px #6A00FF;
+//     box-shadow: 0 0 15px ${COLORS.accent}66;
 //   }
 //   50% { 
-//     text-shadow: 0 0 15px #00E5FF, 0 0 30px #00E5FF;
+//     box-shadow: 0 0 25px ${COLORS.accent2}66;
 //   }
 // `;
 
-const quoteRotate = keyframes`
-  0%, 25% { opacity: 1; transform: translateY(0); }
-  30%, 100% { opacity: 0; transform: translateY(-20px); }
-`;
-
-const neuralConnection = keyframes`
+const circuitFlow = keyframes`
   0% { stroke-dashoffset: 1000; }
   100% { stroke-dashoffset: 0; }
+`;
+
+const gradientShift = keyframes`
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 `;
 
 // Main Container
@@ -139,11 +141,14 @@ const PageContainer = styled.div`
   position: relative;
 `;
 
-
 // Section Base Styles
 const Section = styled.section`
   padding: 100px 0;
   position: relative;
+
+  @media (max-width: 768px) {
+    padding: 60px 0;
+  }
 `;
 
 const SectionHeader = styled.div`
@@ -152,41 +157,49 @@ const SectionHeader = styled.div`
 
   h2 {
     font-size: 3rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, #FF00C8, #6A00FF);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-weight: 700;
+    color: ${COLORS.parchment};
     margin-bottom: 1rem;
-    text-shadow: 0 0 30px rgba(106, 0, 255, 0.3);
-  }
-`;
+    position: relative;
+    display: inline-block;
 
-const SectionDivider = styled.div`
-  width: 100px;
-  height: 4px;
-  background: linear-gradient(90deg, #FF00C8, #6A00FF);
-  border-radius: 2px;
-  margin: ${props => props.center ? '0 auto' : '0'};
-  box-shadow: 0 0 15px rgba(255, 0, 200, 0.3);
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, ${COLORS.accent}, ${COLORS.accent2});
+      border-radius: 2px;
+      ${props => props.center && 'left: 50%; transform: translateX(-50%);'}
+    }
+  }
+
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 2.2rem;
+    }
+  }
 `;
 
 const SectionSubtitle = styled.p`
   font-size: 1.2rem;
-  color: #EAEAFB;
+  color: ${COLORS.bone};
   margin-top: 1.5rem;
   opacity: 0.9;
+  max-width: 600px;
+  ${props => props.center && 'margin-left: auto; margin-right: auto;'}
 `;
 
 // Hero Section
 const HeroSection = styled(Section)`
-  background: linear-gradient(135deg, #6A00FF, #00E5FF, #FF00C8);
+  background: linear-gradient(135deg, ${COLORS.shadowGrey}, ${COLORS.gunmetal});
   min-height: 100vh;
   display: flex;
   align-items: center;
   position: relative;
   overflow: hidden;
-  color: #EAEAFB;
   margin: 0;
   padding-top: 80px;
 
@@ -202,25 +215,38 @@ const HeroSection = styled(Section)`
 
 const HeroTitle = styled.h1`
   font-size: 4.5rem;
-  font-weight: 900;
+  font-weight: 700;
   margin-bottom: 1.5rem;
   line-height: 1.1;
-  text-shadow: 0 0 30px rgba(0, 229, 255, 0.5);
-  background: linear-gradient(135deg, #EAEAFB, #00E5FF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: ${COLORS.parchment};
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(${COLORS.accent}, ${COLORS.accent2});
+    border-radius: 3px;
+  }
 
   @media (max-width: 768px) {
     font-size: 3rem;
+    
+    &::before {
+      left: -10px;
+    }
   }
 `;
 
 const HeroSubtitle = styled.div`
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  font-weight: 700;
+  font-weight: 500;
   min-height: 3rem;
+  color: ${COLORS.bone};
 
   @media (max-width: 768px) {
     font-size: 1.8rem;
@@ -228,49 +254,67 @@ const HeroSubtitle = styled.div`
 `;
 
 const TypedText = styled.span`
-  color: #FF00C8;
-  font-weight: 800;
-  text-shadow: 0 0 20px rgba(255, 0, 200, 0.5);
+  color: ${COLORS.accent};
+  font-weight: 600;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: ${COLORS.accent2};
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
 `;
 
 const HeroTagline = styled.p`
   font-size: 1.4rem;
   margin-bottom: 3rem;
-  opacity: 0.95;
-  font-weight: 500;
+  opacity: 0.9;
+  font-weight: 400;
   max-width: 600px;
+  color: ${COLORS.bone};
+  line-height: 1.8;
 `;
 
 // Buttons
 const PrimaryButton = styled.button`
-  background: linear-gradient(90deg, #6A00FF, #00E5FF);
+  background: linear-gradient(90deg, ${COLORS.accent}, ${COLORS.accent2});
   border: none;
   padding: ${props => props.large ? '18px 50px' : '15px 40px'};
-  border-radius: 50px;
+  border-radius: 8px;
   font-weight: 700;
   font-size: ${props => props.large ? '1.3rem' : '1.1rem'};
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 0 25px rgba(106, 0, 255, 0.4);
-  color: white;
-  animation: ${glowPulse} 2s ease-in-out infinite;
+  color: ${COLORS.parchment};
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, ${COLORS.accent2}, ${COLORS.accent});
+    transition: left 0.4s ease;
+    z-index: -1;
+  }
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 0 35px rgba(0, 229, 255, 0.6);
-    background: linear-gradient(90deg, #00E5FF, #6A00FF);
-  }
-`;
+    box-shadow: 0 10px 25px rgba(138, 79, 255, 0.3);
 
-const MagentaButton = styled(PrimaryButton)`
-  background: linear-gradient(90deg, #FF00C8, #FF4DD8);
-  animation: none;
-  box-shadow: 0 0 25px rgba(255, 0, 200, 0.4);
-
-  &:hover {
-    background: linear-gradient(90deg, #00E5FF, #6A00FF);
-    box-shadow: 0 0 35px rgba(0, 229, 255, 0.6);
+    &::before {
+      left: 0;
+    }
   }
 `;
 
@@ -283,15 +327,15 @@ const Ripple = styled.span`
   pointer-events: none;
 `;
 
-// Neural Network Animation
-const NeuralNode = styled.div`
+// Circuit Animation
+const CircuitNode = styled.div`
   position: absolute;
-  width: 12px;
-  height: 12px;
-  background: #00E5FF;
+  width: 10px;
+  height: 10px;
+  background: ${COLORS.accent};
   border-radius: 50%;
   animation: ${neuralPulse} 2s ease-in-out infinite;
-  box-shadow: 0 0 20px #00E5FF;
+  box-shadow: 0 0 15px ${COLORS.accent};
   z-index: 1;
 
   top: ${props => props.top || 'auto'};
@@ -301,7 +345,7 @@ const NeuralNode = styled.div`
   animation-delay: ${props => props.delay || '0s'};
 `;
 
-const NeuralConnection = styled.svg`
+const CircuitConnection = styled.svg`
   position: absolute;
   top: 0;
   left: 0;
@@ -310,34 +354,45 @@ const NeuralConnection = styled.svg`
   z-index: 0;
 
   path {
-    stroke: url(#neuralGradient);
-    stroke-width: 2;
+    stroke: ${COLORS.taupeGrey};
+    stroke-width: 1.5;
     fill: none;
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
-    animation: ${neuralConnection} 10s ease-in-out infinite;
-    animation-delay: ${props => props.delay || '0s'};
+    animation: ${circuitFlow} 15s linear infinite;
   }
 `;
 
-// Hero Background Animation
-const HeroBackgroundAnimation = styled.div`
+// Hero Background
+const HeroBackground = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(0, 229, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(255, 0, 200, 0.1) 0%, transparent 50%);
-  animation: ${backgroundShimmer} 8s ease-in-out infinite;
+    radial-gradient(circle at 20% 80%, ${COLORS.accent}11 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, ${COLORS.accent2}11 0%, transparent 50%);
+  z-index: 1;
+`;
+
+const PatternOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(${COLORS.gunmetal} 1px, transparent 1px),
+    linear-gradient(90deg, ${COLORS.gunmetal} 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.1;
   z-index: 1;
 `;
 
 // About Section
 const AboutSection = styled(Section)`
-  background: #141432;
+  background: ${COLORS.gunmetal};
   position: relative;
   overflow: hidden;
 `;
@@ -345,7 +400,7 @@ const AboutSection = styled(Section)`
 const AboutText = styled.p`
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
-  color: #EAEAFB;
+  color: ${COLORS.bone};
   opacity: 0.9;
   line-height: 1.8;
 `;
@@ -357,16 +412,23 @@ const AboutFeatures = styled.ul`
 
   li {
     padding: 0.8rem 0;
-    padding-left: 2rem;
+    padding-left: 2.5rem;
     position: relative;
     font-size: 1.1rem;
-    color: #EAEAFB;
+    color: ${COLORS.bone};
+    border-bottom: 1px solid ${COLORS.taupeGrey}40;
+
+    &:last-child {
+      border-bottom: none;
+    }
 
     &::before {
-      content: '🧠';
+      content: '▸';
       position: absolute;
       left: 0;
-      font-size: 1.2rem;
+      color: ${COLORS.accent};
+      font-size: 1.5rem;
+      line-height: 1;
     }
   }
 `;
@@ -381,21 +443,20 @@ const AIVisual = styled.div`
 
 const BrainIcon = styled.div`
   font-size: 8rem;
-  color: #6A00FF;
+  color: ${COLORS.accent};
   animation: ${float} 6s ease-in-out infinite;
-  text-shadow: 0 0 50px rgba(106, 0, 255, 0.5);
+  text-shadow: 0 0 30px ${COLORS.accent}40;
   position: relative;
   z-index: 2;
 `;
 
-const NeuralGrid = styled.div`
+const CircuitGrid = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.3;
-
+  
   &::before {
     content: '';
     position: absolute;
@@ -404,48 +465,48 @@ const NeuralGrid = styled.div`
     width: 100%;
     height: 100%;
     background: 
-      linear-gradient(90deg, transparent 49%, #6A00FF 50%, transparent 51%),
-      linear-gradient(transparent 49%, #6A00FF 50%, transparent 51%);
-    background-size: 50px 50px;
+      linear-gradient(90deg, transparent 49%, ${COLORS.accent}20 50%, transparent 51%),
+      linear-gradient(transparent 49%, ${COLORS.accent}20 50%, transparent 51%);
+    background-size: 40px 40px;
   }
 `;
 
 // Skills Section
 const SkillsSection = styled(Section)`
+  background: linear-gradient(135deg, ${COLORS.shadowGrey}, ${COLORS.gunmetal});
   position: relative;
-  background: linear-gradient(135deg, rgba(106, 0, 255, 0.05), rgba(0, 229, 255, 0.05));
   overflow: hidden;
 `;
 
 const SkillCard = styled.div`
-  background: rgba(20, 20, 50, 0.8);
-  backdrop-filter: blur(10px);
+  background: ${COLORS.taupeGrey};
   padding: 2.5rem 1.5rem;
-  border-radius: 20px;
+  border-radius: 12px;
   text-align: center;
-  border: 2px solid transparent;
+  border: 1px solid ${COLORS.taupeGrey};
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  height: 100%;
 
   &::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(106, 0, 255, 0.1), transparent);
-    transition: left 0.5s ease;
+    height: 4px;
+    background: linear-gradient(90deg, ${COLORS.accent}, ${COLORS.accent2});
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
   }
 
   &:hover {
     transform: translateY(-10px);
-    border-color: #00E5FF;
-    box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+    border-color: ${COLORS.accent};
 
     &::before {
-      left: 100%;
+      transform: scaleX(1);
     }
   }
 `;
@@ -453,39 +514,26 @@ const SkillCard = styled.div`
 const SkillIcon = styled.div`
   font-size: 3.5rem;
   margin-bottom: 1.5rem;
-  color: ${props => props.color || '#00E5FF'};
-  text-shadow: 0 0 20px ${props => props.color || '#00E5FF'};
+  color: ${props => props.color || COLORS.accent};
 `;
 
 const SkillName = styled.h5`
-  font-weight: 700;
-  color: #EAEAFB;
+  font-weight: 600;
+  color: ${COLORS.parchment};
   margin-bottom: 1rem;
   font-size: 1.3rem;
 `;
 
 const SkillDescription = styled.p`
-  color: #EAEAFB;
+  color: ${COLORS.bone};
   opacity: 0.8;
   font-size: 0.95rem;
-`;
-
-const SkillsBackground = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 10% 20%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 50%);
-  z-index: -1;
+  line-height: 1.6;
 `;
 
 // Curriculum Section
 const CurriculumSection = styled(Section)`
-  background: linear-gradient(135deg, #6A00FF, #00E5FF);
-  color: #EAEAFB;
+  background: ${COLORS.gunmetal};
   position: relative;
 `;
 
@@ -499,10 +547,10 @@ const Timeline = styled.div`
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 4px;
+    width: 2px;
     height: 100%;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
+    background: linear-gradient(to bottom, ${COLORS.accent}, ${COLORS.accent2});
+    border-radius: 1px;
 
     @media (max-width: 768px) {
       left: 20px;
@@ -529,15 +577,16 @@ const TimelineItem = styled.div`
 
 const TimelinePhase = styled.div`
   font-size: 1.4rem;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #FF00C8;
-  text-shadow: 0 0 10px rgba(255, 0, 200, 0.5);
+  color: ${COLORS.parchment};
 `;
 
 const TimelineDesc = styled.div`
-  opacity: 0.95;
+  color: ${COLORS.bone};
+  opacity: 0.9;
   font-size: 1.1rem;
+  line-height: 1.6;
 `;
 
 const TimelineConnector = styled.div`
@@ -545,9 +594,9 @@ const TimelineConnector = styled.div`
   top: 10px;
   width: 20px;
   height: 20px;
-  background: #FF00C8;
+  background: ${COLORS.accent};
   border-radius: 50%;
-  box-shadow: 0 0 20px #FF00C8;
+  box-shadow: 0 0 15px ${COLORS.accent};
   right: ${props => props.even ? 'auto' : '-10px'};
   left: ${props => props.even ? '-10px' : 'auto'};
 
@@ -559,228 +608,110 @@ const TimelineConnector = styled.div`
 
 // Tools Section
 const ToolsSection = styled(Section)`
-  background: #0B0B1E;
-  color: #EAEAFB;
+  background: linear-gradient(135deg, ${COLORS.shadowGrey}, ${COLORS.gunmetal});
+  position: relative;
 `;
 
 const ToolCard = styled.div`
   text-align: center;
-  padding: 2.5rem 1rem;
+  padding: 2rem;
   transition: all 0.3s ease;
-  border-radius: 50%;
-  background: rgba(20, 20, 50, 0.6);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  width: 150px;
-  height: 150px;
+  border-radius: 12px;
+  background: ${COLORS.taupeGrey};
+  border: 1px solid transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
+  height: 180px;
 
   &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px #00E5FF;
+    transform: translateY(-5px);
+    border-color: ${COLORS.accent};
+    box-shadow: 0 10px 25px rgba(138, 79, 255, 0.2);
   }
 `;
 
 const ToolIcon = styled.div`
   font-size: 3rem;
-  color: #6A00FF;
+  color: ${COLORS.accent};
   margin-bottom: 1rem;
   transition: all 0.3s ease;
 
   ${ToolCard}:hover & {
-    color: #00E5FF;
-    filter: drop-shadow(0 0 10px #00E5FF);
+    color: ${COLORS.accent2};
+    transform: scale(1.1);
   }
 `;
 
 const ToolName = styled.span`
-  font-weight: 600;
-  color: #EAEAFB;
-  font-size: 0.9rem;
+  font-weight: 400;
+  color: ${COLORS.parchment};
+  font-size: 0.95rem;
 `;
 
 // Mentorship Section
 const MentorshipSection = styled(Section)`
-  background: linear-gradient(135deg, #141432, #0B0B1E);
+  background: ${COLORS.gunmetal};
   position: relative;
 `;
 
 const MentorshipContent = styled.div`
-  background: rgba(20, 20, 50, 0.6);
-  backdrop-filter: blur(10px);
+  background: ${COLORS.taupeGrey};
   padding: 4rem 3rem;
-  border-radius: 25px;
-  border: 1px solid rgba(106, 0, 255, 0.3);
+  border-radius: 16px;
+  border: 1px solid ${COLORS.accent}40;
   position: relative;
-  box-shadow: 0 0 50px rgba(106, 0, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 `;
 
 const QuoteIcon = styled.div`
   font-size: 2.5rem;
-  color: #00E5FF;
+  color: ${COLORS.accent};
   margin-bottom: 2rem;
-  text-shadow: 0 0 20px #00E5FF;
 `;
 
 const MentorshipText = styled.p`
   font-size: 1.3rem;
   font-style: italic;
   margin-bottom: 3rem;
-  color: #EAEAFB;
+  color: ${COLORS.bone};
   line-height: 1.8;
   text-align: center;
-`;
-
-// const MentorStats = styled.div`
-//   display: flex;
-//   justify-content: space-around;
-//   margin-top: 3rem;
-
-//   @media (max-width: 768px) {
-//     flex-direction: column;
-//     gap: 2rem;
-//   }
-// `;
-
-// const Stat = styled.div`
-//   text-align: center;
-// `;
-
-// const StatNumber = styled.h4`
-//   font-size: 2.5rem;
-//   color: #FF00C8;
-//   margin-bottom: 0.5rem;
-//   text-shadow: 0 0 20px #FF00C8;
-// `;
-
-const MentorshipBackground = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="100" fill="%236A00FF" fill-opacity="0.05"/><circle cx="800" cy="800" r="150" fill="%2300E5FF" fill-opacity="0.05"/></svg>');
-  z-index: -1;
+  position: relative;
+  
+  &::before,
+  &::after {
+    content: '"';
+    font-size: 4rem;
+    color: ${COLORS.accent}40;
+    position: absolute;
+    font-family: serif;
+  }
+  
+  &::before {
+    top: -20px;
+    left: -20px;
+  }
+  
+  &::after {
+    bottom: -40px;
+    right: -20px;
+  }
 `;
 
 // Projects Section
 const ProjectsSection = styled(Section)`
-  background: #0B0B1E;
+  background: ${COLORS.shadowGrey};
   position: relative;
 `;
 
 const ProjectCard = styled.div`
-  background: rgba(20, 20, 50, 0.8);
-  backdrop-filter: blur(10px);
+  background: ${COLORS.gunmetal};
   padding: 2.5rem;
-  border-radius: 20px;
+  border-radius: 12px;
   text-align: center;
-  border: 2px solid #6A00FF;
-  transition: all 0.3s ease;
-  height: 100%;
-  animation: ${glowPulse} 4s ease-in-out infinite;
-
-  &:hover {
-    transform: translateY(-10px);
-    border-color: #00E5FF;
-    box-shadow: 0 0 40px rgba(0, 229, 255, 0.4);
-    animation: none;
-  }
-`;
-
-const ProjectIcon = styled.div`
-  font-size: 3rem;
-  color: #00E5FF;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 20px #00E5FF;
-`;
-
-const ProjectTitle = styled.h5`
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #EAEAFB;
-  font-size: 1.4rem;
-`;
-
-const ProjectDescription = styled.p`
-  color: #EAEAFB;
-  opacity: 0.9;
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-`;
-
-const ProjectTech = styled.div`
-  font-size: 0.9rem;
-  color: #FF00C8;
-  font-weight: 600;
-  text-shadow: 0 0 10px #FF00C8;
-`;
-
-// Eligibility Section
-const EligibilitySection = styled(Section)`
-  background: #141432;
-`;
-
-const InfoCard = styled.div`
-  text-align: center;
-  padding: 2.5rem 1.5rem;
-  background: rgba(106, 0, 255, 0.1);
-  border-radius: 20px;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(106, 0, 255, 0.3);
-
-  &:hover {
-    transform: translateY(-5px);
-    background: rgba(106, 0, 255, 0.2);
-    box-shadow: 0 0 30px rgba(106, 0, 255, 0.3);
-  }
-`;
-
-const InfoIcon = styled.div`
-  font-size: 2.5rem;
-  color: #00E5FF;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 20px #00E5FF;
-`;
-
-const InfoTitle = styled.h5`
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #EAEAFB;
-  font-size: 1.3rem;
-`;
-
-const InfoValue = styled.p`
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #FF00C8;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 10px #FF00C8;
-`;
-
-const InfoSubtext = styled.span`
-  color: #EAEAFB;
-  opacity: 0.8;
-  font-size: 0.95rem;
-`;
-
-// Benefits Section
-const BenefitsSection = styled(Section)`
-  background: linear-gradient(135deg, #6A00FF, #00E5FF);
-  color: #EAEAFB;
-  position: relative;
-`;
-
-const BenefitCard = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: 3rem 2rem;
-  border-radius: 20px;
-  text-align: center;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid ${COLORS.accent}40;
   transition: all 0.3s ease;
   height: 100%;
   position: relative;
@@ -789,53 +720,156 @@ const BenefitCard = styled.div`
   &::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transform: rotate(45deg);
-    transition: all 0.6s ease;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, ${COLORS.accent}10, ${COLORS.accent2}10);
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
   &:hover {
     transform: translateY(-10px);
-    border-color: #FF00C8;
-    box-shadow: 0 0 40px rgba(255, 0, 200, 0.4);
+    border-color: ${COLORS.accent};
 
     &::before {
-      transform: rotate(45deg) translate(50%, 50%);
+      opacity: 1;
     }
+  }
+`;
+
+const ProjectIcon = styled.div`
+  font-size: 3rem;
+  color: ${COLORS.accent};
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+`;
+
+const ProjectTitle = styled.h5`
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: ${COLORS.parchment};
+  font-size: 1.4rem;
+  position: relative;
+  z-index: 1;
+`;
+
+const ProjectDescription = styled.p`
+  color: ${COLORS.bone};
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+`;
+
+const ProjectTech = styled.div`
+  font-size: 0.9rem;
+  color: ${COLORS.accent2};
+  font-weight: 400;
+  padding: 0.5rem 1rem;
+  background: ${COLORS.taupeGrey};
+  border-radius: 20px;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+`;
+
+// Eligibility Section
+const EligibilitySection = styled(Section)`
+  background: ${COLORS.gunmetal};
+`;
+
+const InfoCard = styled.div`
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  background: ${COLORS.taupeGrey};
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: ${COLORS.accent};
+    box-shadow: 0 10px 25px rgba(138, 79, 255, 0.1);
+  }
+`;
+
+const InfoIcon = styled.div`
+  font-size: 2.5rem;
+  color: ${COLORS.accent};
+  margin-bottom: 1.5rem;
+`;
+
+const InfoTitle = styled.h5`
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: ${COLORS.parchment};
+  font-size: 1.3rem;
+`;
+
+const InfoValue = styled.p`
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: ${COLORS.accent2};
+  margin-bottom: 0.5rem;
+`;
+
+const InfoSubtext = styled.span`
+  color: ${COLORS.bone};
+  opacity: 0.8;
+  font-size: 0.95rem;
+`;
+
+// Benefits Section
+const BenefitsSection = styled(Section)`
+  background: linear-gradient(135deg, ${COLORS.gunmetal}, ${COLORS.shadowGrey});
+  position: relative;
+`;
+
+const BenefitCard = styled.div`
+  background: ${COLORS.taupeGrey};
+  padding: 3rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid ${COLORS.taupeGrey};
+  transition: all 0.3s ease;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-10px);
+    border-color: ${COLORS.accent};
+    box-shadow: 0 20px 40px rgba(138, 79, 255, 0.1);
   }
 `;
 
 const BenefitIcon = styled.div`
   font-size: 3rem;
-  color: #FF00C8;
+  color: ${COLORS.accent};
   margin-bottom: 1.5rem;
-  position: relative;
-  z-index: 2;
-  text-shadow: 0 0 20px #FF00C8;
 `;
 
 const BenefitTitle = styled.h5`
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 1rem;
-  position: relative;
-  z-index: 2;
+  color: ${COLORS.parchment};
   font-size: 1.4rem;
 `;
 
 const BenefitDescription = styled.p`
-  opacity: 0.95;
-  position: relative;
-  z-index: 2;
+  color: ${COLORS.bone};
+  opacity: 0.9;
   line-height: 1.6;
 `;
 
 // Quotes Section
 const QuotesSection = styled(Section)`
-  background: #0B0B1E;
+  background: ${COLORS.shadowGrey};
   position: relative;
   overflow: hidden;
 `;
@@ -849,65 +883,31 @@ const QuotesContent = styled.div`
 
 const QuoteText = styled.h3`
   font-size: 2.5rem;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 3rem;
   line-height: 1.4;
-  color: #EAEAFB;
-  text-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+  color: ${COLORS.parchment};
+  position: relative;
 
   @media (max-width: 768px) {
     font-size: 2rem;
   }
 `;
 
-const QuoteRotation = styled.div`
-  font-size: 1.4rem;
-  opacity: 0.9;
-  min-height: 2rem;
-`;
-
-const RotatingQuote = styled.span`
-  display: block;
-  animation: ${quoteRotate} 12s ease-in-out infinite;
-  animation-delay: ${props => props.delay || '0s'};
-`;
-
-const NeuralWeb = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.1;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-      radial-gradient(circle at center, #6A00FF 1px, transparent 1px),
-      radial-gradient(circle at center, #00E5FF 1px, transparent 1px);
-    background-size: 50px 50px, 30px 30px;
-    background-position: 0 0, 25px 25px;
-  }
-`;
-
 // Apply Section
 const ApplySection = styled(Section)`
-  background: linear-gradient(135deg, #6A00FF, #00E5FF);
-  color: #EAEAFB;
+  background: linear-gradient(135deg, ${COLORS.gunmetal}, ${COLORS.shadowGrey});
+  color: ${COLORS.bone};
   text-align: center;
   position: relative;
 `;
 
 const ApplyTitle = styled.h2`
   font-size: 3.5rem;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 2rem;
-  text-shadow: 0 0 30px rgba(0, 229, 255, 0.5);
+  color: ${COLORS.parchment};
+  position: relative;
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -917,61 +917,44 @@ const ApplyTitle = styled.h2`
 const ApplySubtitle = styled.p`
   font-size: 1.4rem;
   margin-bottom: 3rem;
-  opacity: 0.95;
+  opacity: 0.9;
   line-height: 1.6;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  color: ${COLORS.bone};
 `;
 
-// const ApplyStats = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   gap: 4rem;
-//   margin-top: 4rem;
-
-//   @media (max-width: 768px) {
-//     flex-direction: column;
-//     gap: 2rem;
-//   }
-// `;
-
-// const ApplyStat = styled.div`
-//   text-align: center;
-// `;
-
-// const ApplyStatNumber = styled.h4`
-//   font-size: 3rem;
-//   font-weight: 800;
-//   margin-bottom: 0.5rem;
-//   color: #FF00C8;
-//   text-shadow: 0 0 20px #FF00C8;
-// `;
-
-const ApplyBackgroundAnimation = styled.div`
+const ApplyBackground = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
-  animation: ${backgroundShimmer} 6s ease-in-out infinite;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    ${COLORS.accent}10 50%,
+    transparent 70%
+  );
+  background-size: 200% 200%;
+  animation: ${gradientShift} 6s ease-in-out infinite;
   z-index: -1;
 `;
 
 // Footer
 const Footer = styled.footer`
-  background: #141432;
-  color: #EAEAFB;
+  background: ${COLORS.gunmetal};
+  color: ${COLORS.bone};
   padding: 3rem 0;
   text-align: center;
-  border-top: 1px solid rgba(106, 0, 255, 0.3);
+  border-top: 1px solid ${COLORS.taupeGrey};
 `;
 
 const FooterText = styled.p`
   margin: 0;
   opacity: 0.8;
-  font-size: 1.1rem;
+  font-size: 1rem;
 `;
 
 const FooterLinks = styled.div`
@@ -986,7 +969,7 @@ const FooterLinks = styled.div`
   }
 
   a {
-    color: #EAEAFB;
+    color: ${COLORS.bone};
     text-decoration: none;
     opacity: 0.8;
     transition: all 0.3s ease;
@@ -994,8 +977,7 @@ const FooterLinks = styled.div`
 
     &:hover {
       opacity: 1;
-      color: #00E5FF;
-      text-shadow: 0 0 10px #00E5FF;
+      color: ${COLORS.accent};
     }
 
     &::after {
@@ -1005,7 +987,7 @@ const FooterLinks = styled.div`
       left: 0;
       width: 0;
       height: 2px;
-      background: linear-gradient(90deg, #6A00FF, #00E5FF);
+      background: ${COLORS.accent};
       transition: width 0.3s ease;
     }
 
@@ -1022,14 +1004,14 @@ const ScrollToTop = styled.button`
   right: 30px;
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, #6A00FF, #00E5FF);
+  background: ${COLORS.accent};
   border: none;
-  border-radius: 50%;
-  color: white;
+  border-radius: 8px;
+  color: ${COLORS.parchment};
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(106, 0, 255, 0.4);
+  box-shadow: 0 5px 15px rgba(138, 79, 255, 0.3);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -1037,7 +1019,8 @@ const ScrollToTop = styled.button`
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 0 30px rgba(0, 229, 255, 0.6);
+    background: ${COLORS.accent2};
+    box-shadow: 0 8px 20px rgba(255, 107, 139, 0.3);
   }
 `;
 
@@ -1049,44 +1032,20 @@ const AiMlInternship = () => {
   useEffect(() => {
     // Initialize AOS
     AOS.init({
-      duration: 1200,
+      duration: 1000,
       once: true,
       easing: 'ease-out-cubic'
     });
 
     // Initialize Typed.js
     const typed = new Typed(typedRef.current, {
-      strings: ['Neural Networks.', 'Deep Learning.', 'Data Science.', 'Innovation.', 'AI Models.'],
-      typeSpeed: 50,
-      backSpeed: 30,
+      strings: ['Intelligence.', 'Prediction.', 'Innovation.', 'Data.', 'Future.'],
+      typeSpeed: 60,
+      backSpeed: 40,
       backDelay: 2000,
       loop: true,
       showCursor: true,
-      cursorChar: '|'
-    });
-
-    // Smooth scroll function
-    const smoothScroll = (target) => {
-      const element = document.querySelector(target);
-      if (element) {
-        const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth'
-        });
-      }
-    };
-
-
-
-    // Add smooth scroll to all anchor links
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    anchorLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = link.getAttribute('href');
-        smoothScroll(target);
-      });
+      cursorChar: '▌'
     });
 
     // Scroll to top visibility
@@ -1132,41 +1091,41 @@ const AiMlInternship = () => {
 
   // Skills data
   const skills = [
-    { 
-      icon: <FaPython />, 
-      name: 'Python for AI/ML', 
-      desc: 'Master Python programming for machine learning',
+    {
+      icon: <FaPython />,
+      name: 'Python for AI/ML',
+      desc: 'Master Python programming for machine learning and data science applications',
       color: '#3776AB'
     },
-    { 
-      icon: <SiTensorflow />, 
-      name: 'TensorFlow & PyTorch', 
-      desc: 'Deep learning frameworks and neural networks',
+    {
+      icon: <SiTensorflow />,
+      name: 'TensorFlow & PyTorch',
+      desc: 'Deep learning frameworks for building advanced neural networks',
       color: '#FF6F00'
     },
-    { 
-      icon: <SiPandas />, 
-      name: 'Pandas, NumPy', 
-      desc: 'Data manipulation and numerical computing',
+    {
+      icon: <SiPandas />,
+      name: 'Data Science Stack',
+      desc: 'Pandas, NumPy for data manipulation and analysis',
       color: '#150458'
     },
-    { 
-      icon: <FaBrain />, 
-      name: 'Neural Networks', 
-      desc: 'Deep learning and neural architecture',
-      color: '#00E5FF'
+    {
+      icon: <FaBrain />,
+      name: 'Neural Networks',
+      desc: 'Deep learning architectures and neural network design',
+      color: COLORS.accent
     },
-    { 
-      icon: <FaChartLine />, 
-      name: 'Data Visualization', 
-      desc: 'Matplotlib, Seaborn for data insights',
-      color: '#FF00C8'
+    {
+      icon: <FaChartLine />,
+      name: 'Data Visualization',
+      desc: 'Creating meaningful insights through data visualization',
+      color: COLORS.accent2
     },
-    { 
-      icon: <FaCode />, 
-      name: 'Model Deployment', 
-      desc: 'Flask/Streamlit for deploying ML models',
-      color: '#6A00FF'
+    {
+      icon: <FaCode />,
+      name: 'Model Deployment',
+      desc: 'Deploying ML models using Flask and Streamlit',
+      color: '#8a4fff'
     }
   ];
 
@@ -1175,99 +1134,89 @@ const AiMlInternship = () => {
     { icon: <SiTensorflow />, name: 'TensorFlow' },
     { icon: <SiPytorch />, name: 'PyTorch' },
     { icon: <FaPython />, name: 'Python' },
-    { icon: <SiKeras />, name: 'Neural Networks' },
+    { icon: <SiKeras />, name: 'Keras' },
     { icon: <SiNumpy />, name: 'NumPy' },
     { icon: <SiPandas />, name: 'Pandas' },
-    { icon: <RiBook2Line />, name: 'RAG' },
+    { icon: <RiBook2Line />, name: 'Scikit-learn' },
     { icon: <SiFlask />, name: 'Flask' }
   ];
 
   // Projects data
   const projects = [
-    { 
-      icon: <FaChartLine />, 
-      name: 'Stock Price Prediction', 
-      desc: 'Predict stock trends using LSTM networks',
-      tech: 'TensorFlow, LSTM, Pandas'
+    {
+      icon: <FaChartLine />,
+      name: 'Stock Price Prediction',
+      desc: 'Predict stock market trends using LSTM networks and time series analysis',
+      tech: 'TensorFlow · LSTM · Pandas'
     },
-    { 
-      icon: <FaRobot />, 
-      name: 'AI Chatbot', 
-      desc: 'Intelligent chatbot using NLP techniques',
-      tech: 'NLTK, TensorFlow, Flask'
+    {
+      icon: <FaRobot />,
+      name: 'AI Chatbot',
+      desc: 'Intelligent chatbot using NLP techniques and neural networks',
+      tech: 'NLTK · TensorFlow · Flask'
     },
-    { 
-      icon: <FaMicrochip />, 
-      name: 'Image Classification', 
-      desc: 'CNN model for image recognition',
-      tech: 'PyTorch, CNN, OpenCV'
+    {
+      icon: <FaMicrochip />,
+      name: 'Image Classification',
+      desc: 'CNN model for image recognition and computer vision tasks',
+      tech: 'PyTorch · CNN · OpenCV'
     },
-    { 
-      icon: <FaNetworkWired />, 
-      name: 'Fake News Detection', 
-      desc: 'ML model to identify fake news articles',
-      tech: 'Scikit-learn, NLP, TF-IDF'
+    {
+      icon: <FaNetworkWired />,
+      name: 'Fake News Detection',
+      desc: 'Machine learning model to identify fake news articles',
+      tech: 'Scikit-learn · NLP · TF-IDF'
     },
-    { 
-      icon: <FaRocket />, 
-      name: 'Recommender System', 
-      desc: 'Collaborative filtering for recommendations',
-      tech: 'Surprise, Pandas, NumPy'
+    {
+      icon: <FaRocket />,
+      name: 'Recommender System',
+      desc: 'Collaborative filtering system for personalized recommendations',
+      tech: 'Surprise · Pandas · NumPy'
     },
-    { 
-      icon: <FaDatabase />, 
-      name: 'Handwriting Recognition', 
-      desc: 'Neural network for digit classification',
-      tech: 'TensorFlow, CNN, MNIST'
+    {
+      icon: <FaDatabase />,
+      name: 'Handwriting Recognition',
+      desc: 'Neural network for digit classification from handwritten images',
+      tech: 'TensorFlow · CNN · MNIST'
     }
   ];
 
   // Benefits data
   const benefits = [
-    { 
-      icon: <FaCertificate />, 
-      name: 'Internship Certificate', 
-      desc: 'Industry-recognized AI/ML certification'
+    {
+      icon: <FaCertificate />,
+      name: 'Internship Certificate',
+      desc: 'Industry-recognized certification in AI and Machine Learning'
     },
-    { 
-      icon: <FaLaptopCode />, 
-      name: 'Real ML Projects', 
-      desc: 'Hands-on experience with production models'
+    {
+      icon: <FaLaptopCode />,
+      name: 'Real Projects',
+      desc: 'Hands-on experience with production-ready machine learning models'
     },
-    { 
-      icon: <FaUserTie />, 
-      name: 'Resume Enhancement', 
-      desc: 'Boost your professional AI portfolio'
+    {
+      icon: <FaUserTie />,
+      name: 'Career Boost',
+      desc: 'Enhance your professional portfolio with AI expertise'
     },
-    { 
-      icon: <FaGraduationCap />, 
-      name: 'LOR', 
-      desc: 'Letter of Recommendation from AI experts'
+    {
+      icon: <FaGraduationCap />,
+      name: 'LOR & Guidance',
+      desc: 'Letter of Recommendation and mentorship from AI experts'
     }
-  ];
-
-  // Quotes data
-  const quotes = [
-    "Machines learn from data, but innovators learn from challenges.",
-    "AI is not the future — it's today.",
-    "You don't just code models, you build intelligence.",
-    "Transform data into predictions, predictions into actions.",
-    "The neural network of today is the foundation of tomorrow."
   ];
 
   // Timeline data
   const timelineData = [
-    { phase: "AI/ML & Data Science Intro", desc: "Fundamentals of artificial intelligence" },
-    { phase: "Python & Data Handling", desc: "Programming and data manipulation" },
-    { phase: "Supervised & Unsupervised Learning", desc: "Machine learning algorithms" },
-    { phase: "Deep Learning & Neural Networks", desc: "Advanced AI models and architectures" },
-    { phase: "Model Evaluation & Optimization", desc: "Performance tuning and validation" },
-    { phase: "Final Project & Presentation", desc: "End-to-end AI solution development" }
+    { phase: "AI/ML & Data Science Intro", desc: "Fundamentals of artificial intelligence and machine learning concepts" },
+    { phase: "Python & Data Handling", desc: "Programming fundamentals and data manipulation techniques" },
+    { phase: "Supervised & Unsupervised Learning", desc: "Machine learning algorithms and model training" },
+    { phase: "Deep Learning & Neural Networks", desc: "Advanced AI models and neural architectures" },
+    { phase: "Model Evaluation & Optimization", desc: "Performance tuning, validation, and optimization" },
+    { phase: "Final Project & Presentation", desc: "End-to-end AI solution development and deployment" }
   ];
 
   return (
     <PageContainer>
-
       <Helmet>
         <title>AI & ML Development Internship | BTC Routes</title>
         <meta
@@ -1276,7 +1225,7 @@ const AiMlInternship = () => {
         />
         <meta
           name="keywords"
-          content="BTC Routes, AI internship, ML internship, Artificial Intelligence, Machine Learning, Python, TensorFlow, data science, neural networks, BTC projects"
+          content="BTC Routes, AI internship, ML internship, Artificial Intelligence, Machine Learning, Python, TensorFlow, data science, neural networks"
         />
         <meta name="author" content="BTC Routes" />
         <link
@@ -1284,7 +1233,6 @@ const AiMlInternship = () => {
           href="https://www.btcroutes.com/internship/aiml-development"
         />
 
-        {/* ✅ Open Graph Meta Tags */}
         <meta property="og:title" content="AI & ML Development Internship | BTC Routes" />
         <meta
           property="og:description"
@@ -1294,16 +1242,14 @@ const AiMlInternship = () => {
         <meta property="og:url" content="https://www.btcroutes.com/internship/aiml-development" />
         <meta property="og:type" content="website" />
 
-        {/* ✅ Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="BTC Routes | AI & ML Development Internship" />
         <meta
           name="twitter:description"
-          content="Learn AI and ML through BTC Routes’ internship. Build real-world machine learning and deep learning projects using Python and TensorFlow."
+          content="Learn AI and ML through BTC Routes' internship. Build real-world machine learning and deep learning projects using Python and TensorFlow."
         />
         <meta name="twitter:image" content="%PUBLIC_URL%/logo2.png" />
 
-        {/* ✅ Structured Data (JSON-LD for Google Rich Results) */}
         <script type="application/ld+json">
           {`
             {
@@ -1333,11 +1279,8 @@ const AiMlInternship = () => {
         </script>
       </Helmet>
 
-
-
       <GlobalStyle />
-      
-      {/* Navigation */}
+
       <NavbarComponent />
 
       {/* Hero Section */}
@@ -1346,50 +1289,47 @@ const AiMlInternship = () => {
           <div className="row align-items-center">
             <div className="col-lg-8" data-aos="fade-up">
               <HeroTitle>
-                AI & Machine Learning <br />Internship
+                AI & Machine Learning <br />Development Internship
               </HeroTitle>
               <HeroSubtitle>
-                Master <TypedText ref={typedRef}></TypedText>
+                Master Artificial <TypedText ref={typedRef}></TypedText>
               </HeroSubtitle>
               <HeroTagline>
-                Transform data into intelligence. Code the future.
+                Transform data into intelligent systems. Build, train, and deploy machine learning models
+                that solve real-world problems. Join our comprehensive internship program designed for
+                aspiring AI/ML engineers.
               </HeroTagline>
-              <MagentaButton 
+              <PrimaryButton
+                large
                 onClick={(e) => {
                   createRipple(e);
                   navigate('/application')
-                  // document.querySelector('#apply').scrollIntoView({ behavior: 'smooth' });
                 }}
               >
-                Apply Now
+                Start Your AI Journey
                 <Ripple />
-              </MagentaButton>
+              </PrimaryButton>
             </div>
           </div>
         </div>
 
-        {/* Neural Network Animation */}
-        <NeuralConnection delay="0s">
-          <defs>
-            <linearGradient id="neuralGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#6A00FF" />
-              <stop offset="50%" stopColor="#00E5FF" />
-              <stop offset="100%" stopColor="#FF00C8" />
-            </linearGradient>
-          </defs>
+        {/* Circuit Animation */}
+        <CircuitConnection delay="0s">
           <path d="M100,100 C200,50 300,150 400,100 C500,50 600,150 700,100" />
           <path d="M150,200 C250,250 350,100 450,200 C550,250 650,100 750,200" />
-        </NeuralConnection>
+          <path d="M200,300 C300,150 400,250 500,300 C600,350 700,250 800,300" />
+        </CircuitConnection>
 
-        {/* Neural Nodes */}
-        <NeuralNode top="20%" left="10%" delay="0s" />
-        <NeuralNode top="30%" right="15%" delay="0.5s" />
-        <NeuralNode top="70%" left="20%" delay="1s" />
-        <NeuralNode bottom="25%" right="25%" delay="1.5s" />
-        <NeuralNode top="45%" left="30%" delay="2s" />
-        <NeuralNode bottom="35%" right="35%" delay="2.5s" />
+        {/* Circuit Nodes */}
+        <CircuitNode top="20%" left="10%" delay="0s" />
+        <CircuitNode top="30%" right="15%" delay="0.5s" />
+        <CircuitNode top="70%" left="20%" delay="1s" />
+        <CircuitNode bottom="25%" right="25%" delay="1.5s" />
+        <CircuitNode top="45%" left="30%" delay="2s" />
+        <CircuitNode bottom="35%" right="35%" delay="2.5s" />
 
-        <HeroBackgroundAnimation />
+        <HeroBackground />
+        <PatternOverlay />
       </HeroSection>
 
       {/* About Section */}
@@ -1399,24 +1339,24 @@ const AiMlInternship = () => {
             <div className="col-lg-6" data-aos="fade-right">
               <SectionHeader>
                 <h2>About the Internship</h2>
-                <SectionDivider />
               </SectionHeader>
               <AboutText>
-                Explore how machines think, learn, and predict. Build intelligent systems 
-                with real-world impact through our comprehensive AI & Machine Learning Internship.
+                Dive deep into the world of Artificial Intelligence and Machine Learning
+                through our immersive internship program. We provide a structured learning
+                path that takes you from foundational concepts to advanced model deployment.
               </AboutText>
               <AboutText>
-                Designed for BE/B.Tech students in IT, CSE, AI, ML, and DS, this program 
-                takes you from fundamental concepts to advanced AI model development using 
-                industry-standard tools and methodologies.
+                Designed specifically for BE/B.Tech students in Computer Science,
+                Information Technology, AI/ML, and Data Science, this program focuses
+                on practical implementation and industry-relevant skills.
               </AboutText>
               <AboutFeatures>
-                <li>Machine Learning Algorithms & Techniques</li>
+                <li>Comprehensive Machine Learning Algorithms</li>
                 <li>Deep Learning with TensorFlow & PyTorch</li>
-                <li>Data Science & Predictive Modeling</li>
+                <li>Data Science & Predictive Analytics</li>
                 <li>Neural Networks & Computer Vision</li>
                 <li>Natural Language Processing (NLP)</li>
-                <li>Model Deployment & Production</li>
+                <li>Model Deployment & Cloud Integration</li>
               </AboutFeatures>
             </div>
             <div className="col-lg-6" data-aos="fade-left">
@@ -1424,7 +1364,7 @@ const AiMlInternship = () => {
                 <BrainIcon>
                   <FaBrain />
                 </BrainIcon>
-                <NeuralGrid />
+                <CircuitGrid />
               </AIVisual>
             </div>
           </div>
@@ -1435,10 +1375,9 @@ const AiMlInternship = () => {
       <SkillsSection id="skills">
         <div className="container">
           <SectionHeader center>
-            <h2>Skills You'll Learn</h2>
-            <SectionDivider center />
-            <SectionSubtitle>
-              Master the essential technologies for AI and machine learning
+            <h2>Skills You'll Master</h2>
+            <SectionSubtitle center>
+              Develop industry-relevant skills that are in high demand
             </SectionSubtitle>
           </SectionHeader>
           <div className="row g-4">
@@ -1455,23 +1394,24 @@ const AiMlInternship = () => {
             ))}
           </div>
         </div>
-        <SkillsBackground />
       </SkillsSection>
 
       {/* Curriculum Section */}
       <CurriculumSection id="curriculum">
         <div className="container">
           <SectionHeader center>
-            <h2>Learning Path</h2>
-            <SectionDivider center />
+            <h2>Learning Journey</h2>
+            <SectionSubtitle center>
+              Structured path from fundamentals to advanced concepts
+            </SectionSubtitle>
           </SectionHeader>
           <Timeline>
             {timelineData.map((item, index) => (
-              <TimelineItem 
-                key={index} 
+              <TimelineItem
+                key={index}
                 even={index % 2 !== 0}
-                data-aos="fade-up" 
-                data-aos-delay={index * 200}
+                data-aos="fade-up"
+                data-aos-delay={index * 150}
               >
                 <TimelinePhase>{item.phase}</TimelinePhase>
                 <TimelineDesc>{item.desc}</TimelineDesc>
@@ -1486,8 +1426,7 @@ const AiMlInternship = () => {
       <ToolsSection id="tools">
         <div className="container">
           <SectionHeader center>
-            <h2>Tools & Technologies</h2>
-            <SectionDivider center />
+            <h2>Industry Tools & Tech</h2>
           </SectionHeader>
           <div className="row g-4 justify-content-center">
             {tools.map((tool, index) => (
@@ -1508,43 +1447,28 @@ const AiMlInternship = () => {
       <MentorshipSection>
         <div className="container">
           <div className="row justify-content-center">
-            <div className="col-lg-10 text-center" data-aos="fade-up-right">
+            <div className="col-lg-10 text-center" data-aos="fade-up">
               <MentorshipContent>
                 <QuoteIcon><FaQuoteLeft /></QuoteIcon>
                 <MentorshipText>
-                  "Learn under professionals who've trained models, analyzed massive datasets, 
-                  and deployed AI solutions across industries. Get personalized guidance from 
-                  experts who understand both the theory and practice of artificial intelligence."
+                  "Our mentors are industry professionals who have built, trained, and deployed
+                  AI solutions across various domains. Get personalized guidance from experts
+                  who understand both the theoretical foundations and practical implementations
+                  of artificial intelligence."
                 </MentorshipText>
-                {/* <MentorStats>
-                  <Stat>
-                    <StatNumber>10+</StatNumber>
-                    <span>Years Experience</span>
-                  </Stat>
-                  <Stat>
-                    <StatNumber>50+</StatNumber>
-                    <span>AI Projects</span>
-                  </Stat>
-                  <Stat>
-                    <StatNumber>1000+</StatNumber>
-                    <span>Models Trained</span>
-                  </Stat>
-                </MentorStats> */}
               </MentorshipContent>
             </div>
           </div>
         </div>
-        <MentorshipBackground />
       </MentorshipSection>
 
       {/* Projects Section */}
       <ProjectsSection id="projects">
         <div className="container">
           <SectionHeader center>
-            <h2>Project Work</h2>
-            <SectionDivider center />
-            <SectionSubtitle>
-              Build real-world AI applications that demonstrate your expertise
+            <h2>Hands-on Projects</h2>
+            <SectionSubtitle center>
+              Build real-world applications that showcase your expertise
             </SectionSubtitle>
           </SectionHeader>
           <div className="row g-4">
@@ -1568,8 +1492,7 @@ const AiMlInternship = () => {
       <EligibilitySection>
         <div className="container">
           <SectionHeader center>
-            <h2>Duration, Mode & Eligibility</h2>
-            <SectionDivider center />
+            <h2>Program Details</h2>
           </SectionHeader>
           <div className="row g-4" data-aos="zoom-in">
             <div className="col-md-6 col-lg-3">
@@ -1577,15 +1500,15 @@ const AiMlInternship = () => {
                 <InfoIcon><FaCalendarAlt /></InfoIcon>
                 <InfoTitle>Duration</InfoTitle>
                 <InfoValue>1-3 Months</InfoValue>
-                <InfoSubtext>Flexible Program</InfoSubtext>
+                <InfoSubtext>Flexible timeline</InfoSubtext>
               </InfoCard>
             </div>
             <div className="col-md-6 col-lg-3">
               <InfoCard>
                 <InfoIcon><FaLaptopCode /></InfoIcon>
                 <InfoTitle>Mode</InfoTitle>
-                <InfoValue>Online/Hybrid/Offline</InfoValue>
-                <InfoSubtext>Remote Learning</InfoSubtext>
+                <InfoValue>Online/Hybrid</InfoValue>
+                <InfoSubtext>Remote learning available</InfoSubtext>
               </InfoCard>
             </div>
             <div className="col-md-6 col-lg-3">
@@ -1593,7 +1516,7 @@ const AiMlInternship = () => {
                 <InfoIcon><FaUsers /></InfoIcon>
                 <InfoTitle>Eligibility</InfoTitle>
                 <InfoValue>IT/CSE/AI/ML/DS</InfoValue>
-                <InfoSubtext>BE/B.Tech/B.Sc Students</InfoSubtext>
+                <InfoSubtext>BE/B.Tech/B.Sc students</InfoSubtext>
               </InfoCard>
             </div>
             <div className="col-md-6 col-lg-3">
@@ -1601,7 +1524,7 @@ const AiMlInternship = () => {
                 <InfoIcon><FaPython /></InfoIcon>
                 <InfoTitle>Prerequisite</InfoTitle>
                 <InfoValue>Python Basics</InfoValue>
-                <InfoSubtext>Preferred Knowledge</InfoSubtext>
+                <InfoSubtext>Fundamental knowledge</InfoSubtext>
               </InfoCard>
             </div>
           </div>
@@ -1612,12 +1535,11 @@ const AiMlInternship = () => {
       <BenefitsSection>
         <div className="container">
           <SectionHeader center>
-            <h2>Certification & Benefits</h2>
-            <SectionDivider center />
+            <h2>Program Benefits</h2>
           </SectionHeader>
           <div className="row g-4">
             {benefits.map((benefit, index) => (
-              <div key={index} className="col-md-6 col-lg-3" data-aos="fade-right" data-aos-delay={index * 100}>
+              <div key={index} className="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay={index * 100}>
                 <BenefitCard>
                   <BenefitIcon>
                     {benefit.icon}
@@ -1638,20 +1560,21 @@ const AiMlInternship = () => {
             <div className="col-lg-10 text-center" data-aos="fade-in">
               <QuotesContent>
                 <QuoteText>
-                  {quotes[0]}
+                  "Machines learn from data, but innovators learn from challenges."
                 </QuoteText>
-                <QuoteRotation>
-                  {quotes.slice(1).map((quote, index) => (
-                    <RotatingQuote key={index} delay={`${(index + 1) * 3}s`}>
-                      {quote}
-                    </RotatingQuote>
-                  ))}
-                </QuoteRotation>
+                <PrimaryButton
+                  onClick={(e) => {
+                    createRipple(e);
+                    navigate('/application')
+                  }}
+                >
+                  Apply Now
+                  <Ripple />
+                </PrimaryButton>
               </QuotesContent>
             </div>
           </div>
         </div>
-        <NeuralWeb />
       </QuotesSection>
 
       {/* Apply Section */}
@@ -1659,36 +1582,37 @@ const AiMlInternship = () => {
         <div className="container">
           <div className="row justify-content-center text-center">
             <div className="col-lg-8" data-aos="zoom-in">
-              <ApplyTitle>Step Into AI Future</ApplyTitle>
+              <ApplyTitle>Begin Your AI Journey</ApplyTitle>
               <ApplySubtitle>
-                Step into the world of Artificial Intelligence. Join our AI & ML Internship 
-                and code the next generation of smart systems that learn, predict, and innovate.
+                Step into the future of technology with our AI & ML Internship.
+                Join a community of innovators and build the intelligent systems
+                that will shape tomorrow.
               </ApplySubtitle>
-              <MagentaButton 
+              <PrimaryButton
                 large
                 onClick={createRipple}
               >
-              <Link to="/application" className='text-decoration-none'>
-                Apply Now
-              </Link>  
+                <Link to="/application" style={{ color: 'inherit', textDecoration: 'none' }}>
+                  Start Application
+                </Link>
                 <Ripple />
-              </MagentaButton>
+              </PrimaryButton>
             </div>
           </div>
         </div>
-        <ApplyBackgroundAnimation />
+        <ApplyBackground />
       </ApplySection>
 
       {/* Footer */}
       <Footer>
         <div className="container">
-          <div className="row d-flex align-items-center justify-content-center">
+          <div className="row align-items-center">
             <div className="col-md-6">
               <FooterText>
-                &copy; 2025 AI & Machine Learning Internship. All rights reserved.
+                © 2025 AI & Machine Learning Internship. All rights reserved.
               </FooterText>
             </div>
-            <div className="col-md-6 text-md-end">
+            <div className="col-md-6">
               <FooterLinks>
                 <Link to="/privacy-policy">Privacy Policy</Link>
                 <Link to="/terms-and-condition">Terms of Service</Link>
