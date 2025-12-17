@@ -571,7 +571,7 @@ const BtcRoutesAdmin = () => {
     switch (activeSection) {
       case 'dashboard': return 'Dashboard';
       case 'addStudent': return isEditing ? 'Edit Student' : 'Add New Student';
-      case 'viewStudents': return `Student List (${students.length})`;
+      case 'viewStudents': return `Student List`;
       case 'markAttendance': return 'Mark Attendance';
       case 'viewAttendance': return 'View Attendance Records';
       case 'assessment': return 'Assessment & Evaluation';

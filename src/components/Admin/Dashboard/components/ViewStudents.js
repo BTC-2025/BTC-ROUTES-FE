@@ -9,20 +9,8 @@ import {
     Input,
     EmptyState,
     SecondaryButton,
-    StudentGrid,
-    StudentCard,
-    StudentCardHeader,
-    StudentPhoto,
-    PhotoPlaceholder,
-    StudentInfo,
-    StudentName,
-    StudentEmail,
-    StudentDetails,
-    DetailItem,
     Badge,
-    CardActions,
-    ActionButton,
-    ViewButton
+    ActionButton
 } from './StyledComponents';
 
 const ViewStudents = ({
@@ -47,7 +35,7 @@ const ViewStudents = ({
                 <CardHeader className="flex-header">
                     <h5>
                         <FiUsers size={20} />
-                        Student Records ({filteredStudents.length})
+                        Student Records
                     </h5>
                     <SearchBox>
                         <FiSearch size={18} className="search-icon" />
@@ -73,95 +61,70 @@ const ViewStudents = ({
                             )}
                         </EmptyState>
                     ) : (
-                        <StudentGrid>
-                            {filteredStudents.map(student => (
-                                <StudentCard key={student.id} onClick={() => handleViewStudent(student)}>
-                                    <StudentCardHeader>
-                                        <StudentPhoto>
-                                            {student.photo ? (
-                                                <img
-                                                    src={`http://localhost:3003/uploads/${student.photo}`}
-                                                    alt={student.name}
-                                                />
-                                            ) : (
-                                                <PhotoPlaceholder>
-                                                    {student.name?.charAt(0)?.toUpperCase() || 'U'}
-                                                </PhotoPlaceholder>
-                                            )}
-                                        </StudentPhoto>
-                                        <StudentInfo>
-                                            <StudentName>{student.name}</StudentName>
-                                            <StudentEmail>{student.email}</StudentEmail>
-                                        </StudentInfo>
-                                    </StudentCardHeader>
-
-                                    <StudentDetails>
-                                        <DetailItem>
-                                            <strong>Course:</strong>
-                                            <Badge primary>{student.course}</Badge>
-                                        </DetailItem>
-                                        <DetailItem>
-                                            <strong>Batch:</strong> {student.batch}
-                                        </DetailItem>
-                                        <DetailItem>
-                                            <strong>Mode:</strong>
-                                            <Badge success={student.preferred_mode === 'online'}>
-                                                {student.preferred_mode}
-                                            </Badge>
-                                        </DetailItem>
-                                        {student.college && (
-                                            <DetailItem>
-                                                <strong>College:</strong> {student.college}
-                                            </DetailItem>
-                                        )}
-                                        <DetailItem>
-                                            <strong>Period:</strong> {student.period_months} months
-                                        </DetailItem>
-                                        <DetailItem>
-                                            <strong>Joined:</strong> {new Date(student.joiningDate).toLocaleDateString()}
-                                        </DetailItem>
-                                        <DetailItem>
-                                            <strong>Ending:</strong>{new Date(student.endDate).toLocaleDateString()}
-                                        </DetailItem>
-                                    </StudentDetails>
-
-                                    <CardActions>
-                                        <ActionButton
-                                            primary
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleEditStudent(student);
-                                            }}
-                                            title="Edit Student"
-                                            disabled={loading}
-                                        >
-                                            <FiEdit2 size={14} />
-                                        </ActionButton>
-                                        <ActionButton
-                                            danger
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleDeleteStudent(student.id);
-                                            }}
-                                            title="Delete Student"
-                                            disabled={loading}
-                                        >
-                                            <FiTrash2 size={14} />
-                                        </ActionButton>
-                                        <ViewButton
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleViewStudent(student);
-                                            }}
-                                            title="View Details"
-                                            disabled={loading}
-                                        >
-                                            <FiEye size={14} />
-                                        </ViewButton>
-                                    </CardActions>
-                                </StudentCard>
-                            ))}
-                        </StudentGrid>
+                        <div className="table-responsive">
+                            <table className="table table-hover table-striped">
+                                <thead className="table-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        {/* <th>Email</th> */}
+                                        <th>Course</th>
+                                        <th>Batch</th>
+                                        <th>Mode</th>
+                                        {/* <th>College</th> */}
+                                        <th>Period</th>
+                                        <th>Joined</th>
+                                        <th>Ending</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filteredStudents.map(student => (
+                                        <tr key={student.id}>
+                                            <td style={{ fontWeight: '600' }}>{student.name}</td>
+                                            {/* <td>{student.email}</td> */}
+                                            <td><Badge primary>{student.course}</Badge></td>
+                                            <td>{student.batch}</td>
+                                            <td>
+                                                <Badge success={student.preferred_mode === 'online'}>
+                                                    {student.preferred_mode}
+                                                </Badge>
+                                            </td>
+                                            {/* <td>{student.college || '-'}</td> */}
+                                            <td>{student.period_months} months</td>
+                                            <td>{new Date(student.joiningDate).toLocaleDateString()}</td>
+                                            <td>{new Date(student.endDate).toLocaleDateString()}</td>
+                                            <td>
+                                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                    <ActionButton
+                                                        onClick={() => handleViewStudent(student)}
+                                                        title="View Details"
+                                                        disabled={loading}
+                                                    >
+                                                        <FiEye size={14} />
+                                                    </ActionButton>
+                                                    <ActionButton
+                                                        primary
+                                                        onClick={() => handleEditStudent(student)}
+                                                        title="Edit Student"
+                                                        disabled={loading}
+                                                    >
+                                                        <FiEdit2 size={14} />
+                                                    </ActionButton>
+                                                    <ActionButton
+                                                        danger
+                                                        onClick={() => handleDeleteStudent(student.id)}
+                                                        title="Delete Student"
+                                                        disabled={loading}
+                                                    >
+                                                        <FiTrash2 size={14} />
+                                                    </ActionButton>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     )}
                 </CardBody>
             </Card>
@@ -170,3 +133,4 @@ const ViewStudents = ({
 };
 
 export default ViewStudents;
+

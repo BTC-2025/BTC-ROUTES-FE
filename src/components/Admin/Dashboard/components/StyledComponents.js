@@ -333,11 +333,12 @@ export const StatsGrid = styled.div`
 export const StatCard = styled.div`
   background: white;
   border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  box-shadow: 0 8px 30px rgba(7, 6, 6, 0.08);
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  justify-content: space-between;
+  gap: 1.rem;
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
   
@@ -1004,23 +1005,23 @@ export const StatusBadge = styled.span`
   font-size: 12px;
   font-weight: 500;
   background-color: ${props => {
-        switch (props.status) {
-            case 'P': return '#d4edda';
-            case 'A': return '#f8d7da';
-            case 'L': return '#fff3cd';
-            case 'H': return '#d1ecf1';
-            default: return '#e9ecef';
-        }
-    }};
+    switch (props.status) {
+      case 'P': return '#d4edda';
+      case 'A': return '#f8d7da';
+      case 'L': return '#fff3cd';
+      case 'H': return '#d1ecf1';
+      default: return '#e9ecef';
+    }
+  }};
   color: ${props => {
-        switch (props.status) {
-            case 'P': return '#155724';
-            case 'A': return '#721c24';
-            case 'L': return '#856404';
-            case 'H': return '#0c5460';
-            default: return '#495057';
-        }
-    }};
+    switch (props.status) {
+      case 'P': return '#155724';
+      case 'A': return '#721c24';
+      case 'L': return '#856404';
+      case 'H': return '#0c5460';
+      default: return '#495057';
+    }
+  }};
 `;
 
 export const AttendanceList = styled.div`
@@ -1100,11 +1101,24 @@ export const RecordsTable = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  @media (min-width: 1024px) {
+    display: table;
+  }
 
   th, td {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid #e9ecef;
+    white-space: nowrap;
+    min-width: 100px;
+
+    @media (min-width: 1024px) {
+      white-space: normal;
+    }
   }
 
   th {
@@ -1112,8 +1126,15 @@ export const RecordsTable = styled.table`
     font-weight: 700;
     color: #2c3e50;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+    @media (min-width: 768px) {
+      font-size: 0.85rem;
+    }
   }
 
   tr:hover {
@@ -1122,6 +1143,28 @@ export const RecordsTable = styled.table`
 
   td {
     color: #495057;
+    font-size: 0.85rem;
+
+    @media (min-width: 768px) {
+      font-size: 0.95rem;
+    }
+  }
+
+  /* Make the table body scrollable */
+  tbody {
+    display: table-row-group;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr {
+    display: table-row;
+  }
+
+  th, td {
+    display: table-cell;
   }
 `;
 
