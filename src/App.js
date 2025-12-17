@@ -19,7 +19,7 @@ import Application from './components/User/Application/Application';
 import Contacts from './components/User/contactseparate/contacts';
 import Home from './components/User/Home/Home';
 
-// import BtcRoutesAdmin from './components/Admin/Dashboard/btcroutesadmin';
+import BtcRoutesAdmin from './components/Admin/Dashboard/btcroutesadmin';
 import FrontendCourse from './components/User/Courses/Components/FrontendCourse';
 
 import Loader from './components/Loader/Loader';
@@ -72,7 +72,7 @@ function App() {
           <Route path="/contact" element={<Contacts /> } />
           {/* <Route path='/home' element={<Home />} /> */}
           <Route path='/courses/frontend-development' element={<FrontendCourse />} />
-          {/* <Route path='/btcroutesadmin' element={<BtcRoutesAdmin />} /> */}
+          <Route path='/btcroutesadmin' element={<BtcRoutesAdmin />} />
         </Routes>
       </Router>
     </div>

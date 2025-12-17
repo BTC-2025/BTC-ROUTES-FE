@@ -1,31 +1,82 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import logo from '../../../assests/logo2.png'
-import styled, { keyframes } from 'styled-components';
-import { 
-  FiEdit2, 
-  FiTrash2, 
-  FiUsers, 
-  FiUserPlus, 
-  FiActivity, 
+import logo from '../../../assests/logo2.png';
+import {
   FiLogOut,
   FiHome,
-  FiBook,
-  FiSearch,
-  FiEye,
   FiMenu,
   FiX,
   FiChevronRight,
   FiCheckCircle,
   FiAlertCircle,
-  FiCalendar
+  FiCalendar,
+  FiUserPlus,
+  FiUsers,
+  FiActivity,
+  FiEdit2
 } from 'react-icons/fi';
-import { 
+import {
   FaChalkboardTeacher,
   FaGraduationCap,
-  FaLaptop,
-  FaBuilding
+  FaClipboardList,
+  FaProjectDiagram
 } from 'react-icons/fa';
+
+// Import components
+import AddStudent from './components/AddStudent';
+import ViewStudents from './components/ViewStudents';
+import Dashboard from './components/Dashboard';
+import Assessment from './components/Assessment';
+import Assignment from './components/Assignment';
+import { MarkAttendance, ViewAttendance } from './components/Attendance';
+
+// Import styled components
+import {
+  Spinner,
+  LoadingOverlay,
+  Notification,
+  LoginContainer,
+  LoginCard,
+  LoginHeader,
+  LoginNote,
+  DashboardContainer,
+  Sidebar,
+  SidebarHeader,
+  SidebarToggle,
+  SidebarNav,
+  NavLink,
+  LogoutButton,
+  MainContent,
+  ContentHeader,
+  MobileHeader,
+  MobileMenuToggle,
+  ContentBody,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  PrimaryButton,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalActions,
+  CloseButton,
+  SecondaryButton,
+  TextArea,
+  StudentPhoto,
+  PhotoPlaceholder,
+  StudentName,
+  StudentEmail,
+  StudentId,
+  StudentDetailHeader,
+  StudentDetailInfo,
+  DetailGrid,
+  DetailCard,
+  DetailLabel,
+  DetailValue,
+  Badge
+} from './components/StyledComponents';
 
 const BtcRoutesAdmin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,7 +94,8 @@ const BtcRoutesAdmin = () => {
     preferred_mode: 'offline',
     period_months: 1,
     joiningDate: '',
-    photo: null
+    photo: null,
+    college: ''
   });
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -56,18 +108,45 @@ const BtcRoutesAdmin = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [filteredRecords, setFilteredRecords] = useState([]);
 
-  // const uniqueDates = [...new Set(attendanceList.map(r => r.date))];
-
   // Attendance states
   const [attendance, setAttendance] = useState({
     date: new Date().toISOString().split('T')[0],
     records: []
   });
   const [attendanceList, setAttendanceList] = useState([]);
-  const [selectedAttendance, setSelectedAttendance] = useState(null);
   const [leaveReason, setLeaveReason] = useState('');
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [selectedStudentForLeave, setSelectedStudentForLeave] = useState(null);
+
+  // Assessment and Assignment states for dashboard
+  const [assessments, setAssessments] = useState([]);
+  const [assignments, setAssignments] = useState([]);
+
+  // Fetch assessments for dashboard
+  const fetchAssessments = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.get('http://localhost:3003/api/assessment/all', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setAssessments(response.data);
+    } catch (error) {
+      console.error('Error fetching assessments:', error);
+    }
+  };
+
+  // Fetch assignments for dashboard
+  const fetchAssignments = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.get('http://localhost:3003/api/assignment/all', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setAssignments(response.data);
+    } catch (error) {
+      console.error('Error fetching assignments:', error);
+    }
+  };
 
   // Check authentication on component mount
   useEffect(() => {
@@ -75,6 +154,8 @@ const BtcRoutesAdmin = () => {
     if (token) {
       setIsLoggedIn(true);
       fetchStudents();
+      fetchAssessments();
+      fetchAssignments();
     }
   }, []);
 
@@ -146,7 +227,7 @@ const BtcRoutesAdmin = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('authToken');
-      const response = await axios.post('http://localhost:3003/api/attendance/mark', attendance, {
+      await axios.post('http://localhost:3003/api/attendance/mark', attendance, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -165,26 +246,7 @@ const BtcRoutesAdmin = () => {
     }
   };
 
-  // const fetchAttendanceList = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const token = localStorage.getItem('authToken');
-  //     const response = await axios.get('http://localhost:3003/api/attendance/all-attendance', {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       }
-  //     });
-  //     console.log(response.data)
-  //     setAttendanceList(response.data);
-  //   } catch (error) {
-  //     console.error('Error fetching attendance:', error);
-  //     showNotification('Failed to load attendance records', 'error');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-    const fetchAttendanceList = async () => {
+  const fetchAttendanceList = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('authToken');
@@ -196,7 +258,6 @@ const BtcRoutesAdmin = () => {
       setAttendanceList(response.data);
     } catch (error) {
       console.error('Error fetching attendance:', error);
-      alert('Failed to load attendance records');
     } finally {
       setLoading(false);
     }
@@ -205,9 +266,6 @@ const BtcRoutesAdmin = () => {
   useEffect(() => {
     fetchAttendanceList();
   }, []);
-
-  // Extract unique dates
-  const uniqueDates = [...new Set(attendanceList.map(r => r.date))];
 
   // Filter records by selected date
   useEffect(() => {
@@ -219,21 +277,6 @@ const BtcRoutesAdmin = () => {
     }
   }, [selectedDate, attendanceList]);
 
-  const fetchAttendanceByDate = async (date) => {
-    try {
-      const token = localStorage.getItem('authToken');
-      const response = await axios.get(`http://localhost:3003/api/attendance/date/${date}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching attendance by date:', error);
-      return null;
-    }
-  };
-
   // Attendance handlers
   const handleAttendanceStatus = (studentId, status) => {
     if (status === 'L') {
@@ -244,24 +287,15 @@ const BtcRoutesAdmin = () => {
 
     setAttendance(prev => {
       const existingRecordIndex = prev.records.findIndex(record => record.studentId === studentId);
-      
+
       if (existingRecordIndex >= 0) {
         const updatedRecords = [...prev.records];
-        updatedRecords[existingRecordIndex] = { 
-          studentId, 
-          status
-        };
+        updatedRecords[existingRecordIndex] = { studentId, status };
         return { ...prev, records: updatedRecords };
       } else {
         return {
           ...prev,
-          records: [
-            ...prev.records,
-            { 
-              studentId, 
-              status
-            }
-          ]
+          records: [...prev.records, { studentId, status }]
         };
       }
     });
@@ -275,11 +309,11 @@ const BtcRoutesAdmin = () => {
 
     setAttendance(prev => {
       const existingRecordIndex = prev.records.findIndex(record => record.studentId === selectedStudentForLeave);
-      
+
       if (existingRecordIndex >= 0) {
         const updatedRecords = [...prev.records];
-        updatedRecords[existingRecordIndex] = { 
-          studentId: selectedStudentForLeave, 
+        updatedRecords[existingRecordIndex] = {
+          studentId: selectedStudentForLeave,
           status: 'L',
           reason: leaveReason
         };
@@ -289,11 +323,7 @@ const BtcRoutesAdmin = () => {
           ...prev,
           records: [
             ...prev.records,
-            { 
-              studentId: selectedStudentForLeave, 
-              status: 'L',
-              reason: leaveReason
-            }
+            { studentId: selectedStudentForLeave, status: 'L', reason: leaveReason }
           ]
         };
       }
@@ -305,14 +335,6 @@ const BtcRoutesAdmin = () => {
     showNotification('Leave marked successfully', 'success');
   };
 
-  const handleViewAttendance = (attendanceRecord) => {
-    setSelectedAttendance(attendanceRecord);
-  };
-
-  const handleCloseAttendanceDetails = () => {
-    setSelectedAttendance(null);
-  };
-
   // Login handler
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -320,10 +342,10 @@ const BtcRoutesAdmin = () => {
     try {
       const response = await axios.post('http://localhost:3003/api/admin/login-admin', loginData);
       const { token, user } = response.data;
-      
+
       localStorage.setItem('authToken', token);
       localStorage.setItem('user', JSON.stringify(user));
-      
+
       setIsLoggedIn(true);
       setLoginData({ email: '', password: '' });
       showNotification('Login successful!', 'success');
@@ -331,7 +353,7 @@ const BtcRoutesAdmin = () => {
     } catch (error) {
       console.error('Login error:', error);
       showNotification(
-        error.response?.data?.message || 'Invalid credentials!', 
+        error.response?.data?.message || 'Invalid credentials!',
         'error'
       );
     } finally {
@@ -363,7 +385,7 @@ const BtcRoutesAdmin = () => {
   const handleAddStudent = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       const token = localStorage.getItem('authToken');
       const formData = new FormData();
@@ -387,7 +409,7 @@ const BtcRoutesAdmin = () => {
     } catch (error) {
       console.error('Error adding student:', error);
       showNotification(
-        error.response?.data?.message || 'Failed to add student', 
+        error.response?.data?.message || 'Failed to add student',
         'error'
       );
     } finally {
@@ -405,7 +427,8 @@ const BtcRoutesAdmin = () => {
       preferred_mode: student.preferred_mode,
       period_months: student.period_months,
       joiningDate: student.joiningDate,
-      photo: student.photo
+      photo: student.photo,
+      college: student.college
     });
     setIsEditing(true);
     setEditingId(student.id);
@@ -417,7 +440,7 @@ const BtcRoutesAdmin = () => {
   const handleUpdateStudent = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       const token = localStorage.getItem('authToken');
       const formData = new FormData();
@@ -443,7 +466,7 @@ const BtcRoutesAdmin = () => {
     } catch (error) {
       console.error('Error updating student:', error);
       showNotification(
-        error.response?.data?.message || 'Failed to update student', 
+        error.response?.data?.message || 'Failed to update student',
         'error'
       );
     } finally {
@@ -471,7 +494,7 @@ const BtcRoutesAdmin = () => {
     } catch (error) {
       console.error('Error deleting student:', error);
       showNotification(
-        error.response?.data?.message || 'Failed to delete student', 
+        error.response?.data?.message || 'Failed to delete student',
         'error'
       );
     } finally {
@@ -489,7 +512,8 @@ const BtcRoutesAdmin = () => {
       preferred_mode: 'offline',
       period_months: 1,
       joiningDate: '',
-      photo: null
+      photo: null,
+      college: ''
     });
   };
 
@@ -542,12 +566,19 @@ const BtcRoutesAdmin = () => {
     showNotification('Logged out successfully', 'success');
   };
 
-  // Filter students based on search
-  const filteredStudents = students.filter(student =>
-    student.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.course?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Get section title
+  const getSectionTitle = () => {
+    switch (activeSection) {
+      case 'dashboard': return 'Dashboard';
+      case 'addStudent': return isEditing ? 'Edit Student' : 'Add New Student';
+      case 'viewStudents': return `Student List (${students.length})`;
+      case 'markAttendance': return 'Mark Attendance';
+      case 'viewAttendance': return 'View Attendance Records';
+      case 'assessment': return 'Assessment & Evaluation';
+      case 'assignment': return 'Assignment & Projects';
+      default: return 'Dashboard';
+    }
+  };
 
   if (!isLoggedIn) {
     return (
@@ -564,7 +595,7 @@ const BtcRoutesAdmin = () => {
               <Input
                 type="text"
                 value={loginData.email}
-                onChange={(e) => setLoginData(prev => ({...prev, email: e.target.value}))}
+                onChange={(e) => setLoginData(prev => ({ ...prev, email: e.target.value }))}
                 required
                 disabled={loading}
               />
@@ -574,7 +605,7 @@ const BtcRoutesAdmin = () => {
               <Input
                 type="password"
                 value={loginData.password}
-                onChange={(e) => setLoginData(prev => ({...prev, password: e.target.value}))}
+                onChange={(e) => setLoginData(prev => ({ ...prev, password: e.target.value }))}
                 required
                 disabled={loading}
               />
@@ -588,7 +619,7 @@ const BtcRoutesAdmin = () => {
             </LoginNote>
           </Form>
         </LoginCard>
-        
+
         {notification.show && (
           <Notification type={notification.type}>
             {notification.type === 'success' ? <FiCheckCircle /> : <FiAlertCircle />}
@@ -611,7 +642,7 @@ const BtcRoutesAdmin = () => {
         </SidebarHeader>
         <SidebarNav>
           <li>
-            <NavLink 
+            <NavLink
               active={activeSection === 'dashboard'}
               onClick={() => setActiveSection('dashboard')}
               collapsed={isSidebarCollapsed}
@@ -622,7 +653,7 @@ const BtcRoutesAdmin = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink 
+            <NavLink
               active={activeSection === 'addStudent'}
               onClick={() => {
                 setActiveSection('addStudent');
@@ -636,7 +667,7 @@ const BtcRoutesAdmin = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink 
+            <NavLink
               active={activeSection === 'viewStudents'}
               onClick={() => setActiveSection('viewStudents')}
               collapsed={isSidebarCollapsed}
@@ -647,7 +678,7 @@ const BtcRoutesAdmin = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink 
+            <NavLink
               active={activeSection === 'markAttendance'}
               onClick={() => {
                 setActiveSection('markAttendance');
@@ -661,7 +692,7 @@ const BtcRoutesAdmin = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink 
+            <NavLink
               active={activeSection === 'viewAttendance'}
               onClick={() => {
                 setActiveSection('viewAttendance');
@@ -672,6 +703,28 @@ const BtcRoutesAdmin = () => {
             >
               <FiCalendar size={20} />
               {!isSidebarCollapsed && "View Attendance"}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              active={activeSection === 'assessment'}
+              onClick={() => setActiveSection('assessment')}
+              collapsed={isSidebarCollapsed}
+              data-tooltip="Assessment"
+            >
+              <FaClipboardList size={20} />
+              {!isSidebarCollapsed && "Assessment"}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              active={activeSection === 'assignment'}
+              onClick={() => setActiveSection('assignment')}
+              collapsed={isSidebarCollapsed}
+              data-tooltip="Assignment"
+            >
+              <FaProjectDiagram size={20} />
+              {!isSidebarCollapsed && "Assignment"}
             </NavLink>
           </li>
           <li>
@@ -695,19 +748,13 @@ const BtcRoutesAdmin = () => {
             <MobileMenuToggle onClick={toggleSidebar}>
               <FiMenu size={24} />
             </MobileMenuToggle>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between',gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' }}>
               <img
                 src={logo}
                 alt="Logo"
                 style={{ width: '100px', height: '40px', objectFit: 'contain' }}
               />
-              <h4 style={{ margin: 0 }}>
-                {activeSection === 'dashboard' && 'Dashboard'}
-                {activeSection === 'addStudent' && (isEditing ? 'Edit Student' : 'Add New Student')}
-                {activeSection === 'markAttendance' && 'Mark Attendance'}
-                {activeSection === 'viewAttendance' && 'View Attendance Records'}
-                {activeSection === 'viewStudents' && `Student List (${filteredStudents.length})`}
-              </h4>
+              <h4 style={{ margin: 0 }}>{getSectionTitle()}</h4>
             </div>
           </MobileHeader>
         </ContentHeader>
@@ -721,560 +768,75 @@ const BtcRoutesAdmin = () => {
           )}
 
           {activeSection === 'dashboard' && (
-            <DashboardSection>
-              <StatsGrid>
-                <StatCard>
-                  <StatIcon className="students">
-                    <FiUsers size={24} />
-                  </StatIcon>
-                  <StatInfo>
-                    <h3>{students.length}</h3>
-                    <p>Total Students</p>
-                  </StatInfo>
-                </StatCard>
-                <StatCard>
-                  <StatIcon className="courses">
-                    <FiBook size={24} />
-                  </StatIcon>
-                  <StatInfo>
-                    <h3>{new Set(students.map(s => s.course)).size}</h3>
-                    <p>Courses</p>
-                  </StatInfo>
-                </StatCard>
-                <StatCard>
-                  <StatIcon className="online">
-                    <FaLaptop size={24} />
-                  </StatIcon>
-                  <StatInfo>
-                    <h3>{students.filter(s => s.preferred_mode === 'online').length}</h3>
-                    <p>Online Students</p>
-                  </StatInfo>
-                </StatCard>
-                <StatCard>
-                  <StatIcon className="offline">
-                    <FaBuilding size={24} />
-                  </StatIcon>
-                  <StatInfo>
-                    <h3>{students.filter(s => s.preferred_mode === 'offline').length}</h3>
-                    <p>Offline Students</p>
-                  </StatInfo>
-                </StatCard>
-              </StatsGrid>
-            </DashboardSection>
+            <Dashboard students={students} assessments={assessments} assignments={assignments} />
           )}
 
           {activeSection === 'addStudent' && (
-            <FormSection>
-              <Card>
-                <CardHeader>
-                  <h5>
-                    {isEditing ? (
-                      <>
-                        <FiEdit2 size={20} />
-                        Edit Student Details
-                      </>
-                    ) : (
-                      <>
-                        <FiUserPlus size={20} />
-                        Add New Student
-                      </>
-                    )}
-                  </h5>
-                </CardHeader>
-                <CardBody>
-                  <Form onSubmit={isEditing ? handleUpdateStudent : handleAddStudent}>
-                    <FormRow>
-                      <FormGroup>
-                        <Label>Full Name *</Label>
-                        <Input
-                          type="text"
-                          name="name"
-                          value={studentForm.name}
-                          onChange={handleStudentInputChange}
-                          required
-                          disabled={loading}
-                        />
-                      </FormGroup>
-                      <FormGroup>
-                        <Label>Email *</Label>
-                        <Input
-                          type="email"
-                          name="email"
-                          value={studentForm.email}
-                          onChange={handleStudentInputChange}
-                          required
-                          disabled={loading}
-                        />
-                      </FormGroup>
-                    </FormRow>
-
-                    <FormRow>
-                      <FormGroup>
-                        <Label>Course *</Label>
-                        <Select
-                          name="course"
-                          value={studentForm.course}
-                          onChange={handleStudentInputChange}
-                          required
-                          disabled={loading}
-                        >
-                          <option value="">Select Course</option>
-                          <option value="frontend-development">Frontend Development</option>
-                          <option value="backend-development">Backend Development</option>
-                          <option value="full-stack">Full Stack Development</option>
-                          <option value="mobile app-development">App Development</option>
-                          <option value="data-science">Data Science</option>
-                          <option value="cyber-security">Cyber Security</option>
-                          <option value="ai-ml">AI & Machine Learning</option>
-                        </Select>
-                      </FormGroup>
-                      <FormGroup>
-                        <Label>Batch *</Label>
-                        <Select
-                          name="batch"
-                          value={studentForm.batch}
-                          onChange={handleStudentInputChange}
-                          required
-                          disabled={loading}
-                        >
-                          <option value="">Select Batch</option>
-                          <option value="1st batch">1st Batch</option>
-                          <option value="2nd batch">2nd Batch</option>
-                          <option value="3rd batch">3rd Batch</option>
-                          <option value="4th batch">4th Batch</option>
-                        </Select>
-                      </FormGroup>
-                    </FormRow>
-
-                    <FormRow>
-                      <FormGroup>
-                        <Label>Preferred Mode *</Label>
-                        <Select
-                          name="preferred_mode"
-                          value={studentForm.preferred_mode}
-                          onChange={handleStudentInputChange}
-                          required
-                          disabled={loading}
-                        >
-                          <option value="offline">Offline</option>
-                          <option value="online">Online</option>
-                        </Select>
-                      </FormGroup>
-                      <FormGroup>
-                        <Label>Period (Months) *</Label>
-                        <Input
-                          type="number"
-                          name="period_months"
-                          value={studentForm.period_months}
-                          onChange={handleStudentInputChange}
-                          min="1"
-                          max="24"
-                          required
-                          disabled={loading}
-                        />
-                      </FormGroup>
-                    </FormRow>
-
-                    <FormRow>
-                      <FormGroup>
-                        <Label>Joining Date *</Label>
-                        <Input
-                          type="date"
-                          name="joiningDate"
-                          value={studentForm.joiningDate}
-                          onChange={handleStudentInputChange}
-                          required
-                          disabled={loading}
-                        />
-                      </FormGroup>
-                      <FormGroup>
-                        <Label>Student Photo</Label>
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onChange={handlePhotoUpload}
-                          disabled={loading}
-                        />
-                        {studentForm.photo && (
-                          <FileInfo>
-                            Selected: {studentForm.photo instanceof File ? studentForm.photo.name : studentForm.photo}
-                          </FileInfo>
-                        )}
-                      </FormGroup>
-                    </FormRow>
-
-                    <FormActions>
-                      <PrimaryButton type="submit" disabled={loading}>
-                        {loading ? <Spinner small /> : isEditing ? <FiEdit2 size={18} /> : <FiUserPlus size={18} />}
-                        {loading ? 'Processing...' : isEditing ? 'Update Student' : 'Add Student'}
-                      </PrimaryButton>
-                      {isEditing && (
-                        <SecondaryButton type="button" onClick={handleCancelEdit} disabled={loading}>
-                          Cancel
-                        </SecondaryButton>
-                      )}
-                    </FormActions>
-                  </Form>
-                </CardBody>
-              </Card>
-            </FormSection>
+            <AddStudent
+              studentForm={studentForm}
+              handleStudentInputChange={handleStudentInputChange}
+              handlePhotoUpload={handlePhotoUpload}
+              handleAddStudent={handleAddStudent}
+              handleUpdateStudent={handleUpdateStudent}
+              handleCancelEdit={handleCancelEdit}
+              isEditing={isEditing}
+              loading={loading}
+            />
           )}
 
           {activeSection === 'viewStudents' && (
-            <ListSection>
-              <Card>
-                <CardHeader className="flex-header">
-                  <h5>
-                    <FiUsers size={20} />
-                    Student Records ({filteredStudents.length})
-                  </h5>
-                  <SearchBox>
-                    <FiSearch size={18} className="search-icon" />
-                    <Input
-                      type="text"
-                      placeholder="Search students by name, email, or course..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      disabled={loading}
-                    />
-                  </SearchBox>
-                </CardHeader>
-                <CardBody>
-                  {filteredStudents.length === 0 ? (
-                    <EmptyState>
-                      <FiUsers size={48} color="#6c757d" />
-                      <p>{searchTerm ? 'No students found matching your search.' : 'No students available.'}</p>
-                      {!searchTerm && (
-                        <SecondaryButton onClick={() => setActiveSection('addStudent')}>
-                          <FiUserPlus size={16} />
-                          Add First Student
-                        </SecondaryButton>
-                      )}
-                    </EmptyState>
-                  ) : (
-                    <StudentGrid>
-                      {filteredStudents.map(student => (
-                        <StudentCard key={student.id} onClick={() => handleViewStudent(student)}>
-                          <StudentCardHeader>
-                            <StudentPhoto>
-                              {student.photo ? (
-                                <img 
-                                  src={`http://localhost:3003/uploads/${student.photo}`} 
-                                  alt={student.name}
-                                />
-                              ) : (
-                                <PhotoPlaceholder>
-                                  {student.name?.charAt(0)?.toUpperCase() || 'U'}
-                                </PhotoPlaceholder>
-                              )}
-                            </StudentPhoto>
-                            <StudentInfo>
-                              <StudentName>{student.name}</StudentName>
-                              <StudentEmail>{student.email}</StudentEmail>
-                            </StudentInfo>
-                          </StudentCardHeader>
-                          
-                          <StudentDetails>
-                            <DetailItem>
-                              <strong>Course:</strong> 
-                              <Badge primary>{student.course}</Badge>
-                            </DetailItem>
-                            <DetailItem>
-                              <strong>Batch:</strong> {student.batch}
-                            </DetailItem>
-                            <DetailItem>
-                              <strong>Mode:</strong> 
-                              <Badge success={student.preferred_mode === 'online'}>
-                                {student.preferred_mode}
-                              </Badge>
-                            </DetailItem>
-                            <DetailItem>
-                              <strong>Period:</strong> {student.period_months} months
-                            </DetailItem>
-                            <DetailItem>
-                              <strong>Joined:</strong> {new Date(student.joiningDate).toLocaleDateString()}
-                            </DetailItem>
-                            <DetailItem>
-                              <strong>Ending:</strong>{new Date(student.endDate).toLocaleDateString()}
-                            </DetailItem>
-                          </StudentDetails>
-
-                          <CardActions>
-                            <ActionButton 
-                              primary 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleEditStudent(student);
-                              }}
-                              title="Edit Student"
-                              disabled={loading}
-                            >
-                              <FiEdit2 size={14} />
-                            </ActionButton>
-                            <ActionButton 
-                              danger 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteStudent(student.id);
-                              }}
-                              title="Delete Student"
-                              disabled={loading}
-                            >
-                              <FiTrash2 size={14} />
-                            </ActionButton>
-                            <ViewButton 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleViewStudent(student);
-                              }}
-                              title="View Details"
-                              disabled={loading}
-                            >
-                              <FiEye size={14} />
-                            </ViewButton>
-                          </CardActions>
-                        </StudentCard>
-                      ))}
-                    </StudentGrid>
-                  )}
-                </CardBody>
-              </Card>
-            </ListSection>
+            <ViewStudents
+              students={students}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              handleViewStudent={handleViewStudent}
+              handleEditStudent={handleEditStudent}
+              handleDeleteStudent={handleDeleteStudent}
+              setActiveSection={setActiveSection}
+              loading={loading}
+            />
           )}
 
           {activeSection === 'markAttendance' && (
-            <AttendanceSection>
-              <Card>
-                <CardHeader>
-                  <h5>
-                    <FiCheckCircle size={20} />
-                    Mark Attendance - {attendance.date}
-                  </h5>
-                  <DateSelector>
-                    <Label>Select Date:</Label>
-                    <Input
-                      type="date"
-                      value={attendance.date}
-                      onChange={(e) => setAttendance(prev => ({ ...prev, date: e.target.value }))}
-                    />
-                  </DateSelector>
-                </CardHeader>
-                <CardBody>
-                  <AttendanceTable>
-                    <thead>
-                      <tr>
-                        <th>Student Name</th>
-                        <th>Course</th>
-                        <th>Batch</th>
-                        <th>Mode</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {students.map(student => {
-                        const record = attendance.records.find(r => r.studentId === student.id);
-                        const status = record ? record.status : '';
-                        
-                        return (
-                          <tr key={student.id}>
-                            <td>
-                              <StudentInfoCompact>
-                                {student.photo ? (
-                                  <img 
-                                    src={`http://localhost:3003/uploads/${student.photo}`} 
-                                    alt={student.name}
-                                    style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px' }}
-                                  />
-                                ) : (
-                                  <PhotoPlaceholder small>
-                                    {student.name?.charAt(0)?.toUpperCase() || 'U'}
-                                  </PhotoPlaceholder>
-                                )}
-                                {student.name}
-                              </StudentInfoCompact>
-                            </td>
-                            <td>{student.course}</td>
-                            <td>{student.batch}</td>
-                            <td>{student.preferred_mode}</td>
-                            <td>
-                              <StatusBadge status={status}>
-                                {status === 'P' && 'Present'}
-                                {status === 'A' && 'Absent'}
-                                {status === 'L' && 'Leave'}
-                                {status === 'H' && 'Half Day'}
-                                {!status && 'Not Marked'}
-                              </StatusBadge>
-                            </td>
-                            <td>
-                              <AttendanceActions>
-                                <AttendanceButton 
-                                  active={status === 'P'}
-                                  onClick={() => handleAttendanceStatus(student.id, 'P')}
-                                >
-                                  P
-                                </AttendanceButton>
-                                <AttendanceButton 
-                                  active={status === 'A'}
-                                  onClick={() => handleAttendanceStatus(student.id, 'A')}
-                                >
-                                  A
-                                </AttendanceButton>
-                                <AttendanceButton 
-                                  active={status === 'L'}
-                                  onClick={() => handleAttendanceStatus(student.id, 'L')}
-                                >
-                                  L
-                                </AttendanceButton>
-                                <AttendanceButton 
-                                  active={status === 'H'}
-                                  onClick={() => handleAttendanceStatus(student.id, 'H')}
-                                >
-                                  H
-                                </AttendanceButton>
-                              </AttendanceActions>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </AttendanceTable>
-                  
-                  {students.length > 0 && (
-                    <AttendanceSubmit>
-                      <PrimaryButton onClick={markAttendance} disabled={loading || attendance.records.length === 0}>
-                        {loading ? <Spinner small /> : <FiCheckCircle size={18} />}
-                        {loading ? 'Submitting...' : `Mark Attendance for ${attendance.records.length} Students`}
-                      </PrimaryButton>
-                    </AttendanceSubmit>
-                  )}
-                </CardBody>
-              </Card>
-            </AttendanceSection>
+            <MarkAttendance
+              students={students}
+              attendance={attendance}
+              setAttendance={setAttendance}
+              handleAttendanceStatus={handleAttendanceStatus}
+              markAttendance={markAttendance}
+              loading={loading}
+            />
           )}
 
           {activeSection === 'viewAttendance' && (
-            // <AttendanceListSection>
-            //   <Card>
-            //     <CardHeader>
-            //       <h5>
-            //         <FiCalendar size={20} />
-            //         Attendance Records
-            //       </h5>
-            //     </CardHeader>
-            //     <CardBody>
-            //       {attendanceList.length === 0 ? (
-            //         <EmptyState>
-            //           <FiCalendar size={48} color="#6c757d" />
-            //           <p>No attendance records found.</p>
-            //         </EmptyState>
-            //       ) : (
-            //         <AttendanceList>
-            //           {attendanceList.map(record => (
-            //             <AttendanceListItem key={record.id} onClick={() => handleViewAttendance(record)}>
-            //               <AttendanceDate>
-            //                 <strong>{new Date(record.date).toLocaleDateString()}</strong>
-            //               </AttendanceDate>
-            //               <AttendanceStats>
-            //                 <Stat>Total: {record.records?.length || 0}</Stat>
-            //                 <Stat>Present: {record.records?.filter(r => r.status === 'P').length || 0}</Stat>
-            //                 <Stat>Absent: {record.records?.filter(r => r.status === 'A').length || 0}</Stat>
-            //                 <Stat>Leave: {record.records?.filter(r => r.status === 'L').length || 0}</Stat>
-            //               </AttendanceStats>
-            //               <ViewButton>
-            //                 <FiEye size={16} />
-            //                 View Details
-            //               </ViewButton>
-            //             </AttendanceListItem>
-            //           ))}
-            //         </AttendanceList>
-            //       )}
-            //     </CardBody>
-            //   </Card>
-            // </AttendanceListSection>
-
-                <AttendanceListSection>
-      <Card>
-        <CardHeader>
-          <h5>
-            <FiCalendar size={20} /> Attendance Records
-          </h5>
-        </CardHeader>
-        <CardBody>
-          {/* Date selector */}
-          {attendanceList.length > 0 && (
-            <div style={{ marginBottom: '20px' }}>
-              <label htmlFor="dateSelect" style={{ marginRight: '10px', fontWeight: 'bold' }}>
-                Select Date:
-              </label>
-              <select
-                id="dateSelect"
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                style={{
-                  padding: '8px',
-                  borderRadius: '8px',
-                  border: '1px solid #ccc',
-                  cursor: 'pointer'
-                }}
-              >
-                <option value="">-- Choose a Date --</option>
-                {uniqueDates.map(date => (
-                  <option key={date} value={date}>
-                    {new Date(date).toLocaleDateString()}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <ViewAttendance
+              attendanceList={attendanceList}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              filteredRecords={filteredRecords}
+              loading={loading}
+            />
           )}
 
-          {/* Attendance List */}
-          {loading ? (
-            <p>Loading attendance records...</p>
-          ) : selectedDate === '' ? (
-            <EmptyState>
-              <FiCalendar size={48} color="#6c757d" />
-              <p>Please select a date to view attendance.</p>
-            </EmptyState>
-          ) : filteredRecords.length === 0 ? (
-            <EmptyState>
-              <FiCalendar size={48} color="#6c757d" />
-              <p>No attendance found for this date.</p>
-            </EmptyState>
-          ) : (
-            <AttendanceList>
-              {filteredRecords.map(record => (
-                <AttendanceListItem key={record.id}>
-                  <AttendanceDate>
-                    <strong>{record.Student.name.toUpperCase()}</strong>
-                  </AttendanceDate>
-                  <AttendanceStats>
-                    <Stat>Course:<strong>{record.Student.course}</strong></Stat>
-                  </AttendanceStats>
-                  <AttendanceStats>
-                    <Stat>Batch:<strong>{record.Student.batch}</strong></Stat>
-                  </AttendanceStats>
-                  <AttendanceStats>
-                    <Stat>Mode: <strong>{record.Student.preferred_mode}</strong></Stat>
-                  </AttendanceStats>
-                  <AttendanceStats>
-                    <Stat>Status: {record.status}</Stat>
-                    {record.reason && <Stat>Reason: {record.reason}</Stat>}
-                  </AttendanceStats>
-                  {/* <ViewButton>
-                    <FiEye size={16} /> View Details
-                  </ViewButton> */}
-                </AttendanceListItem>
-              ))}
-            </AttendanceList>
+          {activeSection === 'assessment' && (
+            <Assessment
+              students={students}
+              showNotification={showNotification}
+              loading={loading}
+            />
           )}
-        </CardBody>
-      </Card>
-    </AttendanceListSection>
+
+          {activeSection === 'assignment' && (
+            <Assignment
+              students={students}
+              showNotification={showNotification}
+              loading={loading}
+            />
           )}
         </ContentBody>
       </MainContent>
 
+      {/* Student Details Modal */}
       {selectedStudent && (
         <ModalOverlay onClick={handleCloseStudentDetails}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
@@ -1288,8 +850,8 @@ const BtcRoutesAdmin = () => {
               <StudentDetailHeader>
                 <StudentPhoto large>
                   {selectedStudent.photo ? (
-                    <img 
-                      src={`http://localhost:3003/uploads/${selectedStudent.photo}`} 
+                    <img
+                      src={`http://localhost:3003/uploads/${selectedStudent.photo}`}
                       alt={selectedStudent.name}
                       onError={(e) => {
                         e.target.src = 'https://via.placeholder.com/100x100/007bff/ffffff?text=U';
@@ -1357,6 +919,7 @@ const BtcRoutesAdmin = () => {
         </ModalOverlay>
       )}
 
+      {/* Leave Modal */}
       {showLeaveModal && (
         <ModalOverlay onClick={() => setShowLeaveModal(false)}>
           <ModalContent onClick={(e) => e.stopPropagation()} style={{ maxWidth: '500px' }}>
@@ -1389,58 +952,6 @@ const BtcRoutesAdmin = () => {
         </ModalOverlay>
       )}
 
-      {selectedAttendance && (
-        <ModalOverlay onClick={handleCloseAttendanceDetails}>
-          <ModalContent onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px' }}>
-            <ModalHeader>
-              <h3>Attendance Details - {new Date(selectedAttendance.date).toLocaleDateString()}</h3>
-              <CloseButton onClick={handleCloseAttendanceDetails}>
-                <FiX size={24} />
-              </CloseButton>
-            </ModalHeader>
-            <ModalBody>
-              <AttendanceDetailsTable>
-                <thead>
-                  <tr>
-                    <th>Student Name</th>
-                    <th>Course</th>
-                    <th>Batch</th>
-                    <th>Status</th>
-                    <th>Reason</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedAttendance.records?.map(record => {
-                    const student = students.find(s => s.id === record.studentId);
-                    return student ? (
-                      <tr key={record.studentId}>
-                        <td>{student.name}</td>
-                        <td>{student.course}</td>
-                        <td>{student.batch}</td>
-                        <td>
-                          <StatusBadge status={record.status}>
-                            {record.status === 'P' && 'Present'}
-                            {record.status === 'A' && 'Absent'}
-                            {record.status === 'L' && 'Leave'}
-                            {record.status === 'H' && 'Half Day'}
-                          </StatusBadge>
-                        </td>
-                        <td>{record.reason || '-'}</td>
-                      </tr>
-                    ) : null;
-                  })}
-                </tbody>
-              </AttendanceDetailsTable>
-              <ModalActions>
-                <SecondaryButton onClick={handleCloseAttendanceDetails}>
-                  Close
-                </SecondaryButton>
-              </ModalActions>
-            </ModalBody>
-          </ModalContent>
-        </ModalOverlay>
-      )}
-
       {notification.show && (
         <Notification type={notification.type}>
           {notification.type === 'success' ? <FiCheckCircle /> : <FiAlertCircle />}
@@ -1450,1083 +961,5 @@ const BtcRoutesAdmin = () => {
     </DashboardContainer>
   );
 };
-
-// Add the new styled components for attendance
-const AttendanceSection = styled.div`
-  padding: 20px 0;
-`;
-
-const AttendanceListSection = styled.div`
-  padding: 20px 0;
-`;
-
-const AttendanceTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-
-  th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-  }
-
-  th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    color: #495057;
-  }
-
-  tr:hover {
-    background-color: #f8f9fa;
-  }
-`;
-
-const AttendanceActions = styled.div`
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-`;
-
-const AttendanceButton = styled.button`
-  padding: 6px 12px;
-  border: 1px solid #ddd;
-  background-color: ${props => props.active ? '#007bff' : 'white'};
-  color: ${props => props.active ? 'white' : '#495057'};
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: ${props => props.active ? '#0056b3' : '#f8f9fa'};
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
-
-const StatusBadge = styled.span`
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 500;
-  background-color: ${props => {
-    switch (props.status) {
-      case 'P': return '#d4edda';
-      case 'A': return '#f8d7da';
-      case 'L': return '#fff3cd';
-      case 'H': return '#d1ecf1';
-      default: return '#e9ecef';
-    }
-  }};
-  color: ${props => {
-    switch (props.status) {
-      case 'P': return '#155724';
-      case 'A': return '#721c24';
-      case 'L': return '#856404';
-      case 'H': return '#0c5460';
-      default: return '#495057';
-    }
-  }};
-`;
-
-const AttendanceList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const AttendanceListItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  gap:10px; 
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: #f8f9fa;
-    border-color: #007bff;
-  }
-`;
-
-const AttendanceDate = styled.div`
-  flex: 1;
-`;
-
-const AttendanceStats = styled.div`
-  display: flex;
-  gap: 15px;
-  flex: 2;
-`;
-
-const Stat = styled.span`
-  font-size: 14px;
-  color: #6c757d;
-`;
-
-const AttendanceDetailsTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-
-  th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-  }
-
-  th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-  }
-`;
-
-const StudentInfoCompact = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const DateSelector = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-const AttendanceSubmit = styled.div`
-  display: flex;
-  justify-content: center;
-  padding-top: 20px;
-  border-top: 1px solid #e0e0e0;
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  resize: vertical;
-  min-height: 100px;
-
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-`;
-
-// ... (Keep all the existing styled components from your original code)
-// The rest of your styled components remain exactly the same...
-
-const spin = keyframes`
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-`;
-
-const slideIn = keyframes`
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-`;
-
-const pulse = keyframes`
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-`;
-
-const Spinner = styled.div`
-  border: 2px solid #f3f3f3;
-  border-top: 2px solid ${props => props.small ? '#667eea' : '#ffffff'};
-  border-radius: 50%;
-  width: ${props => props.small ? '16px' : '40px'};
-  height: ${props => props.small ? '16px' : '40px'};
-  animation: ${spin} 1s linear infinite;
-`;
-
-const LoadingOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.9);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  
-  p {
-    margin-top: 1rem;
-    color: #667eea;
-    font-weight: 600;
-  }
-`;
-
-const Notification = styled.div`
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: ${props => props.type === 'success' ? '#28a745' : '#dc3545'};
-  color: white;
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  z-index: 10000;
-  animation: ${slideIn} 0.3s ease-out;
-  
-  svg {
-    flex-shrink: 0;
-  }
-`;
-
-const LoginContainer = styled.div`
-  min-height: 100vh;
-  background: linear-gradient(135deg, #011096 0%, #0B47B0 50%, #6EA8FE 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  position: relative;
-`;
-
-const LoginCard = styled.div`
-  background: white;
-  padding: 2.5rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 420px;
-  animation: ${slideIn} 0.5s ease-out;
-`;
-
-const LoginHeader = styled.div`
-  text-align: center;
-  margin-bottom: 1rem;
-  
-  h2 {
-    color: #2c3e50;
-    margin-bottom: 0.5rem;
-    margin-top: 1.5rem;
-    font-size: 1.8rem;
-    font-weight: 700;
-  }
-  
-  p {
-    color: #6c757d;
-    margin: 0;
-    font-size: 1.1rem;
-  }
-`;
-
-const LoginNote = styled.div`
-  text-align: center;
-  color: #888;
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
-`;
-
-const DashboardContainer = styled.div`
-  display: flex;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  position: relative;
-`;
-
-const Sidebar = styled.div`
-  width: ${props => props.collapsed ? '80px' : '280px'};
-  background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-  color: white;
-  position: fixed;
-  height: 100vh;
-  overflow-y: auto;
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1000;
-
-  @media (max-width: 768px) {
-    width: ${props => props.collapsed ? '0' : '280px'};
-    transform: ${props => props.collapsed ? 'translateX(-100%)' : 'translateX(0)'};
-  }
-`;
-
-const SidebarHeader = styled.div`
-  padding: 2rem 1.5rem;
-  border-bottom: 1px solid #4a6278;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  position: relative;
-  
-  h3 {
-    margin: 0;
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-`;
-
-const SidebarToggle = styled.button`
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
-  }
-`;
-
-const SidebarNav = styled.ul`
-  list-style: none;
-  padding: 1rem 0;
-  margin: 0;
-  
-  li {
-    margin: 0.5rem 0;
-  }
-`;
-
-const NavLink = styled.button`
-  width: calc(100% - 1rem);
-  text-align: left;
-  background: none;
-  border: none;
-  color: ${props => props.active ? 'white' : '#bdc3c7'};
-  padding: 1.25rem ${props => props.collapsed ? '1rem' : '1.5rem'};
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: ${props => props.collapsed ? '0' : '1rem'};
-  justify-content: ${props => props.collapsed ? 'center' : 'flex-start'};
-  transition: all 0.3s ease;
-  border-left: 4px solid ${props => props.active ? '#3498db' : 'transparent'};
-  background-color: ${props => props.active ? 'rgba(52, 73, 94, 0.8)' : 'transparent'};
-  cursor: pointer;
-  position: relative;
-  margin: 0 0.5rem;
-  border-radius: 0 12px 12px 0;
-  
-  &:hover {
-    background-color: rgba(52, 73, 94, 0.6);
-    color: white;
-    border-left-color: #3498db;
-    transform: translateX(4px);
-  }
-  
-  svg {
-    width: 22px;
-    height: 22px;
-    flex-shrink: 0;
-    transition: transform 0.3s ease;
-  }
-
-  &:hover svg {
-    transform: scale(1.1);
-  }
-
-  ${props => props.collapsed && `
-    &:hover::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      left: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #2c3e50;
-      color: white;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      white-space: nowrap;
-      font-size: 0.9rem;
-      margin-left: 0.75rem;
-      z-index: 1001;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-  `}
-`;
-
-const LogoutButton = styled(NavLink)`
-  color: #e74c3c !important;
-  margin-top: 2rem !important;
-  
-  &:hover {
-    background-color: #c0392b !important;
-    color: white !important;
-    border-left-color: #e74c3c !important;
-  }
-`;
-
-const MainContent = styled.div`
-  flex: 1;
-  margin-left: ${props => props.sidebarCollapsed ? '80px' : '280px'};
-  min-height: 100vh;
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  @media (max-width: 768px) {
-    margin-left: 0;
-  }
-`;
-
-const ContentHeader = styled.div`
-  background: white;
-  padding: 1.25rem 2.5rem;
-  border-bottom: 1px solid #e9ecef;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(10px);
-`;
-
-const MobileHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  
-  h4 {
-    margin: 0;
-    color: #2c3e50;
-    font-weight: 700;
-    font-size: 1.4rem;
-  }
-`;
-
-const MobileMenuToggle = styled.button`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: 0.75rem;
-  border-radius: 12px;
-  display: none;
-  transition: all 0.3s ease;
-  
-  @media (max-width: 768px) {
-    display: block;
-  }
-  
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-  }
-`;
-
-const ContentBody = styled.div`
-  padding: 2.5rem;
-  position: relative;
-`;
-
-const DashboardSection = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-`;
-
-const StatCard = styled.div`
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    animation: ${pulse} 2s infinite;
-  }
-`;
-
-const StatIcon = styled.div`
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  color: white;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  
-  &.students {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  }
-  
-  &.courses {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  }
-  
-  &.online {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  }
-  
-  &.offline {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  }
-`;
-
-const StatInfo = styled.div`
-  h3 {
-    margin: 0;
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #2c3e50;
-    line-height: 1;
-  }
-  
-  p {
-    margin: 0.5rem 0 0 0;
-    color: #7f8c8d;
-    font-weight: 600;
-    font-size: 1.1rem;
-  }
-`;
-
-const FormSection = styled.div``;
-
-const ListSection = styled.div``;
-
-const Card = styled.div`
-  border: none;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  background: white;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-`;
-
-const CardHeader = styled.div`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 20px 20px 0 0;
-  padding: 1.75rem 2rem;
-  
-  h5 {
-    margin: 0;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1.3rem;
-  }
-  
-  &.flex-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    @media (max-width: 768px) {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-  }
-`;
-
-const CardBody = styled.div`
-  padding: 2rem;
-`;
-
-const Form = styled.form``;
-
-const FormRow = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Label = styled.label`
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-`;
-
-const Input = styled.input`
-  border: 2px solid #e9ecef;
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  background: white;
-  
-  &:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-    outline: none;
-    transform: translateY(-2px);
-  }
-  
-  &:disabled {
-    background: #f8f9fa;
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-`;
-
-const Select = styled.select`
-  border: 2px solid #e9ecef;
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  background: white;
-  
-  &:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-    outline: none;
-    transform: translateY(-2px);
-  }
-  
-  &:disabled {
-    background: #f8f9fa;
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-`;
-
-const FileInfo = styled.small`
-  color: #6c757d;
-  margin-top: 0.75rem;
-  display: block;
-  font-style: italic;
-`;
-
-const FormActions = styled.div`
-  padding-top: 2rem;
-  border-top: 2px solid #f8f9fa;
-  margin-top: 2rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-start;
-`;
-
-const ButtonBase = styled.button`
-  border: none;
-  border-radius: 12px;
-  padding: 1rem 2rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  justify-content: center;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
-  
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
-  }
-`;
-
-const PrimaryButton = styled(ButtonBase)`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  width: ${props => props.fullWidth ? '100%' : 'auto'};
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  margin-top:10px;
-  
-  &:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-  }
-`;
-
-const SecondaryButton = styled(ButtonBase)`
-  background: #6c757d;
-  color: white;
-  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
-  
-  &:hover:not(:disabled) {
-    background: #5a6268;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
-  }
-`;
-
-const SearchBox = styled.div`
-  position: relative;
-  width: 350px;
-  
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #6c757d;
-    z-index: 1;
-  }
-  
-  input {
-    padding-left: 3rem;
-    width: 100%;
-    border-radius: 50px;
-    border: 2px solid #e9ecef;
-    
-    &:focus {
-      border-color: #667eea;
-    }
-  }
-`;
-
-const EmptyState = styled.div`
-  text-align: center;
-  padding: 4rem 2rem;
-  color: #6c757d;
-  
-  p {
-    margin-top: 1.5rem;
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-  }
-`;
-
-const StudentGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 2rem;
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const StudentCard = styled.div`
-  background: white;
-  border: 2px solid #f8f9fa;
-  border-radius: 20px;
-  padding: 2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  }
-  
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    border-color: #667eea;
-  }
-`;
-
-const StudentCardHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-`;
-
-const StudentPhoto = styled.div`
-  width: ${props => props.large ? '120px' : '70px'};
-  height: ${props => props.large ? '120px' : '70px'};
-  border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 4px solid #f8f9fa;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-const PhotoPlaceholder = styled.div`
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  border-radius: 50%;
-  font-size: ${props => props.large ? '2.5rem' : '1.5rem'};
-`;
-
-const StudentInfo = styled.div`
-  flex: 1;
-  min-width: 0;
-`;
-
-const StudentName = styled.h4`
-  margin: 0;
-  color: #2c3e50;
-  font-weight: 700;
-  font-size: ${props => props.large ? '1.8rem' : '1.25rem'};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const StudentEmail = styled.p`
-  margin: 0.5rem 0 0 0;
-  color: #6c757d;
-  font-size: ${props => props.large ? '1.1rem' : '0.9rem'};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const StudentId = styled.p`
-  margin: 0.25rem 0 0 0;
-  color: #667eea;
-  font-size: 0.9rem;
-  font-weight: 600;
-`;
-
-const StudentDetails = styled.div`
-  margin-bottom: 1.5rem;
-`;
-
-const DetailItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #f8f9fa;
-  
-  &:last-child {
-    border-bottom: none;
-  }
-  
-  strong {
-    color: #2c3e50;
-    font-weight: 600;
-  }
-`;
-
-const CardActions = styled.div`
-  display: flex;
-  gap: 0.75rem;
-  justify-content: flex-end;
-`;
-
-const ActionButtonBase = styled.button`
-  border: none;
-  border-radius: 10px;
-  padding: 0.75rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  
-  &:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`;
-
-const ActionButton = styled(ActionButtonBase)`
-  background: ${props => props.danger ? '#dc3545' : props.primary ? '#007bff' : '#6c757d'};
-  color: white;
-  
-  &:hover:not(:disabled) {
-    background: ${props => props.danger ? '#c82333' : props.primary ? '#0056b3' : '#545b62'};
-  }
-`;
-
-const ViewButton = styled(ActionButtonBase)`
-  background: #17a2b8;
-  color: white;
-  
-  &:hover:not(:disabled) {
-    background: #138496;
-  }
-`;
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: 1rem;
-  backdrop-filter: blur(8px);
-`;
-
-const ModalContent = styled.div`
-  background: white;
-  border-radius: 24px;
-  width: 100%;
-  max-width: 700px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
-  animation: ${slideIn} 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-`;
-
-const ModalHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem 2rem 1.5rem 2rem;
-  border-bottom: 2px solid #f8f9fa;
-  
-  h3 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-`;
-
-const CloseButton = styled.button`
-  background: #f8f9fa;
-  border: none;
-  color: #6c757d;
-  cursor: pointer;
-  padding: 0.75rem;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: #e9ecef;
-    color: #2c3e50;
-    transform: scale(1.1);
-  }
-`;
-
-const ModalBody = styled.div`
-  padding: 2rem;
-`;
-
-const StudentDetailHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 2.5rem;
-  padding-bottom: 2rem;
-  border-bottom: 2px solid #f8f9fa;
-`;
-
-const StudentDetailInfo = styled.div`
-  flex: 1;
-`;
-
-const DetailGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-`;
-
-const DetailCard = styled.div`
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  padding: 1.5rem;
-  border-radius: 16px;
-  border-left: 6px solid #667eea;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  }
-`;
-
-const DetailLabel = styled.div`
-  font-size: 0.9rem;
-  color: #6c757d;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-`;
-
-const DetailValue = styled.div`
-  font-size: 1.1rem;
-  color: #2c3e50;
-  font-weight: 700;
-`;
-
-const ModalActions = styled.div`
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  padding-top: 2rem;
-  border-top: 2px solid #f8f9fa;
-`;
-
-const Badge = styled.span`
-  background: ${props => props.success ? '#28a745' : props.primary ? '#007bff' : '#6c757d'};
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-`;
 
 export default BtcRoutesAdmin;
