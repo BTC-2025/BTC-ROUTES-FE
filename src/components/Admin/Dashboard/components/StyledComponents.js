@@ -278,6 +278,9 @@ export const ContentHeader = styled.div`
   border-bottom: 1px solid #e9ecef;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 `;
 
 export const MobileHeader = styled.div`
@@ -327,7 +330,7 @@ export const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 `;
 
 export const StatCard = styled.div`
@@ -420,7 +423,7 @@ export const CardHeader = styled.div`
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border-radius: 20px 20px 0 0;
-  padding: 1.75rem 2rem;
+  padding: 1rem;
   
   h5 {
     margin: 0;

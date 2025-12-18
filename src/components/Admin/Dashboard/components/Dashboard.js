@@ -138,7 +138,7 @@ const Dashboard = ({ students, assessments = [], assignments = [] }) => {
             </StatsGrid>
 
             {/* Monthly Students Chart */}
-            <Card style={{ marginTop: '2rem' }}>
+            <Card style={{ }}>
                 <CardHeader className="flex-header">
                     <h5>
                         <FiCalendar size={20} />
@@ -180,7 +180,7 @@ const Dashboard = ({ students, assessments = [], assignments = [] }) => {
                                 <ResponsiveContainer>
                                     <BarChart
                                         data={filteredData}
-                                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                                        margin={{ top: 10, right: 10, left: 10, bottom: 5 }}
                                     >
                                         <CartesianGrid strokeDasharray="3 3" stroke="#e9ecef" />
                                         <XAxis
